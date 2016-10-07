@@ -1,0 +1,27 @@
+// Project description
+version = 'dev-alpha'
+status = 'indev'
+description 'Photon Protocol library for networking'
+
+// Java plugin
+apply plugin: 'java'
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// Dependencies
+repositories {
+    mavenCentral()
+    maven {url 'https://repo.spacehq.org/content/repositories/releases/'}
+    maven {url 'https://repo.spacehq.org/content/repositories/snapshots/'}
+}
+dependencies {
+    compile 'io.netty:netty-all:5.0.0.Alpha2'
+    compile 'org.spacehq:opennbt:1.0'
+    compile 'org.spacehq:mcauthlib:1.0'
+    compile 'junit:junit:4.12'
+}
+
+// Wrapper config
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.1'
+}
