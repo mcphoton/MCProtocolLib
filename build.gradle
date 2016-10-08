@@ -11,8 +11,9 @@ sourceCompatibility = '1.8'
 // Dependencies
 repositories {
     mavenCentral()
-    maven {url 'https://repo.spacehq.org/content/repositories/releases/'}
-    maven {url 'https://repo.spacehq.org/content/repositories/snapshots/'}
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.spacehq.org/content/repositories/releases/'}
+    maven { url 'https://repo.spacehq.org/content/repositories/snapshots/'}
 }
 dependencies {
 	compile project(':Photon-API')
