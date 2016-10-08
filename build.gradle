@@ -15,6 +15,7 @@ repositories {
     maven {url 'https://repo.spacehq.org/content/repositories/snapshots/'}
 }
 dependencies {
+	compile project(':Photon-API')
     compile 'io.netty:netty-all:5.0.0.Alpha2'
     compile 'org.spacehq:opennbt:1.0'
     compile 'org.spacehq:mcauthlib:1.0'

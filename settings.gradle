@@ -1,0 +1,4 @@
+rootProject.name = 'Photon-ProtocolLib'
+
+include ':Photon-API'
+project(':Photon-API').projectDir = new File('../Photon-API')
