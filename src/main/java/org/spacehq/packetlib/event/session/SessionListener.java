@@ -9,33 +9,33 @@ public interface SessionListener {
      *
      * @param event Data relating to the event.
      */
-    public void packetReceived(PacketReceivedEvent event);
+    default void packetReceived(PacketReceivedEvent event){}
 
     /**
      * Called when a session sends a packet.
      *
      * @param event Data relating to the event.
      */
-    public void packetSent(PacketSentEvent event);
+    default void packetSent(PacketSentEvent event){}
 
     /**
      * Called when a session connects.
      *
      * @param event Data relating to the event.
      */
-    public void connected(ConnectedEvent event);
+    default void connected(ConnectedEvent event){}
 
     /**
      * Called when a session is about to disconnect.
      *
      * @param event Data relating to the event.
      */
-    public void disconnecting(DisconnectingEvent event);
+    default void disconnecting(DisconnectingEvent event){}
 
     /**
      * Called when a session is disconnected.
      *
      * @param event Data relating to the event.
      */
-    public void disconnected(DisconnectedEvent event);
+    default void disconnected(DisconnectedEvent event){}
 }

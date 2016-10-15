@@ -1,10 +1,19 @@
 package org.spacehq.mc.protocol;
 
+import java.math.BigInteger;
+import java.net.Proxy;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.UUID;
+
+import javax.crypto.SecretKey;
+
 import org.spacehq.mc.auth.data.GameProfile;
 import org.spacehq.mc.auth.exception.request.RequestException;
 import org.spacehq.mc.auth.service.SessionService;
 import org.spacehq.mc.protocol.data.SubProtocol;
-import org.spacehq.mc.protocol.data.game.entity.type.object.MinecartType;
 import org.spacehq.mc.protocol.data.message.Message;
 import org.spacehq.mc.protocol.data.status.PlayerInfo;
 import org.spacehq.mc.protocol.data.status.ServerStatusInfo;
@@ -29,18 +38,9 @@ import org.spacehq.packetlib.Session;
 import org.spacehq.packetlib.event.session.ConnectedEvent;
 import org.spacehq.packetlib.event.session.DisconnectingEvent;
 import org.spacehq.packetlib.event.session.PacketReceivedEvent;
-import org.spacehq.packetlib.event.session.SessionAdapter;
+import org.spacehq.packetlib.event.session.SessionListener;
 
-import javax.crypto.SecretKey;
-import java.math.BigInteger;
-import java.net.Proxy;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.UUID;
-
-public class ServerListener extends SessionAdapter {
+public class ServerListener implements SessionListener	 {
     private static final KeyPair KEY_PAIR = CryptUtil.generateKeyPair();
 
     private byte verifyToken[] = new byte[4];

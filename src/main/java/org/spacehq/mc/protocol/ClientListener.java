@@ -28,13 +28,13 @@ import org.spacehq.mc.protocol.packet.status.server.StatusResponsePacket;
 import org.spacehq.mc.protocol.util.CryptUtil;
 import org.spacehq.packetlib.event.session.ConnectedEvent;
 import org.spacehq.packetlib.event.session.PacketReceivedEvent;
-import org.spacehq.packetlib.event.session.SessionAdapter;
+import org.spacehq.packetlib.event.session.SessionListener;
 
 import javax.crypto.SecretKey;
 import java.math.BigInteger;
 import java.net.Proxy;
 
-public class ClientListener extends SessionAdapter {
+public class ClientListener implements SessionListener {
     @Override
     public void packetReceived(PacketReceivedEvent event) {
         MinecraftProtocol protocol = (MinecraftProtocol) event.getSession().getPacketProtocol();
