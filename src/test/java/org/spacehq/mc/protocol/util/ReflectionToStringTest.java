@@ -1,6 +1,7 @@
 package org.spacehq.mc.protocol.util;
 
 import org.junit.Test;
+import org.mcphoton.mc.protocol.util.ReflectionToString;
 
 import static org.junit.Assert.assertEquals;
 
