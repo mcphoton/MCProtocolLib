@@ -5,11 +5,11 @@ import io.netty.buffer.Unpooled;
 
 import java.lang.reflect.Constructor;
 
-import org.mcphoton.mc.protocol.data.game.entity.metadata.Position;
-import org.mcphoton.mc.protocol.data.game.world.block.BlockChangeRecord;
-import org.mcphoton.packetlib.packet.Packet;
-import org.mcphoton.packetlib.tcp.io.ByteBufNetInput;
-import org.mcphoton.packetlib.tcp.io.ByteBufNetOutput;
+import org.spacehq.mc.protocol.data.game.entity.metadata.Position;
+import org.spacehq.mc.protocol.data.game.world.block.BlockChangeRecord;
+import org.spacehq.packetlib.packet.Packet;
+import org.spacehq.packetlib.tcp.io.ByteBufNetInput;
+import org.spacehq.packetlib.tcp.io.ByteBufNetOutput;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

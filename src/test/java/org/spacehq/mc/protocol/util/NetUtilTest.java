@@ -1,12 +1,12 @@
 package org.spacehq.mc.protocol.util;
 
 import org.junit.Test;
-import org.mcphoton.mc.protocol.data.game.entity.metadata.Position;
+import org.spacehq.mc.protocol.data.game.entity.metadata.Position;
 
 import java.io.IOException;
 
-import static org.mcphoton.mc.protocol.util.NetUtil.readPosition;
-import static org.mcphoton.mc.protocol.util.NetUtil.writePosition;
+import static org.spacehq.mc.protocol.util.NetUtil.readPosition;
+import static org.spacehq.mc.protocol.util.NetUtil.writePosition;
 import static org.spacehq.mc.protocol.ByteBufHelper.*;
 
 public class NetUtilTest {
