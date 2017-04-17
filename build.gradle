@@ -1,7 +1,5 @@
-// Project description
-version = 'dev-alpha'
-status = 'indev'
-description 'Photon Protocol library for networking'
+version = 'indev'
+description 'The modified MCProtocolLib for networking'
 
 // Java plugin
 apply plugin: 'java'
@@ -12,18 +10,11 @@ sourceCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
-    maven { url 'https://repo.spacehq.org/content/repositories/releases/'}
-    maven { url 'https://repo.spacehq.org/content/repositories/snapshots/'}
 }
 dependencies {
-	compile project(':Photon-API')
-    compile 'io.netty:netty-all:5.0.0.Alpha2'
-    compile 'org.spacehq:opennbt:1.0'
-    compile 'org.spacehq:mcauthlib:1.0'
-    compile 'junit:junit:4.12'
-}
-
-// Wrapper config
-task wrapper(type: Wrapper) {
-	gradleVersion = '3.1'
+	compile project(':api')
+    compile 'io.netty:netty-all:4.1.4.Final'
+    compile 'com.github.Steveice10:OpenNBT:1.0'
+    compile 'com.github.Steveice10:MCAuthLib:1.0'
+    testCompile 'junit:junit:4.12'
 }
