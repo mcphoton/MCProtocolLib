@@ -1,133 +1,124 @@
 package com.github.steveice10.mc.protocol.data.game.chunk;
 
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
-import com.github.steveice10.mc.protocol.util.NetUtil;
+import com.electronwill.utils.IntList;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class BlockStorage {
-    private static final BlockState AIR = new BlockState(0, 0);
+    private static final int AIR = 0;
 
     private int bitsPerEntry;
-
-    private List<BlockState> states;
+    private IntList palette;// Maps indexes to full block ids
     private FlexibleStorage storage;
 
     public BlockStorage() {
-        this.bitsPerEntry = 4;
-
-        this.states = new ArrayList<BlockState>();
-        this.states.add(AIR);
-
-        this.storage = new FlexibleStorage(this.bitsPerEntry, 4096);
+        bitsPerEntry = 4;
+        palette = new IntList(64);
+        palette.add(AIR);
+        storage = new FlexibleStorage(bitsPerEntry, 4096);
     }
 
     public BlockStorage(NetInput in) throws IOException {
-        this.bitsPerEntry = in.readUnsignedByte();
-
-        this.states = new ArrayList<BlockState>();
-        int stateCount = in.readVarInt();
-        for(int i = 0; i < stateCount; i++) {
-            this.states.add(NetUtil.readBlockState(in));
+        bitsPerEntry = in.readUnsignedByte();
+        int idCount = in.readVarInt();
+        int[] blockIds = new int[idCount];
+        for (int i = 0; i < idCount; i++) {
+            blockIds[i] = in.readVarInt();
         }
-
-        this.storage = new FlexibleStorage(this.bitsPerEntry, in.readLongs(in.readVarInt()));
+        palette = new IntList(blockIds);
+        storage = new FlexibleStorage(bitsPerEntry, in.readLongs(in.readVarInt()));
     }
 
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.bitsPerEntry);
-
-        out.writeVarInt(this.states.size());
-        for(BlockState state : this.states) {
-            NetUtil.writeBlockState(out, state);
+        out.writeByte(bitsPerEntry);
+        out.writeVarInt(palette.size());
+        for (int i = 0; i < palette.size(); i++) {
+            out.writeVarInt(palette.values()[i]);
         }
-
-        long[] data = this.storage.getData();
+        long[] data = storage.getData();
         out.writeVarInt(data.length);
         out.writeLongs(data);
     }
 
     public int getBitsPerEntry() {
-        return this.bitsPerEntry;
+        return bitsPerEntry;
     }
 
-    public List<BlockState> getStates() {
-        return Collections.unmodifiableList(this.states);
+    public IntList getPalette() {
+        return palette;
     }
 
     public FlexibleStorage getStorage() {
-        return this.storage;
+        return storage;
     }
 
-    public BlockState get(int x, int y, int z) {
-        int id = this.storage.get(index(x, y, z));
-        return this.bitsPerEntry <= 8 ? (id >= 0 && id < this.states.size() ? this.states.get(id) : AIR) : rawToState(id);
+    public int get(int x, int y, int z) {
+        int id = storage.get(index(x, y, z));
+        if (bitsPerEntry <= 8) {
+            return ((id >= 0) && (id < palette.size())) ? palette.get(id) : AIR;
+        }
+        return id;
     }
 
-    public void set(int x, int y, int z, BlockState state) {
-        int id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : stateToRaw(state);
-        if(id == -1) {
-            this.states.add(state);
-            if(this.states.size() > 1 << this.bitsPerEntry) {
-                this.bitsPerEntry++;
+    public void set(int x, int y, int z, int blockFullId) {
+        int id = bitsPerEntry <= 8 ? palette.indexOf(blockFullId) : blockFullId;
+        if (id == -1) {// Not in the palette
+            palette.add(blockFullId);
+            if (palette.size() > (1 << bitsPerEntry)) {// We need more bits per entry
+                bitsPerEntry++;
 
-                List<BlockState> oldStates = this.states;
-                if(this.bitsPerEntry > 8) {
-                    oldStates = new ArrayList<BlockState>(this.states);
-                    this.states.clear();
-                    this.bitsPerEntry = 13;
+                IntList oldPalette = palette;
+                if (bitsPerEntry > 8) {
+                    oldPalette = palette.clone();
+                    palette.clear();
+                    bitsPerEntry = 13;
                 }
 
-                FlexibleStorage oldStorage = this.storage;
-                this.storage = new FlexibleStorage(this.bitsPerEntry, this.storage.getSize());
-                for(int index = 0; index < this.storage.getSize(); index++) {
-                    this.storage.set(index, this.bitsPerEntry <= 8 ? oldStorage.get(index) : stateToRaw(oldStates.get(index)));
+                FlexibleStorage oldStorage = storage;
+                int storageSize = storage.getSize();
+                storage = new FlexibleStorage(bitsPerEntry, storageSize);
+                for (int i = 0; i < storageSize; i++) {
+                    if (bitsPerEntry <= 8) {
+                        storage.set(i, oldStorage.get(i));
+                    } else {
+                        storage.set(i, oldPalette.get(i));
+                    }
                 }
             }
-
-            id = this.bitsPerEntry <= 8 ? this.states.indexOf(state) : stateToRaw(state);
+            id = (bitsPerEntry <= 8) ? palette.indexOf(blockFullId) : blockFullId;
         }
-
-        this.storage.set(index(x, y, z), id);
+        storage.set(index(x, y, z), id);
     }
 
     public boolean isEmpty() {
-        for(int index = 0; index < this.storage.getSize(); index++) {
-            if(this.storage.get(index) != 0) {
+        for (int index = 0; index < storage.getSize(); index++) {
+            if (storage.get(index) != 0) {
                 return false;
             }
         }
-
         return true;
     }
 
     private static int index(int x, int y, int z) {
-        return y << 8 | z << 4 | x;
-    }
-
-    private static BlockState rawToState(int raw) {
-        return new BlockState(raw >> 4, raw & 0xF);
-    }
-
-    private static int stateToRaw(BlockState state) {
-        return (state.getId() << 4) | (state.getData() & 0xF);
+        return (y << 8) | (z << 4) | x;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof BlockStorage && this.bitsPerEntry == ((BlockStorage) o).bitsPerEntry && this.states.equals(((BlockStorage) o).states) && this.storage.equals(((BlockStorage) o).storage);
+        if (o == this) { return true; }
+        if (!(o instanceof BlockStorage)) { return false; }
+        BlockStorage other = (BlockStorage)o;
+        return other.bitsPerEntry == bitsPerEntry
+               && other.palette.equals(palette)
+               && other.storage.equals(storage);
     }
 
     @Override
     public int hashCode() {
-        int result = this.bitsPerEntry;
-        result = 31 * result + this.states.hashCode();
-        result = 31 * result + this.storage.hashCode();
+        int result = bitsPerEntry;
+        result = 31 * result + palette.hashCode();
+        result = 31 * result + storage.hashCode();
         return result;
     }
 }
