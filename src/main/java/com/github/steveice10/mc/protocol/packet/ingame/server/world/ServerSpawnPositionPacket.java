@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
@@ -11,17 +11,17 @@ import java.io.IOException;
 
 public class ServerSpawnPositionPacket implements Packet {
 
-    private Position position;
+    private IntPosition position;
 
     @SuppressWarnings("unused")
     private ServerSpawnPositionPacket() {
     }
 
-    public ServerSpawnPositionPacket(Position position) {
+    public ServerSpawnPositionPacket(IntPosition position) {
         this.position = position;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

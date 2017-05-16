@@ -1,17 +1,17 @@
 package com.github.steveice10.mc.protocol.data.game.world.block;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 
 public class BlockChangeRecord {
-    private Position position;
+    private IntPosition position;
     private BlockState block;
 
-    public BlockChangeRecord(Position position, BlockState block) {
+    public BlockChangeRecord(IntPosition position, BlockState block) {
         this.position = position;
         this.block = block;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

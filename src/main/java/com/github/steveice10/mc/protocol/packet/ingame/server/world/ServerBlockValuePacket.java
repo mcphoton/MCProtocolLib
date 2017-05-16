@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.world.block.value.BlockValueType;
 import com.github.steveice10.mc.protocol.data.game.world.block.value.ChestValue;
 import com.github.steveice10.mc.protocol.data.game.world.block.value.ChestValueType;
@@ -34,7 +34,7 @@ public class ServerBlockValuePacket implements Packet {
     private static final int SHULKER_BOX_LOWER = 219;
     private static final int SHULKER_BOX_HIGHER = 234;
 
-    private Position position;
+    private IntPosition position;
     private BlockValueType type;
     private BlockValue value;
     private int blockId;
@@ -43,14 +43,14 @@ public class ServerBlockValuePacket implements Packet {
     private ServerBlockValuePacket() {
     }
 
-    public ServerBlockValuePacket(Position position, BlockValueType type, BlockValue value, int blockId) {
+    public ServerBlockValuePacket(IntPosition position, BlockValueType type, BlockValue value, int blockId) {
         this.position = position;
         this.type = type;
         this.value = value;
         this.blockId = blockId;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 
@@ -72,7 +72,7 @@ public class ServerBlockValuePacket implements Packet {
         int type = in.readUnsignedByte();
         int value = in.readUnsignedByte();
         this.blockId = in.readVarInt() & 0xFFF;
-        
+
         if(this.blockId == NOTE_BLOCK) {
             this.type = MagicValues.key(NoteBlockValueType.class, type);
             this.value = new NoteBlockValue(value);

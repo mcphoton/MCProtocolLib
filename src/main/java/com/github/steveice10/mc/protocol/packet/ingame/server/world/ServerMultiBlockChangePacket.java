@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
@@ -42,7 +42,7 @@ public class ServerMultiBlockChangePacket implements Packet {
             int x = (chunkX << 4) + (pos >> 12 & 15);
             int y = pos & 255;
             int z = (chunkZ << 4) + (pos >> 8 & 15);
-            this.records[index] = new BlockChangeRecord(new Position(x, y, z), block);
+            this.records[index] = new BlockChangeRecord(new IntPosition(x, y, z), block);
         }
     }
 

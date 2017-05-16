@@ -1,7 +1,7 @@
 package com.github.steveice10.mc.protocol.packet.ingame.client.player;
 
 import com.github.steveice10.mc.protocol.data.MagicValues;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.player.PlayerAction;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
 import com.github.steveice10.mc.protocol.util.NetUtil;
@@ -15,14 +15,14 @@ import java.io.IOException;
 public class ClientPlayerActionPacket implements Packet {
 
     private PlayerAction action;
-    private Position position;
+    private IntPosition position;
     private BlockFace face;
 
     @SuppressWarnings("unused")
     private ClientPlayerActionPacket() {
     }
 
-    public ClientPlayerActionPacket(PlayerAction action, Position position, BlockFace face) {
+    public ClientPlayerActionPacket(PlayerAction action, IntPosition position, BlockFace face) {
         this.action = action;
         this.position = position;
         this.face = face;
@@ -32,7 +32,7 @@ public class ClientPlayerActionPacket implements Packet {
         return this.action;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

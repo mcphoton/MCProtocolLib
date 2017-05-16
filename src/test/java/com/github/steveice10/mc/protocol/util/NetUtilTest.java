@@ -1,7 +1,7 @@
 package com.github.steveice10.mc.protocol.util;
 
 import org.junit.Test;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ public class NetUtilTest {
 
     @Test
     public void testPosition() throws IOException {
-        writePosition(out, new Position(1, 61, -1));
+        writePosition(out, new IntPosition(1, 61, -1));
         assertPosition(readPosition(in), 1, 61, -1);
     }
 

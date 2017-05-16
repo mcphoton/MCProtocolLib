@@ -1,7 +1,7 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
 import com.github.steveice10.mc.protocol.data.MagicValues;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.world.block.UpdatedTileType;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class ServerUpdateTileEntityPacket implements Packet {
 
-    private Position position;
+    private IntPosition position;
     private UpdatedTileType type;
     private CompoundTag nbt;
 
@@ -22,13 +22,13 @@ public class ServerUpdateTileEntityPacket implements Packet {
     private ServerUpdateTileEntityPacket() {
     }
 
-    public ServerUpdateTileEntityPacket(Position position, UpdatedTileType type, CompoundTag nbt) {
+    public ServerUpdateTileEntityPacket(IntPosition position, UpdatedTileType type, CompoundTag nbt) {
         this.position = position;
         this.type = type;
         this.nbt = nbt;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

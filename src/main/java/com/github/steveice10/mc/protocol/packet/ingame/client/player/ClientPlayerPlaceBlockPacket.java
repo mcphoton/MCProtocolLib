@@ -2,7 +2,7 @@ package com.github.steveice10.mc.protocol.packet.ingame.client.player;
 
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
 import com.github.steveice10.mc.protocol.data.MagicValues;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.player.Hand;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class ClientPlayerPlaceBlockPacket implements Packet {
 
-    private Position position;
+    private IntPosition position;
     private BlockFace face;
     private Hand hand;
     private float cursorX;
@@ -25,7 +25,7 @@ public class ClientPlayerPlaceBlockPacket implements Packet {
     private ClientPlayerPlaceBlockPacket() {
     }
 
-    public ClientPlayerPlaceBlockPacket(Position position, BlockFace face, Hand hand, float cursorX, float cursorY, float cursorZ) {
+    public ClientPlayerPlaceBlockPacket(IntPosition position, BlockFace face, Hand hand, float cursorX, float cursorY, float cursorZ) {
         this.position = position;
         this.face = face;
         this.hand = hand;
@@ -34,7 +34,7 @@ public class ClientPlayerPlaceBlockPacket implements Packet {
         this.cursorZ = cursorZ;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.client.world;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
@@ -11,14 +11,14 @@ import java.io.IOException;
 
 public class ClientUpdateSignPacket implements Packet {
 
-    private Position position;
+    private IntPosition position;
     private String lines[];
 
     @SuppressWarnings("unused")
     private ClientUpdateSignPacket() {
     }
 
-    public ClientUpdateSignPacket(Position position, String lines[]) {
+    public ClientUpdateSignPacket(IntPosition position, String lines[]) {
         if(lines.length != 4) {
             throw new IllegalArgumentException("Lines must contain exactly 4 strings!");
         }
@@ -27,7 +27,7 @@ public class ClientUpdateSignPacket implements Packet {
         this.lines = lines;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

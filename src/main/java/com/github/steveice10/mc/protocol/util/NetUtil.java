@@ -3,7 +3,7 @@ package com.github.steveice10.mc.protocol.util;
 import com.github.steveice10.mc.protocol.data.game.chunk.Chunk;
 import com.github.steveice10.mc.protocol.data.game.chunk.NibbleArray3d;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.Rotation;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
@@ -81,17 +81,17 @@ public class NetUtil {
         }
     }
 
-    public static Position readPosition(NetInput in) throws IOException {
+    public static IntPosition readPosition(NetInput in) throws IOException {
         long val = in.readLong();
 
         int x = (int) (val >> POSITION_X_SIZE);
         int y = (int) ((val >> POSITION_Y_SIZE) & POSITION_Y_SHIFT);
         int z = (int) ((val << POSITION_Z_SIZE) >> POSITION_Z_SIZE);
 
-        return new Position(x, y, z);
+        return new IntPosition(x, y, z);
     }
 
-    public static void writePosition(NetOutput out, Position pos) throws IOException {
+    public static void writePosition(NetOutput out, IntPosition pos) throws IOException {
         long x = pos.getX() & POSITION_WRITE_SHIFT;
         long y = pos.getY() & POSITION_Y_SHIFT;
         long z = pos.getZ() & POSITION_WRITE_SHIFT;
@@ -204,12 +204,12 @@ public class NetUtil {
                     writeRotation(out, (Rotation) meta.getValue());
                     break;
                 case POSITION:
-                    writePosition(out, (Position) meta.getValue());
+                    writePosition(out, (IntPosition) meta.getValue());
                     break;
                 case OPTIONAL_POSITION:
                     out.writeBoolean(meta.getValue() != null);
                     if(meta.getValue() != null) {
-                        writePosition(out, (Position) meta.getValue());
+                        writePosition(out, (IntPosition) meta.getValue());
                     }
 
                     break;

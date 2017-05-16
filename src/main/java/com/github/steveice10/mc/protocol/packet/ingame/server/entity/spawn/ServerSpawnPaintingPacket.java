@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.type.PaintingType;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.mc.protocol.data.MagicValues;
@@ -18,14 +18,14 @@ public class ServerSpawnPaintingPacket implements Packet {
     private int entityId;
     private UUID uuid;
     private PaintingType paintingType;
-    private Position position;
+    private IntPosition position;
     private HangingDirection direction;
 
     @SuppressWarnings("unused")
     private ServerSpawnPaintingPacket() {
     }
 
-    public ServerSpawnPaintingPacket(int entityId, UUID uuid, PaintingType paintingType, Position position, HangingDirection direction) {
+    public ServerSpawnPaintingPacket(int entityId, UUID uuid, PaintingType paintingType, IntPosition position, HangingDirection direction) {
         this.entityId = entityId;
         this.uuid = uuid;
         this.paintingType = paintingType;
@@ -45,7 +45,7 @@ public class ServerSpawnPaintingPacket implements Packet {
         return this.paintingType;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

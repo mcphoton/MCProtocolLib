@@ -1,7 +1,7 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
 import com.github.steveice10.mc.protocol.data.MagicValues;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.player.BlockBreakStage;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
@@ -14,14 +14,14 @@ import java.io.IOException;
 public class ServerBlockBreakAnimPacket implements Packet {
 
     private int breakerEntityId;
-    private Position position;
+    private IntPosition position;
     private BlockBreakStage stage;
 
     @SuppressWarnings("unused")
     private ServerBlockBreakAnimPacket() {
     }
 
-    public ServerBlockBreakAnimPacket(int breakerEntityId, Position position, BlockBreakStage stage) {
+    public ServerBlockBreakAnimPacket(int breakerEntityId, IntPosition position, BlockBreakStage stage) {
         this.breakerEntityId = breakerEntityId;
         this.position = position;
         this.stage = stage;
@@ -31,7 +31,7 @@ public class ServerBlockBreakAnimPacket implements Packet {
         return this.breakerEntityId;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

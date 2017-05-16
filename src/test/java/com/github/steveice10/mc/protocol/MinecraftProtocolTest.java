@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
@@ -119,7 +119,7 @@ public class MinecraftProtocolTest {
 
     @Test
     public void testBlockBreak() throws IOException {
-        BlockChangeRecord record = new BlockChangeRecord(new Position(1, 61, -1), new BlockState(3, 2));
+        BlockChangeRecord record = new BlockChangeRecord(new IntPosition(1, 61, -1), new BlockState(3, 2));
         ServerBlockChangePacket packet = writeAndRead(new ServerBlockChangePacket(record));
 
         assertPosition(packet.getRecord().getPosition(), 1, 61, -1);

@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.world.effect.SmokeEffectData;
 import com.github.steveice10.mc.protocol.data.game.world.effect.SoundEffect;
 import com.github.steveice10.mc.protocol.data.game.world.effect.WorldEffectData;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class ServerPlayEffectPacket implements Packet {
 
     private WorldEffect effect;
-    private Position position;
+    private IntPosition position;
     private WorldEffectData data;
     private boolean broadcast;
 
@@ -31,11 +31,11 @@ public class ServerPlayEffectPacket implements Packet {
     private ServerPlayEffectPacket() {
     }
 
-    public ServerPlayEffectPacket(WorldEffect effect, Position position, WorldEffectData data) {
+    public ServerPlayEffectPacket(WorldEffect effect, IntPosition position, WorldEffectData data) {
         this(effect, position, data, false);
     }
 
-    public ServerPlayEffectPacket(WorldEffect effect, Position position, WorldEffectData data, boolean broadcast) {
+    public ServerPlayEffectPacket(WorldEffect effect, IntPosition position, WorldEffectData data, boolean broadcast) {
         this.effect = effect;
         this.position = position;
         this.data = data;
@@ -46,7 +46,7 @@ public class ServerPlayEffectPacket implements Packet {
         return this.effect;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 

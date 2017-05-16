@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.client;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
@@ -13,7 +13,7 @@ public class ClientTabCompletePacket implements Packet {
 
     private String text;
     private boolean assumeCommand;
-    private Position lookingAt;
+    private IntPosition lookingAt;
 
     @SuppressWarnings("unused")
     private ClientTabCompletePacket() {
@@ -23,7 +23,7 @@ public class ClientTabCompletePacket implements Packet {
         this(text, assumeCommand, null);
     }
 
-    public ClientTabCompletePacket(String text, boolean assumeCommand, Position lookingAt) {
+    public ClientTabCompletePacket(String text, boolean assumeCommand, IntPosition lookingAt) {
         this.text = text;
         this.assumeCommand = assumeCommand;
         this.lookingAt = lookingAt;
@@ -37,7 +37,7 @@ public class ClientTabCompletePacket implements Packet {
         return this.assumeCommand;
     }
 
-    public Position getLookingAt() {
+    public IntPosition getLookingAt() {
         return this.lookingAt;
     }
 

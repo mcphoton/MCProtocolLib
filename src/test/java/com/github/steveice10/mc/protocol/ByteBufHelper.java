@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -42,7 +42,7 @@ public class ByteBufHelper {
         }
     }
 
-    public static void assertPosition(Position position, int x, int y, int z) {
+    public static void assertPosition(IntPosition position, int x, int y, int z) {
         assertEquals("Received incorrect X position", x, position.getX());
         assertEquals("Received incorrect Y position", y, position.getY());
         assertEquals("Received incorrect Z position", z, position.getZ());

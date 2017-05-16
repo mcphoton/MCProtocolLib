@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.player;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.Position;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
@@ -12,13 +12,13 @@ import java.io.IOException;
 public class ServerPlayerUseBedPacket implements Packet {
 
     private int entityId;
-    private Position position;
+    private IntPosition position;
 
     @SuppressWarnings("unused")
     private ServerPlayerUseBedPacket() {
     }
 
-    public ServerPlayerUseBedPacket(int entityId, Position position) {
+    public ServerPlayerUseBedPacket(int entityId, IntPosition position) {
         this.entityId = entityId;
         this.position = position;
     }
@@ -27,7 +27,7 @@ public class ServerPlayerUseBedPacket implements Packet {
         return this.entityId;
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return this.position;
     }
 
