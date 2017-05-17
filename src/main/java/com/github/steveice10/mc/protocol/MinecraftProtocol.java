@@ -86,7 +86,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerWindo
 import com.github.steveice10.mc.protocol.packet.ingame.server.window.ServerWindowPropertyPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockBreakAnimPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockValuePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockActionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerChunkDataPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerExplosionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerMapDataPacket;
@@ -324,7 +324,7 @@ public class MinecraftProtocol extends PacketProtocol {
         this.registerIncoming(0x07, ServerStatisticsPacket.class);
         this.registerIncoming(0x08, ServerBlockBreakAnimPacket.class);
         this.registerIncoming(0x09, ServerUpdateTileEntityPacket.class);
-        this.registerIncoming(0x0A, ServerBlockValuePacket.class);
+        this.registerIncoming(0x0A, ServerBlockActionPacket.class);
         this.registerIncoming(0x0B, ServerBlockChangePacket.class);
         this.registerIncoming(0x0C, ServerBossBarPacket.class);
         this.registerIncoming(0x0D, ServerDifficultyPacket.class);
@@ -465,7 +465,7 @@ public class MinecraftProtocol extends PacketProtocol {
         this.registerOutgoing(0x07, ServerStatisticsPacket.class);
         this.registerOutgoing(0x08, ServerBlockBreakAnimPacket.class);
         this.registerOutgoing(0x09, ServerUpdateTileEntityPacket.class);
-        this.registerOutgoing(0x0A, ServerBlockValuePacket.class);
+        this.registerOutgoing(0x0A, ServerBlockActionPacket.class);
         this.registerOutgoing(0x0B, ServerBlockChangePacket.class);
         this.registerOutgoing(0x0C, ServerBossBarPacket.class);
         this.registerOutgoing(0x0D, ServerDifficultyPacket.class);

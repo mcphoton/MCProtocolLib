@@ -1,0 +1,18 @@
+package com.github.steveice10.mc.protocol.data.game.world.block.actions;
+
+/**
+ * @author TheElectronWill
+ */
+public enum EndGatewayAction implements BlockAction {
+    TRIGGER_BEAM {
+        @Override
+        public int getId() {
+            return 1;
+        }
+
+        @Override
+        public int getParam() {
+            return 0;
+        }
+    }
+}
