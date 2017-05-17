@@ -1,33 +1,41 @@
 package com.github.steveice10.mc.protocol.data.game.world.block;
 
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
+import java.util.Objects;
 
-public class BlockChangeRecord {
-    private IntPosition position;
-    private BlockState block;
+public final class BlockChangeRecord {
+    private final IntPosition position;
+    private final int blockId;
 
-    public BlockChangeRecord(IntPosition position, BlockState block) {
-        this.position = position;
-        this.block = block;
+    public BlockChangeRecord(IntPosition position, int blockId) {
+        this.position = Objects.requireNonNull(position, "The position must not be null.");
+        this.blockId = blockId;
     }
 
+    /**
+     * @return the blockId's position
+     */
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
-    public BlockState getBlock() {
-        return this.block;
+    /**
+     * @return the blockId's "full" id
+     */
+    public int getBlockId() {
+        return blockId;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof BlockChangeRecord && this.position.equals(((BlockChangeRecord) o).position) && this.block.equals(((BlockChangeRecord) o).block);
+        if (o == this) { return true; }
+        if (!(o instanceof BlockChangeRecord)) { return false; }
+        BlockChangeRecord other = (BlockChangeRecord)o;
+        return (other.blockId == blockId) && other.position.equals(position);
     }
 
     @Override
     public int hashCode() {
-        int result = this.position.hashCode();
-        result = 31 * result + this.block.hashCode();
-        return result;
+        return blockId + 31 * position.hashCode();
     }
 }
