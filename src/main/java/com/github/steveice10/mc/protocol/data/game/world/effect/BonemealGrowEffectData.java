@@ -1,23 +1,29 @@
 package com.github.steveice10.mc.protocol.data.game.world.effect;
 
-public class BonemealGrowEffectData implements WorldEffectData {
-    private int particleCount;
+public final class BonemealGrowEffectData implements WorldEffectData {
+    private final int particleCount;
 
     public BonemealGrowEffectData(int particleCount) {
         this.particleCount = particleCount;
     }
 
-    public int getParticleCount() {
-        return this.particleCount;
+    /**
+     * @return the particle's count
+     */
+    @Override
+    public int getValue() {
+        return particleCount;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof BonemealGrowEffectData && this.particleCount == ((BonemealGrowEffectData) o).particleCount;
+        if (o == this) { return true; }
+        return o instanceof BonemealGrowEffectData
+               && ((BonemealGrowEffectData)o).particleCount == particleCount;
     }
 
     @Override
     public int hashCode() {
-        return this.particleCount;
+        return particleCount;
     }
 }

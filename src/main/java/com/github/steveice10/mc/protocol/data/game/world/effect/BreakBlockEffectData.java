@@ -1,25 +1,28 @@
 package com.github.steveice10.mc.protocol.data.game.world.effect;
 
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
+public final class BreakBlockEffectData implements WorldEffectData {
+    private final int blockId;
 
-public class BreakBlockEffectData implements WorldEffectData {
-    private BlockState blockState;
-
-    public BreakBlockEffectData(BlockState blockState) {
-        this.blockState = blockState;
+    public BreakBlockEffectData(int blockId) {
+        this.blockId = blockId;
     }
 
-    public BlockState getBlockState() {
-        return this.blockState;
+    /**
+     * @return the block's id
+     */
+    @Override
+    public int getValue() {
+        return blockId;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof BreakBlockEffectData && this.blockState.equals(((BreakBlockEffectData) o).blockState);
+        if (o == this) { return true; }
+        return o instanceof BreakBlockEffectData && ((BreakBlockEffectData)o).blockId == blockId;
     }
 
     @Override
     public int hashCode() {
-        return this.blockState.hashCode();
+        return blockId;
     }
 }

@@ -1,23 +1,29 @@
 package com.github.steveice10.mc.protocol.data.game.world.effect;
 
-public class BreakPotionEffectData implements WorldEffectData {
-    private int potionId;
+public final class BreakPotionEffectData implements WorldEffectData {
+    private final int potionId;
 
     public BreakPotionEffectData(int potionId) {
         this.potionId = potionId;
     }
 
-    public int getPotionId() {
-        return this.potionId;
+    /**
+     * @return the potion's id
+     */
+    @Override
+    public int getValue() {
+        return potionId;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof BreakPotionEffectData && this.potionId == ((BreakPotionEffectData) o).potionId;
+        if (o == this) { return true; }
+        return o instanceof BreakPotionEffectData
+               && ((BreakPotionEffectData)o).potionId == potionId;
     }
 
     @Override
     public int hashCode() {
-        return this.potionId;
+        return potionId;
     }
 }

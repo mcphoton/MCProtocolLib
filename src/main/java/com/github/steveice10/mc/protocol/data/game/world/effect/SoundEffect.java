@@ -11,7 +11,12 @@ public enum SoundEffect implements WorldEffect {
     BLOCK_WOODEN_TRAPDOOR_OPEN,
     BLOCK_FENCE_GATE_OPEN,
     BLOCK_FIRE_EXTINGUISH,
-    RECORD,
+    RECORD {
+        @Override
+        public WorldEffectData readData(int value) {
+            return new RecordEffectData(value);
+        }
+    },
     BLOCK_IRON_DOOR_CLOSE,
     BLOCK_WOODEN_DOOR_CLOSE,
     BLOCK_WOODEN_TRAPDOOR_CLOSE,

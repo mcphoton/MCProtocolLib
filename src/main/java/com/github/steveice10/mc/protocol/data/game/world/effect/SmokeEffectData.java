@@ -10,4 +10,12 @@ public enum SmokeEffectData implements WorldEffectData {
     NORTH_EAST,
     NORTH,
     NORTH_WEST;
+
+    /**
+     * @return the smoke's direction
+     */
+    @Override
+    public int getValue() {
+        return ordinal();
+    }
 }

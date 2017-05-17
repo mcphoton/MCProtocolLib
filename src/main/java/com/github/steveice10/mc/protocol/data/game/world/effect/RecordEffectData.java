@@ -1,23 +1,27 @@
 package com.github.steveice10.mc.protocol.data.game.world.effect;
 
-public class RecordEffectData implements WorldEffectData {
-    private int recordId;
+public final class RecordEffectData implements WorldEffectData {
+    private final int recordId;
 
     public RecordEffectData(int recordId) {
         this.recordId = recordId;
     }
 
-    public int getRecordId() {
-        return this.recordId;
+    /**
+     * @return the record id
+     */
+    @Override
+    public int getValue() {
+        return recordId;
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof RecordEffectData && this.recordId == ((RecordEffectData) o).recordId;
+        return o instanceof RecordEffectData && this.recordId == ((RecordEffectData)o).recordId;
     }
 
     @Override
     public int hashCode() {
-        return this.recordId;
+        return recordId;
     }
 }
