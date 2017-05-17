@@ -49,8 +49,7 @@ public class ByteBufHelper {
     }
 
     public static void assertBlock(BlockChangeRecord record, int block, int data) {
-        assertEquals("Received incorrect block id", block, record.getBlock().getId());
-        assertEquals("Received incorrect block data", data, record.getBlock().getData());
+        assertEquals("Received incorrect block id", block, record.getBlockId() >> 4);
+        assertEquals("Received incorrect block data", data, record.getBlockId() & 0xF);
     }
-
 }

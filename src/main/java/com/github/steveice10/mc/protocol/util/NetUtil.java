@@ -1,24 +1,22 @@
 package com.github.steveice10.mc.protocol.util;
 
+import com.github.steveice10.mc.protocol.data.MagicValues;
+import com.github.steveice10.mc.protocol.data.game.chunk.BlockStorage;
 import com.github.steveice10.mc.protocol.data.game.chunk.Chunk;
+import com.github.steveice10.mc.protocol.data.game.chunk.Column;
 import com.github.steveice10.mc.protocol.data.game.chunk.NibbleArray3d;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.EntityMetadata;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataType;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.Rotation;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockFace;
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.EntityMetadata;
-import com.github.steveice10.mc.protocol.data.game.chunk.BlockStorage;
-import com.github.steveice10.mc.protocol.data.game.chunk.Column;
-import com.github.steveice10.mc.protocol.data.MagicValues;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataType;
 import com.github.steveice10.mc.protocol.data.message.Message;
 import com.github.steveice10.opennbt.NBTIO;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.io.stream.StreamNetInput;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,15 +48,6 @@ public class NetUtil {
         } else {
             NBTIO.writeTag(new NetOutputStream(out), tag);
         }
-    }
-
-    public static BlockState readBlockState(NetInput in) throws IOException {
-        int rawId = in.readVarInt();
-        return new BlockState(rawId >> 4, rawId & 0xF);
-    }
-
-    public static void writeBlockState(NetOutput out, BlockState blockState) throws IOException {
-        out.writeVarInt((blockState.getId() << 4) | (blockState.getData() & 0xF));
     }
 
     public static ItemStack readItem(NetInput in) throws IOException {
@@ -162,7 +151,7 @@ public class NetUtil {
 
                     break;
                 case BLOCK_STATE:
-                    value = readBlockState(in);
+                    value = in.readVarInt();
                     break;
                 default:
                     throw new IOException("Unknown metadata type id: " + typeId);
@@ -224,7 +213,7 @@ public class NetUtil {
 
                     break;
                 case BLOCK_STATE:
-                    writeBlockState(out, (BlockState) meta.getValue());
+                    out.writeVarInt((int)meta.getValue());
                     break;
                 default:
                     throw new IOException("Unknown metadata type: " + meta.getType());

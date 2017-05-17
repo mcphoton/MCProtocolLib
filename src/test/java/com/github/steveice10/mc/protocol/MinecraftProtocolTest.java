@@ -1,23 +1,17 @@
 package com.github.steveice10.mc.protocol;
 
+import com.github.steveice10.mc.auth.data.GameProfile;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.player.GameMode;
 import com.github.steveice10.mc.protocol.data.game.world.block.BlockChangeRecord;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import com.github.steveice10.mc.auth.data.GameProfile;
-import com.github.steveice10.mc.protocol.data.game.world.block.BlockState;
 import com.github.steveice10.mc.protocol.data.message.TextMessage;
 import com.github.steveice10.mc.protocol.data.status.PlayerInfo;
 import com.github.steveice10.mc.protocol.data.status.ServerStatusInfo;
 import com.github.steveice10.mc.protocol.data.status.VersionInfo;
 import com.github.steveice10.mc.protocol.data.status.handler.ServerInfoBuilder;
 import com.github.steveice10.mc.protocol.data.status.handler.ServerInfoHandler;
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.world.ServerBlockChangePacket;
 import com.github.steveice10.packetlib.Client;
 import com.github.steveice10.packetlib.Server;
 import com.github.steveice10.packetlib.Session;
@@ -26,17 +20,23 @@ import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.TcpSessionFactory;
-
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.*;
-import static com.github.steveice10.mc.protocol.ByteBufHelper.*;
+import static com.github.steveice10.mc.protocol.ByteBufHelper.assertBlock;
+import static com.github.steveice10.mc.protocol.ByteBufHelper.assertPosition;
+import static com.github.steveice10.mc.protocol.ByteBufHelper.writeAndRead;
 import static com.github.steveice10.mc.protocol.MinecraftConstants.*;
 import static com.github.steveice10.mc.protocol.data.SubProtocol.STATUS;
 import static com.github.steveice10.mc.protocol.data.game.setting.Difficulty.PEACEFUL;
 import static com.github.steveice10.mc.protocol.data.game.world.WorldType.DEFAULT;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.*;
 
 public class MinecraftProtocolTest {
     private static final String HOST = "localhost";
@@ -119,7 +119,7 @@ public class MinecraftProtocolTest {
 
     @Test
     public void testBlockBreak() throws IOException {
-        BlockChangeRecord record = new BlockChangeRecord(new IntPosition(1, 61, -1), new BlockState(3, 2));
+        BlockChangeRecord record = new BlockChangeRecord(new IntPosition(1, 61, -1), (3 << 4) | 2);
         ServerBlockChangePacket packet = writeAndRead(new ServerBlockChangePacket(record));
 
         assertPosition(packet.getRecord().getPosition(), 1, 61, -1);
