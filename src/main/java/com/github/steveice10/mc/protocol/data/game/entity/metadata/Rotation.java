@@ -1,10 +1,14 @@
 package com.github.steveice10.mc.protocol.data.game.entity.metadata;
 
-public class Rotation {
-    private float pitch;
-    private float yaw;
-    private float roll;
+/**
+ * A rotation with 3 components: pitch, yaw, roll.
+ */
+public final class Rotation {
+    private final float pitch, yaw, roll;
 
+    /**
+     * Creates a new Rotation(0,0,0).
+     */
     public Rotation() {
         this(0, 0, 0);
     }
@@ -29,7 +33,10 @@ public class Rotation {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || (o instanceof Rotation && Float.compare(this.pitch, ((Rotation) o).pitch) == 0 && Float.compare(this.yaw, ((Rotation) o).yaw) == 0 && Float.compare(this.roll, ((Rotation) o).roll) == 0);
+        if (o == this) { return true; }
+        if (!(o instanceof Rotation)) {return false;}
+        Rotation r = (Rotation)o;
+        return (pitch == r.pitch) && (yaw == r.yaw) && (roll == r.roll);
     }
 
     @Override
