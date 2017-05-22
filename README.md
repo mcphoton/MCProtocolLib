@@ -12,7 +12,7 @@ Photon uses [gradle](http://gradle.org) to manage its dependencies. Building the
 ## How to contribute
 * The ProtocolLib is designed to work with the Photon server and API. See [the repo](https://github.com/mcphoton/Photon-Server).
 * Information about the packets can be found [here](http://wiki.vg/Protocol).
-* Please respect [the coding style](https://github.com/mcphoton/Photon-Server/blob/develop/Coding%20Style.md).
+* Please respect [the coding style](https://github.com/mcphoton/Photon-Server/blob/develop/Coding%20Style.md). WARNING: For the ProtocolLib's java files, use 4 spaces instead of tabs. The reason is that it's the indent type chosen by the MCProtocolLib's developer.
 * Good java skills are required.
 
 ## Branches
