@@ -12,25 +12,22 @@ import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
 import java.util.UUID;
 
+import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
+
 public class ServerSpawnMobPacket implements Packet {
 
     private int entityId;
     private UUID uuid;
     private MobType type;
-    private double x;
-    private double y;
-    private double z;
-    private float pitch;
-    private float yaw;
-    private float headYaw;
-    private double motX;
-    private double motY;
-    private double motZ;
+    private double x, y, z;
+    /** Angles in radians */
+    private float pitch, yaw, headYaw;
+    /** Velocity in m/s */
+    private double motX, motY, motZ;
     private EntityMetadata metadata[];
 
     @SuppressWarnings("unused")
-    private ServerSpawnMobPacket() {
-    }
+    private ServerSpawnMobPacket() {}
 
     public ServerSpawnMobPacket(int entityId, UUID uuid, MobType type, double x, double y, double z, float yaw, float pitch, float headYaw, double motX, double motY, double motZ, EntityMetadata metadata[]) {
         this.entityId = entityId;
@@ -108,12 +105,12 @@ public class ServerSpawnMobPacket implements Packet {
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
-        this.yaw = in.readByte() * 360 / 256f;
-        this.pitch = in.readByte() * 360 / 256f;
-        this.headYaw = in.readByte() * 360 / 256f;
-        this.motX = in.readShort() / 8000D;
-        this.motY = in.readShort() / 8000D;
-        this.motZ = in.readShort() / 8000D;
+        this.yaw = in.readByte() * F_2PI / 256f;
+        this.pitch = in.readByte() * F_2PI / 256f;
+        this.headYaw = in.readByte() * F_2PI / 256f;
+        this.motX = in.readShort() / 400d;
+        this.motY = in.readShort() / 400d;
+        this.motZ = in.readShort() / 400d;
         this.metadata = NetUtil.readEntityMetadata(in);
     }
 
@@ -125,12 +122,12 @@ public class ServerSpawnMobPacket implements Packet {
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
-        out.writeByte((byte) (this.yaw * 256 / 360));
-        out.writeByte((byte) (this.pitch * 256 / 360));
-        out.writeByte((byte) (this.headYaw * 256 / 360));
-        out.writeShort((int) (this.motX * 8000));
-        out.writeShort((int) (this.motY * 8000));
-        out.writeShort((int) (this.motZ * 8000));
+        out.writeByte((byte) (this.yaw * 256f / F_2PI));
+        out.writeByte((byte) (this.pitch * 256f / F_2PI));
+        out.writeByte((byte) (this.headYaw * 256f / F_2PI));
+        out.writeShort((int) (this.motX * 400d));
+        out.writeShort((int) (this.motY * 400d));
+        out.writeShort((int) (this.motZ * 400d));
         NetUtil.writeEntityMetadata(out, this.metadata);
     }
 

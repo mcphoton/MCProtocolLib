@@ -7,21 +7,20 @@ import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
 
-public class ServerEntityTeleportPacket implements Packet {
+import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
+public class ServerEntityTeleportPacket implements Packet {
     private int entityId;
-    private double x;
-    private double y;
-    private double z;
-    private float yaw;
-    private float pitch;
+    private double x, y, z;
+    /** Angles in radians */
+    private float yaw, pitch;
     private boolean onGround;
 
     @SuppressWarnings("unused")
-    private ServerEntityTeleportPacket() {
-    }
+    private ServerEntityTeleportPacket() {}
 
-    public ServerEntityTeleportPacket(int entityId, double x, double y, double z, float yaw, float pitch, boolean onGround) {
+    public ServerEntityTeleportPacket(int entityId, double x, double y, double z, float yaw,
+                                      float pitch, boolean onGround) {
         this.entityId = entityId;
         this.x = x;
         this.y = y;
@@ -65,8 +64,8 @@ public class ServerEntityTeleportPacket implements Packet {
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
-        this.yaw = in.readByte() * 360 / 256f;
-        this.pitch = in.readByte() * 360 / 256f;
+        this.yaw = in.readByte() * F_2PI / 256f;
+        this.pitch = in.readByte() * F_2PI / 256f;
         this.onGround = in.readBoolean();
     }
 
@@ -76,8 +75,8 @@ public class ServerEntityTeleportPacket implements Packet {
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
-        out.writeByte((byte) (this.yaw * 256 / 360));
-        out.writeByte((byte) (this.pitch * 256 / 360));
+        out.writeByte((byte)(this.yaw * 256 / F_2PI));
+        out.writeByte((byte)(this.pitch * 256 / F_2PI));
         out.writeBoolean(this.onGround);
     }
 

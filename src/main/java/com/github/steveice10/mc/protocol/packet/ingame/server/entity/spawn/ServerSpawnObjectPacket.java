@@ -16,6 +16,8 @@ import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
 import java.util.UUID;
 
+import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
+
 public class ServerSpawnObjectPacket implements Packet {
 
     private int entityId;
@@ -24,16 +26,14 @@ public class ServerSpawnObjectPacket implements Packet {
     private double x;
     private double y;
     private double z;
-    private float pitch;
-    private float yaw;
+    /** Angles in radians */
+    private float pitch, yaw;
     private ObjectData data;
-    private double motX;
-    private double motY;
-    private double motZ;
+    /** Velocity in m/s */
+    private double motX, motY, motZ;
 
     @SuppressWarnings("unused")
-    private ServerSpawnObjectPacket() {
-    }
+    private ServerSpawnObjectPacket() {}
 
     public ServerSpawnObjectPacket(int entityId, UUID uuid, ObjectType type, double x, double y, double z, float yaw, float pitch) {
         this(entityId, uuid, type, null, x, y, z, yaw, pitch, 0, 0, 0);
@@ -118,8 +118,8 @@ public class ServerSpawnObjectPacket implements Packet {
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
-        this.pitch = in.readByte() * 360 / 256f;
-        this.yaw = in.readByte() * 360 / 256f;
+        this.pitch = in.readByte() * F_2PI / 256f;
+        this.yaw = in.readByte() * F_2PI / 256f;
 
         int data = in.readInt();
         if(data > 0) {
@@ -139,9 +139,9 @@ public class ServerSpawnObjectPacket implements Packet {
             }
         }
 
-        this.motX = in.readShort() / 8000D;
-        this.motY = in.readShort() / 8000D;
-        this.motZ = in.readShort() / 8000D;
+        this.motX = in.readShort() / 400d;
+        this.motY = in.readShort() / 400d;
+        this.motZ = in.readShort() / 400d;
     }
 
     @Override
@@ -152,8 +152,8 @@ public class ServerSpawnObjectPacket implements Packet {
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
-        out.writeByte((byte) (this.pitch * 256 / 360));
-        out.writeByte((byte) (this.yaw * 256 / 360));
+        out.writeByte((byte) (this.pitch * 256f / F_2PI));
+        out.writeByte((byte) (this.yaw * 256f / F_2PI));
 
         int data = 0;
         if(this.data != null) {
@@ -174,9 +174,9 @@ public class ServerSpawnObjectPacket implements Packet {
 
         out.writeInt(data);
 
-        out.writeShort((int) (this.motX * 8000));
-        out.writeShort((int) (this.motY * 8000));
-        out.writeShort((int) (this.motZ * 8000));
+        out.writeShort((int) (this.motX * 400d));
+        out.writeShort((int) (this.motY * 400d));
+        out.writeShort((int) (this.motZ * 400d));
     }
 
     @Override

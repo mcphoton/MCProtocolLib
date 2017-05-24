@@ -10,6 +10,8 @@ import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
 import java.util.UUID;
 
+import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
+
 public class ServerSpawnPlayerPacket implements Packet {
 
     private int entityId;
@@ -17,15 +19,15 @@ public class ServerSpawnPlayerPacket implements Packet {
     private double x;
     private double y;
     private double z;
-    private float yaw;
-    private float pitch;
+    /** Angles in radians */
+    private float yaw, pitch;
     private EntityMetadata metadata[];
 
     @SuppressWarnings("unused")
-    private ServerSpawnPlayerPacket() {
-    }
+    private ServerSpawnPlayerPacket() {}
 
-    public ServerSpawnPlayerPacket(int entityId, UUID uuid, double x, double y, double z, float yaw, float pitch, EntityMetadata metadata[]) {
+    public ServerSpawnPlayerPacket(int entityId, UUID uuid, double x, double y, double z, float yaw,
+                                   float pitch, EntityMetadata metadata[]) {
         this.entityId = entityId;
         this.uuid = uuid;
         this.x = x;
@@ -75,8 +77,8 @@ public class ServerSpawnPlayerPacket implements Packet {
         this.x = in.readDouble();
         this.y = in.readDouble();
         this.z = in.readDouble();
-        this.yaw = in.readByte() * 360 / 256f;
-        this.pitch = in.readByte() * 360 / 256f;
+        this.yaw = in.readByte() * F_2PI / 256f;
+        this.pitch = in.readByte() * F_2PI / 256f;
         this.metadata = NetUtil.readEntityMetadata(in);
     }
 
@@ -87,8 +89,8 @@ public class ServerSpawnPlayerPacket implements Packet {
         out.writeDouble(this.x);
         out.writeDouble(this.y);
         out.writeDouble(this.z);
-        out.writeByte((byte) (this.yaw * 256 / 360));
-        out.writeByte((byte) (this.pitch * 256 / 360));
+        out.writeByte((byte)(this.yaw * 256 / F_2PI));
+        out.writeByte((byte)(this.pitch * 256 / F_2PI));
         NetUtil.writeEntityMetadata(out, this.metadata);
     }
 

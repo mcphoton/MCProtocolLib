@@ -7,9 +7,11 @@ import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
 
-public class ServerEntityHeadLookPacket implements Packet {
+import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
+public class ServerEntityHeadLookPacket implements Packet {
     private int entityId;
+    /** Angle in radians */
     private float headYaw;
 
     @SuppressWarnings("unused")
@@ -32,13 +34,13 @@ public class ServerEntityHeadLookPacket implements Packet {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.headYaw = in.readByte() * 360 / 256f;
+        this.headYaw = in.readByte() * F_2PI / 256f;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeByte((byte) (this.headYaw * 256 / 360));
+        out.writeByte((byte)(this.headYaw * 256f / F_2PI));
     }
 
     @Override

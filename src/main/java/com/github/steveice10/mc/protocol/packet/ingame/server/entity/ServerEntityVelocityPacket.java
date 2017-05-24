@@ -10,13 +10,11 @@ import java.io.IOException;
 public class ServerEntityVelocityPacket implements Packet {
 
     private int entityId;
-    private double motX;
-    private double motY;
-    private double motZ;
+    /** Velocity in m/s */
+    private double motX, motY, motZ;
 
     @SuppressWarnings("unused")
-    private ServerEntityVelocityPacket() {
-    }
+    private ServerEntityVelocityPacket() {}
 
     public ServerEntityVelocityPacket(int entityId, double motX, double motY, double motZ) {
         this.entityId = entityId;
@@ -44,17 +42,17 @@ public class ServerEntityVelocityPacket implements Packet {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.motX = in.readShort() / 8000D;
-        this.motY = in.readShort() / 8000D;
-        this.motZ = in.readShort() / 8000D;
+        this.motX = in.readShort() / 400d;
+        this.motY = in.readShort() / 400d;
+        this.motZ = in.readShort() / 400d;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeShort((int) (this.motX * 8000));
-        out.writeShort((int) (this.motY * 8000));
-        out.writeShort((int) (this.motZ * 8000));
+        out.writeShort((int)(this.motX * 400d));
+        out.writeShort((int)(this.motY * 400d));
+        out.writeShort((int)(this.motZ * 400d));
     }
 
     @Override

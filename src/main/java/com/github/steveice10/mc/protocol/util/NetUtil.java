@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NetUtil {
+    public static final float F_2PI = (float)(2.0 * Math.PI);
     private static final int POSITION_X_SIZE = 38;
     private static final int POSITION_Y_SIZE = 26;
     private static final int POSITION_Z_SIZE = 38;
