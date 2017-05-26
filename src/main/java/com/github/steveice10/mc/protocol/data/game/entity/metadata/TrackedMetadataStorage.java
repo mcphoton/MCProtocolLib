@@ -23,6 +23,11 @@ public final class TrackedMetadataStorage implements MetadataStorage {
         this.values = values;
     }
 
+    public TrackedMetadataStorage(List<TrackedMetadataValue> values) {
+    	TrackedMetadataValue[] array = new TrackedMetadataValue[values.size()];
+    	this.values = values.toArray(array);
+	}
+
     /**
      * Sets an existing value. This is thread-safe.
      *
