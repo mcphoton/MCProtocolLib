@@ -1,9 +1,7 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
-import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataStorage;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.UnorderedMetadataStorage;
-import com.github.steveice10.mc.protocol.data.game.entity.type.MobType;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
@@ -18,7 +16,7 @@ import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 public class ServerSpawnMobPacket implements Packet {
     private int entityId;
     private UUID uuid;
-    private MobType type;
+    private int typeId;
     private Vector position;
     /** Angles in radians */
     private float pitch, yaw, headYaw;
@@ -29,12 +27,12 @@ public class ServerSpawnMobPacket implements Packet {
     @SuppressWarnings("unused")
     private ServerSpawnMobPacket() {}
 
-    public ServerSpawnMobPacket(int entityId, UUID uuid, MobType type, Vector position, float yaw,
+    public ServerSpawnMobPacket(int entityId, UUID uuid, int typeId, Vector position, float yaw,
                                 float pitch, float headYaw, Vector velocity,
                                 MetadataStorage metadata) {
         this.entityId = entityId;
         this.uuid = uuid;
-        this.type = type;
+        this.typeId = typeId;
         this.position = position.clone();
         this.yaw = yaw;
         this.pitch = pitch;
@@ -51,8 +49,8 @@ public class ServerSpawnMobPacket implements Packet {
         return uuid;
     }
 
-    public MobType getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
     public Vector getPosition() {
@@ -83,7 +81,7 @@ public class ServerSpawnMobPacket implements Packet {
     public void read(NetInput in) throws IOException {
         entityId = in.readVarInt();
         uuid = in.readUUID();
-        type = MagicValues.key(MobType.class, in.readVarInt());
+        typeId = in.readVarInt();
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
@@ -102,7 +100,7 @@ public class ServerSpawnMobPacket implements Packet {
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
         out.writeUUID(uuid);
-        out.writeVarInt(MagicValues.value(Integer.class, type));
+        out.writeVarInt(typeId);
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
