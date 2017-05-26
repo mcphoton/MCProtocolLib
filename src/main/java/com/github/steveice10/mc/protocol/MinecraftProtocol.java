@@ -55,7 +55,7 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntit
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityEquipmentPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityHeadLookPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityMetadataPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityMovementPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPositionRotationPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.ServerEntityPropertiesPacket;
@@ -354,7 +354,7 @@ public class MinecraftProtocol extends PacketProtocol {
         this.registerIncoming(0x25, ServerEntityPositionPacket.class);
         this.registerIncoming(0x26, ServerEntityPositionRotationPacket.class);
         this.registerIncoming(0x27, ServerEntityRotationPacket.class);
-        this.registerIncoming(0x28, ServerEntityMovementPacket.class);
+        this.registerIncoming(0x28, ServerEntityPacket.class);
         this.registerIncoming(0x29, ServerVehicleMovePacket.class);
         this.registerIncoming(0x2A, ServerOpenTileEntityEditorPacket.class);
         this.registerIncoming(0x2B, ServerPlayerAbilitiesPacket.class);
@@ -495,7 +495,7 @@ public class MinecraftProtocol extends PacketProtocol {
         this.registerOutgoing(0x25, ServerEntityPositionPacket.class);
         this.registerOutgoing(0x26, ServerEntityPositionRotationPacket.class);
         this.registerOutgoing(0x27, ServerEntityRotationPacket.class);
-        this.registerOutgoing(0x28, ServerEntityMovementPacket.class);
+        this.registerOutgoing(0x28, ServerEntityPacket.class);
         this.registerOutgoing(0x29, ServerVehicleMovePacket.class);
         this.registerOutgoing(0x2A, ServerOpenTileEntityEditorPacket.class);
         this.registerOutgoing(0x2B, ServerPlayerAbilitiesPacket.class);
