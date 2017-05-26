@@ -1,72 +1,38 @@
 package com.github.steveice10.mc.protocol.data.game.entity.metadata;
 
+import com.github.steveice10.packetlib.io.NetOutput;
+import java.io.IOException;
+import java.util.Collection;
+
 /**
- * Stores entity metadata by index.
+ * Stores metadata entries.
  *
  * @author TheElectronWill
  */
-public final class MetadataStorage {
-    private volatile TrackedMetadataValue[] values;
-
-    public MetadataStorage(TrackedMetadataValue[] values) {
-        this.values = values;
-    }
-
-    public MetadataStorage(int capacity) {
-        this.values = new TrackedMetadataValue[capacity];
-    }
+public interface MetadataStorage {
+    /**
+     * @param index the entry's index
+     * @return the MetadataEntry that has the given index.
+     */
+    MetadataEntry getEntry(int index);
 
     /**
-     * Updates an existing value. This method is NOT thread-safe.
-     *
-     * @param index the index
-     * @param value the new value
+     * @return a collection containing all the entries in this storage
      */
-    public void update(int index, Object value) {
-        final TrackedMetadataValue[] array = values;
-        TrackedMetadataValue currentValue = array[index];
-        currentValue.setValue(value);
-        values = array;
-    }
+    Collection<MetadataEntry> getAllEntries();
 
     /**
-     * Puts a new value in the storage, or replace an existing value. This method is NOT
-     * thread-safe.
+     * Puts a copy of all the storage's entries in the given collection
      *
-     * @param index     the index
-     * @param value     the value
-     * @param valueType the value's type
+     * @param destination where to put the entries
      */
-    public void put(int index, Object value, MetadataType valueType) {
-        final TrackedMetadataValue[] array = values;
-        TrackedMetadataValue currentValue = array[index];
-        if (currentValue == null) {
-            array[index] = new TrackedMetadataValue(valueType, value);
-        } else {
-            currentValue.setType(valueType);
-            currentValue.setValue(value);
-        }
-        values = array;
-    }
+    void getAllEntries(Collection<MetadataEntry> destination);
 
     /**
-     * Gets the metadata at the given index. This method is thread-safe.
+     * Writes the metadata entries.
      *
-     * @param index the index
-     * @return the metadata at the given index
+     * @param out the output to write to
+     * @throws IOException if an I/O error occurs
      */
-    public MetadataValue get(int index) {
-        final TrackedMetadataValue[] array = values;
-        return array[index];
-    }
-
-    /**
-     * Gets the metadata value (without the type) at the given index. This method is thread-safe.
-     *
-     * @param index the index
-     * @return the value at the given index
-     */
-    public Object getValue(int index) {
-        return get(index).getValue();
-    }
+    void write(NetOutput out) throws IOException;
 }

@@ -1,17 +1,29 @@
 package com.github.steveice10.mc.protocol.data.game.entity.metadata;
 
 /**
+ * A thread-safe MetadataValue with an additional "changed" field that is set to true whenever
+ * the value changes.
+ *
  * @author TheElectronWill
  */
-public final class TrackedMetadataValue extends MetadataValue {
-    private boolean changed;
+public final class TrackedMetadataValue implements MetadataValue {
+    private final MetadataType type;
+    private volatile Object value;
+    private volatile boolean changed;
 
     public TrackedMetadataValue(MetadataType type, Object value) {
-        super(type, value);
+        this.type = type;
+        this.value = value;
     }
 
-    public void setType(MetadataType type) {
-        this.type = type;
+    @Override
+    public MetadataType getType() {
+        return type;
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
     }
 
     public void setValue(Object value) {
@@ -39,6 +51,9 @@ public final class TrackedMetadataValue extends MetadataValue {
 
     @Override
     public int hashCode() {
-        return super.hashCode() + 31 * (changed ? 1 : 0);
+        int result = type.hashCode();
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (changed ? 1 : 0);
+        return result;
     }
 }

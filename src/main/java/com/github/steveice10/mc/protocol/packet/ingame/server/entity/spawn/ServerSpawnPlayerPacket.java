@@ -1,19 +1,18 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.EntityMetadata;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataStorage;
+import com.github.steveice10.mc.protocol.data.game.entity.metadata.UnorderedMetadataStorage;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
-
 import java.io.IOException;
 import java.util.UUID;
 
 import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
 public class ServerSpawnPlayerPacket implements Packet {
-
     private int entityId;
     private UUID uuid;
     private double x;
@@ -21,13 +20,13 @@ public class ServerSpawnPlayerPacket implements Packet {
     private double z;
     /** Angles in radians */
     private float yaw, pitch;
-    private EntityMetadata metadata[];
+    private MetadataStorage metadata;
 
     @SuppressWarnings("unused")
     private ServerSpawnPlayerPacket() {}
 
     public ServerSpawnPlayerPacket(int entityId, UUID uuid, double x, double y, double z, float yaw,
-                                   float pitch, EntityMetadata metadata[]) {
+                                   float pitch, MetadataStorage metadata) {
         this.entityId = entityId;
         this.uuid = uuid;
         this.x = x;
@@ -66,7 +65,7 @@ public class ServerSpawnPlayerPacket implements Packet {
         return this.pitch;
     }
 
-    public EntityMetadata[] getMetadata() {
+    public MetadataStorage getMetadata() {
         return this.metadata;
     }
 
@@ -79,7 +78,7 @@ public class ServerSpawnPlayerPacket implements Packet {
         this.z = in.readDouble();
         this.yaw = in.readByte() * F_2PI / 256f;
         this.pitch = in.readByte() * F_2PI / 256f;
-        this.metadata = NetUtil.readEntityMetadata(in);
+        this.metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
     }
 
     @Override
@@ -91,7 +90,7 @@ public class ServerSpawnPlayerPacket implements Packet {
         out.writeDouble(this.z);
         out.writeByte((byte)(this.yaw * 256 / F_2PI));
         out.writeByte((byte)(this.pitch * 256 / F_2PI));
-        NetUtil.writeEntityMetadata(out, this.metadata);
+        metadata.write(out);
     }
 
     @Override

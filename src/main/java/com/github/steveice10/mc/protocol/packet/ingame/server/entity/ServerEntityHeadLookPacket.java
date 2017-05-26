@@ -15,8 +15,7 @@ public class ServerEntityHeadLookPacket implements Packet {
     private float headYaw;
 
     @SuppressWarnings("unused")
-    private ServerEntityHeadLookPacket() {
-    }
+    private ServerEntityHeadLookPacket() {}
 
     public ServerEntityHeadLookPacket(int entityId, float headYaw) {
         this.entityId = entityId;
