@@ -11,12 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.mcphoton.utils.Vector;
 
 public class ServerPlayerPositionRotationPacket implements Packet {
 
-    private double x;
-    private double y;
-    private double z;
+    private Vector position;
     private float yaw;
     private float pitch;
     private List<PositionElement> relative;
@@ -26,26 +25,18 @@ public class ServerPlayerPositionRotationPacket implements Packet {
     private ServerPlayerPositionRotationPacket() {
     }
 
-    public ServerPlayerPositionRotationPacket(double x, double y, double z, float yaw, float pitch, int teleportId, PositionElement... relative) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public ServerPlayerPositionRotationPacket(Vector position, float yaw, float pitch, int
+            teleportId,
+                                                PositionElement... relative) {
+        this.position = position.clone();
         this.yaw = yaw;
         this.pitch = pitch;
         this.teleportId = teleportId;
         this.relative = Arrays.asList(relative != null ? relative : new PositionElement[0]);
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
+    public Vector getPosition() {
+        return position;
     }
 
     public float getYaw() {
@@ -66,9 +57,10 @@ public class ServerPlayerPositionRotationPacket implements Packet {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.x = in.readDouble();
-        this.y = in.readDouble();
-        this.z = in.readDouble();
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double z = in.readDouble();
+        position = new Vector(x,y,z);
         this.yaw = in.readFloat();
         this.pitch = in.readFloat();
         this.relative = new ArrayList<PositionElement>();
@@ -85,9 +77,9 @@ public class ServerPlayerPositionRotationPacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeDouble(this.x);
-        out.writeDouble(this.y);
-        out.writeDouble(this.z);
+        out.writeDouble(position.getX());
+        out.writeDouble(position.getY());
+        out.writeDouble(position.getZ());
         out.writeFloat(this.yaw);
         out.writeFloat(this.pitch);
         int flags = 0;

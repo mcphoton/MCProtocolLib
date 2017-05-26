@@ -11,6 +11,7 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
 import java.util.UUID;
+import org.mcphoton.utils.Vector;
 
 import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
@@ -18,31 +19,27 @@ public class ServerSpawnMobPacket implements Packet {
     private int entityId;
     private UUID uuid;
     private MobType type;
-    private double x, y, z;
+    private Vector position;
     /** Angles in radians */
     private float pitch, yaw, headYaw;
     /** Velocity in m/s */
-    private double motX, motY, motZ;
+    private Vector velocity;
     private MetadataStorage metadata;
 
     @SuppressWarnings("unused")
     private ServerSpawnMobPacket() {}
 
-    public ServerSpawnMobPacket(int entityId, UUID uuid, MobType type, double x, double y, double z,
-                                float yaw, float pitch, float headYaw, double motX, double motY,
-                                double motZ, MetadataStorage metadata) {
+    public ServerSpawnMobPacket(int entityId, UUID uuid, MobType type, Vector position, float yaw,
+                                float pitch, float headYaw, Vector velocity,
+                                MetadataStorage metadata) {
         this.entityId = entityId;
         this.uuid = uuid;
         this.type = type;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = position.clone();
         this.yaw = yaw;
         this.pitch = pitch;
         this.headYaw = headYaw;
-        this.motX = motX;
-        this.motY = motY;
-        this.motZ = motZ;
+        this.velocity = velocity.clone();
         this.metadata = metadata;
     }
 
@@ -58,16 +55,8 @@ public class ServerSpawnMobPacket implements Packet {
         return type;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
+    public Vector getPosition() {
+        return position;
     }
 
     public float getYaw() {
@@ -82,16 +71,8 @@ public class ServerSpawnMobPacket implements Packet {
         return headYaw;
     }
 
-    public double getMotionX() {
-        return motX;
-    }
-
-    public double getMotionY() {
-        return motY;
-    }
-
-    public double getMotionZ() {
-        return motZ;
+    public Vector getVelocity() {
+        return velocity;
     }
 
     public MetadataStorage getMetadata() {
@@ -103,15 +84,17 @@ public class ServerSpawnMobPacket implements Packet {
         entityId = in.readVarInt();
         uuid = in.readUUID();
         type = MagicValues.key(MobType.class, in.readVarInt());
-        x = in.readDouble();
-        y = in.readDouble();
-        z = in.readDouble();
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double z = in.readDouble();
+        position = new Vector(x, y, z);
         yaw = in.readByte() * F_2PI / 256f;
         pitch = in.readByte() * F_2PI / 256f;
         headYaw = in.readByte() * F_2PI / 256f;
-        motX = in.readShort() / 400d;
-        motY = in.readShort() / 400d;
-        motZ = in.readShort() / 400d;
+        double vx = in.readShort() / 400d;
+        double vy = in.readShort() / 400d;
+        double vz = in.readShort() / 400d;
+        velocity = new Vector(vx, vy, vz);
         metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
     }
 
@@ -120,15 +103,15 @@ public class ServerSpawnMobPacket implements Packet {
         out.writeVarInt(entityId);
         out.writeUUID(uuid);
         out.writeVarInt(MagicValues.value(Integer.class, type));
-        out.writeDouble(x);
-        out.writeDouble(y);
-        out.writeDouble(z);
+        out.writeDouble(position.getX());
+        out.writeDouble(position.getY());
+        out.writeDouble(position.getZ());
         out.writeByte((byte)(yaw * 256f / F_2PI));
         out.writeByte((byte)(pitch * 256f / F_2PI));
         out.writeByte((byte)(headYaw * 256f / F_2PI));
-        out.writeShort((int)(motX * 400d));
-        out.writeShort((int)(motY * 400d));
-        out.writeShort((int)(motZ * 400d));
+        out.writeShort((int)(velocity.getX() * 400d));
+        out.writeShort((int)(velocity.getY() * 400d));
+        out.writeShort((int)(velocity.getZ() * 400d));
         metadata.write(out);
     }
 

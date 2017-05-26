@@ -8,38 +8,31 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
+import org.mcphoton.utils.Vector;
 
 public class ServerSpawnParticlePacket implements Packet {
     private Particle particle;
     private boolean longDistance;
-    private float x;
-    private float y;
-    private float z;
-    private float offsetX;
-    private float offsetY;
-    private float offsetZ;
+    private Vector position, offset;
     private float velocityOffset;
     private int amount;
     private int data[];
 
     @SuppressWarnings("unused")
-    private ServerSpawnParticlePacket() {
-    }
+    private ServerSpawnParticlePacket() {}
 
-    public ServerSpawnParticlePacket(Particle particle, boolean longDistance, float x, float y, float z, float offsetX, float offsetY, float offsetZ, float velocityOffset, int amount, int... data) {
+    public ServerSpawnParticlePacket(Particle particle, boolean longDistance, Vector position,
+                                     Vector offset, float velocityOffset, int amount, int... data) {
         this.particle = particle;
         this.longDistance = longDistance;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.offsetZ = offsetZ;
+        this.position = position.clone();
+        this.offset = offset.clone();
         this.velocityOffset = velocityOffset;
         this.amount = amount;
         this.data = data;
-        if(this.data.length != particle.getDataLength()) {
-            throw new IllegalArgumentException("Data array length must be equal to particle's data length.");
+        if (this.data.length != particle.getDataLength()) {
+            throw new IllegalArgumentException(
+                    "Data array length must be equal to particle's data length.");
         }
     }
 
@@ -51,28 +44,12 @@ public class ServerSpawnParticlePacket implements Packet {
         return this.longDistance;
     }
 
-    public float getX() {
-        return this.x;
+    public Vector getPosition() {
+        return position;
     }
 
-    public float getY() {
-        return this.y;
-    }
-
-    public float getZ() {
-        return this.z;
-    }
-
-    public float getOffsetX() {
-        return this.offsetX;
-    }
-
-    public float getOffsetY() {
-        return this.offsetY;
-    }
-
-    public float getOffsetZ() {
-        return this.offsetZ;
+    public Vector getOffset() {
+        return offset;
     }
 
     public float getVelocityOffset() {
@@ -91,16 +68,18 @@ public class ServerSpawnParticlePacket implements Packet {
     public void read(NetInput in) throws IOException {
         this.particle = MagicValues.key(Particle.class, in.readInt());
         this.longDistance = in.readBoolean();
-        this.x = in.readFloat();
-        this.y = in.readFloat();
-        this.z = in.readFloat();
-        this.offsetX = in.readFloat();
-        this.offsetY = in.readFloat();
-        this.offsetZ = in.readFloat();
+        double x = in.readFloat();
+        double y = in.readFloat();
+        double z = in.readFloat();
+        position = new Vector(x, y, z);
+        double offsetX = in.readFloat();
+        double offsetY = in.readFloat();
+        double offsetZ = in.readFloat();
+        offset = new Vector(offsetX, offsetY, offsetZ);
         this.velocityOffset = in.readFloat();
         this.amount = in.readInt();
         this.data = new int[this.particle.getDataLength()];
-        for(int index = 0; index < this.data.length; index++) {
+        for (int index = 0; index < this.data.length; index++) {
             this.data[index] = in.readVarInt();
         }
     }
@@ -109,15 +88,15 @@ public class ServerSpawnParticlePacket implements Packet {
     public void write(NetOutput out) throws IOException {
         out.writeInt(MagicValues.value(Integer.class, this.particle));
         out.writeBoolean(this.longDistance);
-        out.writeFloat(this.x);
-        out.writeFloat(this.y);
-        out.writeFloat(this.z);
-        out.writeFloat(this.offsetX);
-        out.writeFloat(this.offsetY);
-        out.writeFloat(this.offsetZ);
+        out.writeFloat((float)position.getX());
+        out.writeFloat((float)position.getY());
+        out.writeFloat((float)position.getZ());
+        out.writeFloat((float)offset.getX());
+        out.writeFloat((float)offset.getY());
+        out.writeFloat((float)offset.getZ());
         out.writeFloat(this.velocityOffset);
         out.writeInt(this.amount);
-        for(int index = 0; index < this.particle.getDataLength(); index++) {
+        for (int index = 0; index < this.particle.getDataLength(); index++) {
             out.writeVarInt(this.data[index]);
         }
     }

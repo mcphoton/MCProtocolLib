@@ -6,53 +6,44 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
+import org.mcphoton.utils.Vector;
 
 public class ServerEntityVelocityPacket implements Packet {
-
     private int entityId;
     /** Velocity in m/s */
-    private double motX, motY, motZ;
+    private Vector velocity;
 
     @SuppressWarnings("unused")
     private ServerEntityVelocityPacket() {}
 
-    public ServerEntityVelocityPacket(int entityId, double motX, double motY, double motZ) {
+    public ServerEntityVelocityPacket(int entityId, Vector velocity) {
         this.entityId = entityId;
-        this.motX = motX;
-        this.motY = motY;
-        this.motZ = motZ;
+        this.velocity = velocity.clone();
     }
 
     public int getEntityId() {
         return this.entityId;
     }
 
-    public double getMotionX() {
-        return this.motX;
-    }
-
-    public double getMotionY() {
-        return this.motY;
-    }
-
-    public double getMotionZ() {
-        return this.motZ;
+    public Vector getVelocity() {
+        return velocity;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.motX = in.readShort() / 400d;
-        this.motY = in.readShort() / 400d;
-        this.motZ = in.readShort() / 400d;
+        entityId = in.readVarInt();
+        double vx = in.readShort() / 400d;
+        double vy = in.readShort() / 400d;
+        double vz = in.readShort() / 400d;
+        velocity = new Vector(vx, vy, vz);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeShort((int)(this.motX * 400d));
-        out.writeShort((int)(this.motY * 400d));
-        out.writeShort((int)(this.motZ * 400d));
+        out.writeShort((int)(velocity.getX() * 400d));
+        out.writeShort((int)(velocity.getY() * 400d));
+        out.writeShort((int)(velocity.getZ() * 400d));
     }
 
     @Override

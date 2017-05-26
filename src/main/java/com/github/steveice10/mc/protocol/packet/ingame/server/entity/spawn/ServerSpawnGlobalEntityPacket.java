@@ -8,25 +8,20 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
+import org.mcphoton.utils.Vector;
 
 public class ServerSpawnGlobalEntityPacket implements Packet {
-
     private int entityId;
     private GlobalEntityType type;
-    private double x;
-    private double y;
-    private double z;
+    private Vector position;
 
     @SuppressWarnings("unused")
-    private ServerSpawnGlobalEntityPacket() {
-    }
+    private ServerSpawnGlobalEntityPacket() {}
 
-    public ServerSpawnGlobalEntityPacket(int entityId, GlobalEntityType type, double x, double y, double z) {
+    public ServerSpawnGlobalEntityPacket(int entityId, GlobalEntityType type, Vector position) {
         this.entityId = entityId;
         this.type = type;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = position.clone();
     }
 
     public int getEntityId() {
@@ -37,34 +32,27 @@ public class ServerSpawnGlobalEntityPacket implements Packet {
         return this.type;
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
+    public Vector getPosition() {
+        return position;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.type = MagicValues.key(GlobalEntityType.class, in.readByte());
-        this.x = in.readDouble();
-        this.y = in.readDouble();
-        this.z = in.readDouble();
+        entityId = in.readVarInt();
+        type = MagicValues.key(GlobalEntityType.class, in.readByte());
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double z = in.readDouble();
+        position = new Vector(x, y, z);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
+        out.writeVarInt(entityId);
         out.writeByte(MagicValues.value(Integer.class, this.type));
-        out.writeDouble(this.x);
-        out.writeDouble(this.y);
-        out.writeDouble(this.z);
+        out.writeDouble(position.getX());
+        out.writeDouble(position.getY());
+        out.writeDouble(position.getZ());
     }
 
     @Override

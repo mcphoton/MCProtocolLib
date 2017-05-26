@@ -6,12 +6,13 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
+import org.mcphoton.utils.Vector;
 
 import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
 public class ServerEntityTeleportPacket implements Packet {
     private int entityId;
-    private double x, y, z;
+    private Vector position;
     /** Angles in radians */
     private float yaw, pitch;
     private boolean onGround;
@@ -19,12 +20,10 @@ public class ServerEntityTeleportPacket implements Packet {
     @SuppressWarnings("unused")
     private ServerEntityTeleportPacket() {}
 
-    public ServerEntityTeleportPacket(int entityId, double x, double y, double z, float yaw,
-                                      float pitch, boolean onGround) {
+    public ServerEntityTeleportPacket(int entityId, Vector newPosition, float yaw, float pitch,
+                                      boolean onGround) {
         this.entityId = entityId;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = newPosition.clone();
         this.yaw = yaw;
         this.pitch = pitch;
         this.onGround = onGround;
@@ -34,16 +33,8 @@ public class ServerEntityTeleportPacket implements Packet {
         return this.entityId;
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
+    public Vector getPosition() {
+        return position;
     }
 
     public float getYaw() {
@@ -61,9 +52,10 @@ public class ServerEntityTeleportPacket implements Packet {
     @Override
     public void read(NetInput in) throws IOException {
         this.entityId = in.readVarInt();
-        this.x = in.readDouble();
-        this.y = in.readDouble();
-        this.z = in.readDouble();
+        double x = in.readDouble();
+        double y = in.readDouble();
+        double z = in.readDouble();
+        position = new Vector(x, y, z);
         this.yaw = in.readByte() * F_2PI / 256f;
         this.pitch = in.readByte() * F_2PI / 256f;
         this.onGround = in.readBoolean();
@@ -72,9 +64,9 @@ public class ServerEntityTeleportPacket implements Packet {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(this.entityId);
-        out.writeDouble(this.x);
-        out.writeDouble(this.y);
-        out.writeDouble(this.z);
+        out.writeDouble(position.getX());
+        out.writeDouble(position.getY());
+        out.writeDouble(position.getZ());
         out.writeByte((byte)(this.yaw * 256 / F_2PI));
         out.writeByte((byte)(this.pitch * 256 / F_2PI));
         out.writeBoolean(this.onGround);

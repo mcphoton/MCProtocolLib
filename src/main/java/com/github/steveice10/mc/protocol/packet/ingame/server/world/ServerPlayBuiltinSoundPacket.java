@@ -9,27 +9,25 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
+import org.mcphoton.utils.Vector;
 
 public class ServerPlayBuiltinSoundPacket implements Packet {
 
     private BuiltinSound sound;
     private SoundCategory category;
-    private double x;
-    private double y;
-    private double z;
+    private Vector position;
     private float volume;
     private float pitch;
 
     @SuppressWarnings("unused")
-    private ServerPlayBuiltinSoundPacket() {
-    }
+    private ServerPlayBuiltinSoundPacket() {}
 
-    public ServerPlayBuiltinSoundPacket(BuiltinSound sound, SoundCategory category, double x, double y, double z, float volume, float pitch) {
+    public ServerPlayBuiltinSoundPacket(BuiltinSound sound, SoundCategory category, Vector
+            position, float
+            volume, float pitch) {
         this.sound = sound;
         this.category = category;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = position.clone();
         this.volume = volume;
         this.pitch = pitch;
     }
@@ -42,16 +40,8 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
         return this.category;
     }
 
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public double getZ() {
-        return this.z;
+    public Vector getPosition() {
+        return position;
     }
 
     public float getVolume() {
@@ -66,9 +56,10 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
     public void read(NetInput in) throws IOException {
         this.sound = MagicValues.key(BuiltinSound.class, in.readVarInt());
         this.category = MagicValues.key(SoundCategory.class, in.readVarInt());
-        this.x = in.readInt() / 8D;
-        this.y = in.readInt() / 8D;
-        this.z = in.readInt() / 8D;
+        double x = in.readInt() / 8D;
+        double y = in.readInt() / 8D;
+        double z = in.readInt() / 8D;
+        position = new Vector(x,y,z);
         this.volume = in.readFloat();
         this.pitch = in.readFloat();
     }
@@ -77,9 +68,9 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(MagicValues.value(Integer.class, this.sound));
         out.writeVarInt(MagicValues.value(Integer.class, this.category));
-        out.writeInt((int) (this.x * 8));
-        out.writeInt((int) (this.y * 8));
-        out.writeInt((int) (this.z * 8));
+        out.writeInt((int) (position.getX() * 8));
+        out.writeInt((int) (position.getY() * 8));
+        out.writeInt((int) (position.getZ() * 8));
         out.writeFloat(this.volume);
         out.writeFloat(this.pitch);
     }

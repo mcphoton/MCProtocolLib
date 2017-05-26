@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class ServerSpawnPaintingPacket implements Packet {
-
     private int entityId;
     private UUID uuid;
     private PaintingType paintingType;
@@ -22,8 +21,7 @@ public class ServerSpawnPaintingPacket implements Packet {
     private HangingDirection direction;
 
     @SuppressWarnings("unused")
-    private ServerSpawnPaintingPacket() {
-    }
+    private ServerSpawnPaintingPacket() {}
 
     public ServerSpawnPaintingPacket(int entityId, UUID uuid, PaintingType paintingType, IntPosition position, HangingDirection direction) {
         this.entityId = entityId;
