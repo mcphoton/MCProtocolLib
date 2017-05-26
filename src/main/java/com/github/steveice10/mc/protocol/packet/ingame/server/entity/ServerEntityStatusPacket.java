@@ -24,23 +24,23 @@ public class ServerEntityStatusPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public EntityStatus getStatus() {
-        return this.status;
+        return status;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readInt();
-        this.status = MagicValues.key(EntityStatus.class, in.readByte());
+        entityId = in.readInt();
+        status = MagicValues.key(EntityStatus.class, in.readByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(this.entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.status));
+        out.writeInt(entityId);
+        out.writeByte(MagicValues.value(Integer.class, status));
     }
 
     @Override

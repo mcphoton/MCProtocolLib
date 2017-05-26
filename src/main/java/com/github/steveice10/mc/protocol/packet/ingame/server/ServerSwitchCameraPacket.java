@@ -20,17 +20,17 @@ public class ServerSwitchCameraPacket implements Packet {
     }
 
     public int getCameraEntityId() {
-        return this.cameraEntityId;
+        return cameraEntityId;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.cameraEntityId = in.readVarInt();
+        cameraEntityId = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.cameraEntityId);
+        out.writeVarInt(cameraEntityId);
     }
 
     @Override

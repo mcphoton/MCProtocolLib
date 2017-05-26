@@ -30,36 +30,36 @@ public class ServerNotifyClientPacket implements Packet {
     }
 
     public ClientNotification getNotification() {
-        return this.notification;
+        return notification;
     }
 
     public ClientNotificationValue getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.notification = MagicValues.key(ClientNotification.class, in.readUnsignedByte());
+        notification = MagicValues.key(ClientNotification.class, in.readUnsignedByte());
         float value = in.readFloat();
-        if(this.notification == ClientNotification.CHANGE_GAMEMODE) {
+        if(notification == ClientNotification.CHANGE_GAMEMODE) {
             this.value = MagicValues.key(GameMode.class, (int) value);
-        } else if(this.notification == ClientNotification.DEMO_MESSAGE) {
+        } else if(notification == ClientNotification.DEMO_MESSAGE) {
             this.value = MagicValues.key(DemoMessageValue.class, (int) value);
-        } else if(this.notification == ClientNotification.ENTER_CREDITS) {
+        } else if(notification == ClientNotification.ENTER_CREDITS) {
             this.value = MagicValues.key(EnterCreditsValue.class, (int) value);
-        } else if(this.notification == ClientNotification.RAIN_STRENGTH) {
+        } else if(notification == ClientNotification.RAIN_STRENGTH) {
             this.value = new RainStrengthValue(value);
-        } else if(this.notification == ClientNotification.THUNDER_STRENGTH) {
+        } else if(notification == ClientNotification.THUNDER_STRENGTH) {
             this.value = new ThunderStrengthValue(value);
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues.value(Integer.class, this.notification));
+        out.writeByte(MagicValues.value(Integer.class, notification));
         float value = 0;
         if(this.value instanceof Enum<?>) {
-            value = MagicValues.value(Integer.class, (Enum<?>) this.value);
+            value = MagicValues.value(Integer.class, this.value);
         } else if(this.value instanceof RainStrengthValue) {
             value = ((RainStrengthValue) this.value).getStrength();
         } else if(this.value instanceof ThunderStrengthValue) {

@@ -26,40 +26,40 @@ public class ClientSteerVehiclePacket implements Packet {
     }
 
     public float getSideways() {
-        return this.sideways;
+        return sideways;
     }
 
     public float getForward() {
-        return this.forward;
+        return forward;
     }
 
     public boolean getJumping() {
-        return this.jump;
+        return jump;
     }
 
     public boolean getDismounting() {
-        return this.dismount;
+        return dismount;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.sideways = in.readFloat();
-        this.forward = in.readFloat();
+        sideways = in.readFloat();
+        forward = in.readFloat();
         int flags = in.readUnsignedByte();
-        this.jump = (flags & 1) > 0;
-        this.dismount = (flags & 2) > 0;
+        jump = (flags & 1) > 0;
+        dismount = (flags & 2) > 0;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeFloat(this.sideways);
-        out.writeFloat(this.forward);
+        out.writeFloat(sideways);
+        out.writeFloat(forward);
         byte flags = 0;
-        if(this.jump) {
+        if(jump) {
             flags = (byte) (flags | 1);
         }
 
-        if(this.dismount) {
+        if(dismount) {
             flags = (byte) (flags | 2);
         }
 

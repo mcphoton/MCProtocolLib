@@ -16,9 +16,9 @@ public class ServerVehicleMovePacket implements Packet {
     private ServerVehicleMovePacket() {}
 
     public ServerVehicleMovePacket(Vector newPosition, float newYaw, float newPitch) {
-        this.position = newPosition.clone();
-        this.yaw = newYaw;
-        this.pitch = newPitch;
+        position = newPosition.clone();
+        yaw = newYaw;
+        pitch = newPitch;
     }
 
     public Vector getPosition() {
@@ -26,11 +26,11 @@ public class ServerVehicleMovePacket implements Packet {
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class ServerVehicleMovePacket implements Packet {
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
-        out.writeFloat(this.yaw);
-        out.writeFloat(this.pitch);
+        out.writeFloat(yaw);
+        out.writeFloat(pitch);
     }
 
     @Override

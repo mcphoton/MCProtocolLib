@@ -24,23 +24,23 @@ public class ServerEntityRemoveEffectPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Effect getEffect() {
-        return this.effect;
+        return effect;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.effect = MagicValues.key(Effect.class, in.readUnsignedByte());
+        entityId = in.readVarInt();
+        effect = MagicValues.key(Effect.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.effect));
+        out.writeVarInt(entityId);
+        out.writeByte(MagicValues.value(Integer.class, effect));
     }
 
     @Override

@@ -32,33 +32,33 @@ public class ServerWindowPropertyPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public int getRawProperty() {
-        return this.property;
+        return property;
     }
 
     public <T extends Enum<T> & WindowProperty> T getProperty(Class<T> type) {
-        return MagicValues.key(type, this.value);
+        return MagicValues.key(type, value);
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readUnsignedByte();
-        this.property = in.readShort();
-        this.value = in.readShort();
+        windowId = in.readUnsignedByte();
+        property = in.readShort();
+        value = in.readShort();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeShort(this.property);
-        out.writeShort(this.value);
+        out.writeByte(windowId);
+        out.writeShort(property);
+        out.writeShort(value);
     }
 
     @Override

@@ -26,32 +26,32 @@ public class EncryptionRequestPacket implements Packet {
     }
 
     public String getServerId() {
-        return this.serverId;
+        return serverId;
     }
 
     public PublicKey getPublicKey() {
-        return this.publicKey;
+        return publicKey;
     }
 
     public byte[] getVerifyToken() {
-        return this.verifyToken;
+        return verifyToken;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.serverId = in.readString();
-        this.publicKey = CryptUtil.decodePublicKey(in.readBytes(in.readVarInt()));
-        this.verifyToken = in.readBytes(in.readVarInt());
+        serverId = in.readString();
+        publicKey = CryptUtil.decodePublicKey(in.readBytes(in.readVarInt()));
+        verifyToken = in.readBytes(in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.serverId);
-        byte encoded[] = this.publicKey.getEncoded();
+        out.writeString(serverId);
+        byte encoded[] = publicKey.getEncoded();
         out.writeVarInt(encoded.length);
         out.writeBytes(encoded);
-        out.writeVarInt(this.verifyToken.length);
-        out.writeBytes(this.verifyToken);
+        out.writeVarInt(verifyToken.length);
+        out.writeBytes(verifyToken);
     }
 
     @Override

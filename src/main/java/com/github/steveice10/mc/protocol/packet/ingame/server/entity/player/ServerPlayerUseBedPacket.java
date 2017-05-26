@@ -24,23 +24,23 @@ public class ServerPlayerUseBedPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.position = NetUtil.readPosition(in);
+        entityId = in.readVarInt();
+        position = NetUtil.readPosition(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        NetUtil.writePosition(out, this.position);
+        out.writeVarInt(entityId);
+        NetUtil.writePosition(out, position);
     }
 
     @Override

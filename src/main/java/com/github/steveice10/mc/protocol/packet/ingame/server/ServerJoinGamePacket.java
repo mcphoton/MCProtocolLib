@@ -38,65 +38,65 @@ public class ServerJoinGamePacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public boolean getHardcore() {
-        return this.hardcore;
+        return hardcore;
     }
 
     public GameMode getGameMode() {
-        return this.gamemode;
+        return gamemode;
     }
 
     public int getDimension() {
-        return this.dimension;
+        return dimension;
     }
 
     public Difficulty getDifficulty() {
-        return this.difficulty;
+        return difficulty;
     }
 
     public int getMaxPlayers() {
-        return this.maxPlayers;
+        return maxPlayers;
     }
 
     public WorldType getWorldType() {
-        return this.worldType;
+        return worldType;
     }
 
     public boolean getReducedDebugInfo() {
-        return this.reducedDebugInfo;
+        return reducedDebugInfo;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readInt();
+        entityId = in.readInt();
         int gamemode = in.readUnsignedByte();
-        this.hardcore = (gamemode & 8) == 8;
+        hardcore = (gamemode & 8) == 8;
         gamemode &= -9;
         this.gamemode = MagicValues.key(GameMode.class, gamemode);
-        this.dimension = in.readInt();
-        this.difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
-        this.maxPlayers = in.readUnsignedByte();
-        this.worldType = MagicValues.key(WorldType.class, in.readString().toLowerCase());
-        this.reducedDebugInfo = in.readBoolean();
+        dimension = in.readInt();
+        difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
+        maxPlayers = in.readUnsignedByte();
+        worldType = MagicValues.key(WorldType.class, in.readString().toLowerCase());
+        reducedDebugInfo = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(this.entityId);
+        out.writeInt(entityId);
         int gamemode = MagicValues.value(Integer.class, this.gamemode);
-        if(this.hardcore) {
+        if(hardcore) {
             gamemode |= 8;
         }
 
         out.writeByte(gamemode);
-        out.writeInt(this.dimension);
-        out.writeByte(MagicValues.value(Integer.class, this.difficulty));
-        out.writeByte(this.maxPlayers);
-        out.writeString(MagicValues.value(String.class, this.worldType));
-        out.writeBoolean(this.reducedDebugInfo);
+        out.writeInt(dimension);
+        out.writeByte(MagicValues.value(Integer.class, difficulty));
+        out.writeByte(maxPlayers);
+        out.writeString(MagicValues.value(String.class, worldType));
+        out.writeBoolean(reducedDebugInfo);
     }
 
     @Override

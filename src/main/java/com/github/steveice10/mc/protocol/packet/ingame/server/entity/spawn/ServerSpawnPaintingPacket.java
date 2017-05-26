@@ -32,41 +32,41 @@ public class ServerSpawnPaintingPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public UUID getUUID() {
-        return this.uuid;
+        return uuid;
     }
 
     public PaintingType getPaintingType() {
-        return this.paintingType;
+        return paintingType;
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public HangingDirection getDirection() {
-        return this.direction;
+        return direction;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.uuid = in.readUUID();
-        this.paintingType = MagicValues.key(PaintingType.class, in.readString());
-        this.position = NetUtil.readPosition(in);
-        this.direction = MagicValues.key(HangingDirection.class, in.readUnsignedByte());
+        entityId = in.readVarInt();
+        uuid = in.readUUID();
+        paintingType = MagicValues.key(PaintingType.class, in.readString());
+        position = NetUtil.readPosition(in);
+        direction = MagicValues.key(HangingDirection.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeUUID(this.uuid);
-        out.writeString(MagicValues.value(String.class, this.paintingType));
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.direction));
+        out.writeVarInt(entityId);
+        out.writeUUID(uuid);
+        out.writeString(MagicValues.value(String.class, paintingType));
+        NetUtil.writePosition(out, position);
+        out.writeByte(MagicValues.value(Integer.class, direction));
     }
 
     @Override

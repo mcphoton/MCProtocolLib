@@ -24,23 +24,23 @@ public class ServerDisplayScoreboardPacket implements Packet {
     }
 
     public ScoreboardPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public String getScoreboardName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = MagicValues.key(ScoreboardPosition.class, in.readByte());
-        this.name = in.readString();
+        position = MagicValues.key(ScoreboardPosition.class, in.readByte());
+        name = in.readString();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues.value(Integer.class, this.position));
-        out.writeString(this.name);
+        out.writeByte(MagicValues.value(Integer.class, position));
+        out.writeString(name);
     }
 
     @Override

@@ -46,19 +46,19 @@ public class ServerSpawnObjectPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public UUID getUUID() {
-        return this.uuid;
+        return uuid;
     }
 
     public ObjectType getType() {
-        return this.type;
+        return type;
     }
 
     public ObjectData getData() {
-        return this.data;
+        return data;
     }
 
     public Vector getPosition() {
@@ -66,11 +66,11 @@ public class ServerSpawnObjectPacket implements Packet {
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     public Vector getVelocity() {
@@ -79,27 +79,37 @@ public class ServerSpawnObjectPacket implements Packet {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.uuid = in.readUUID();
-        this.type = MagicValues.key(ObjectType.class, in.readByte());
+        entityId = in.readVarInt();
+        uuid = in.readUUID();
+        type = MagicValues.key(ObjectType.class, in.readByte());
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
         position = new Vector(x,y,z);
-        this.pitch = in.readByte() * F_2PI / 256f;
-        this.yaw = in.readByte() * F_2PI / 256f;
+        pitch = in.readByte() * F_2PI / 256f;
+        yaw = in.readByte() * F_2PI / 256f;
 
         int data = in.readInt();
         if(data > 0) {
-            if(this.type == ObjectType.MINECART) {
+            if(type == ObjectType.MINECART) {
                 this.data = MagicValues.key(MinecartType.class, data);
-            } else if(this.type == ObjectType.ITEM_FRAME) {
+            } else if(type == ObjectType.ITEM_FRAME) {
                 this.data = MagicValues.key(HangingDirection.class, data);
-            } else if(this.type == ObjectType.FALLING_BLOCK) {
+            } else if(type == ObjectType.FALLING_BLOCK) {
                 this.data = new FallingBlockData(data & 65535, data >> 16);
-            } else if(this.type == ObjectType.POTION) {
+            } else if(type == ObjectType.POTION) {
                 this.data = new SplashPotionData(data);
-            } else if(this.type == ObjectType.SPECTRAL_ARROW || this.type == ObjectType.TIPPED_ARROW || this.type == ObjectType.GHAST_FIREBALL || this.type == ObjectType.BLAZE_FIREBALL || this.type == ObjectType.DRAGON_FIREBALL || this.type == ObjectType.WITHER_HEAD_PROJECTILE || this.type == ObjectType.FISH_HOOK) {
+            } else if(type == ObjectType.SPECTRAL_ARROW || type == ObjectType.TIPPED_ARROW ||
+                      type
+                      == ObjectType.GHAST_FIREBALL ||
+                      type
+                      == ObjectType.BLAZE_FIREBALL ||
+                      type
+                      == ObjectType.DRAGON_FIREBALL ||
+                      type
+                      == ObjectType.WITHER_HEAD_PROJECTILE ||
+                      type
+                      == ObjectType.FISH_HOOK) {
                 this.data = new ProjectileData(data);
             } else {
                 this.data = new ObjectData() {
@@ -115,21 +125,21 @@ public class ServerSpawnObjectPacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeUUID(this.uuid);
-        out.writeByte(MagicValues.value(Integer.class, this.type));
+        out.writeVarInt(entityId);
+        out.writeUUID(uuid);
+        out.writeByte(MagicValues.value(Integer.class, type));
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
-        out.writeByte((byte) (this.pitch * 256f / F_2PI));
-        out.writeByte((byte) (this.yaw * 256f / F_2PI));
+        out.writeByte((byte) (pitch * 256f / F_2PI));
+        out.writeByte((byte) (yaw * 256f / F_2PI));
 
         int data = 0;
         if(this.data != null) {
             if(this.data instanceof MinecartType) {
-                data = MagicValues.value(Integer.class, (Enum<?>) this.data);
+                data = MagicValues.value(Integer.class, this.data);
             } else if(this.data instanceof HangingDirection) {
-                data = MagicValues.value(Integer.class, (Enum<?>) this.data);
+                data = MagicValues.value(Integer.class, this.data);
             } else if(this.data instanceof FallingBlockData) {
                 data = ((FallingBlockData) this.data).getId() | ((FallingBlockData) this.data).getMetadata() << 16;
             } else if(this.data instanceof SplashPotionData) {

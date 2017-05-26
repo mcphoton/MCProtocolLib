@@ -24,29 +24,29 @@ public class ServerConfirmTransactionPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public int getActionId() {
-        return this.actionId;
+        return actionId;
     }
 
     public boolean getAccepted() {
-        return this.accepted;
+        return accepted;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readUnsignedByte();
-        this.actionId = in.readShort();
-        this.accepted = in.readBoolean();
+        windowId = in.readUnsignedByte();
+        actionId = in.readShort();
+        accepted = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeShort(this.actionId);
-        out.writeBoolean(this.accepted);
+        out.writeByte(windowId);
+        out.writeShort(actionId);
+        out.writeBoolean(accepted);
     }
 
     @Override

@@ -37,11 +37,11 @@ public class ServerSpawnParticlePacket implements Packet {
     }
 
     public Particle getParticle() {
-        return this.particle;
+        return particle;
     }
 
     public boolean isLongDistance() {
-        return this.longDistance;
+        return longDistance;
     }
 
     public Vector getPosition() {
@@ -53,21 +53,21 @@ public class ServerSpawnParticlePacket implements Packet {
     }
 
     public float getVelocityOffset() {
-        return this.velocityOffset;
+        return velocityOffset;
     }
 
     public int getAmount() {
-        return this.amount;
+        return amount;
     }
 
     public int[] getData() {
-        return this.data;
+        return data;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.particle = MagicValues.key(Particle.class, in.readInt());
-        this.longDistance = in.readBoolean();
+        particle = MagicValues.key(Particle.class, in.readInt());
+        longDistance = in.readBoolean();
         double x = in.readFloat();
         double y = in.readFloat();
         double z = in.readFloat();
@@ -76,28 +76,28 @@ public class ServerSpawnParticlePacket implements Packet {
         double offsetY = in.readFloat();
         double offsetZ = in.readFloat();
         offset = new Vector(offsetX, offsetY, offsetZ);
-        this.velocityOffset = in.readFloat();
-        this.amount = in.readInt();
-        this.data = new int[this.particle.getDataLength()];
-        for (int index = 0; index < this.data.length; index++) {
-            this.data[index] = in.readVarInt();
+        velocityOffset = in.readFloat();
+        amount = in.readInt();
+        data = new int[particle.getDataLength()];
+        for (int index = 0; index < data.length; index++) {
+            data[index] = in.readVarInt();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(MagicValues.value(Integer.class, this.particle));
-        out.writeBoolean(this.longDistance);
+        out.writeInt(MagicValues.value(Integer.class, particle));
+        out.writeBoolean(longDistance);
         out.writeFloat((float)position.getX());
         out.writeFloat((float)position.getY());
         out.writeFloat((float)position.getZ());
         out.writeFloat((float)offset.getX());
         out.writeFloat((float)offset.getY());
         out.writeFloat((float)offset.getZ());
-        out.writeFloat(this.velocityOffset);
-        out.writeInt(this.amount);
-        for (int index = 0; index < this.particle.getDataLength(); index++) {
-            out.writeVarInt(this.data[index]);
+        out.writeFloat(velocityOffset);
+        out.writeInt(amount);
+        for (int index = 0; index < particle.getDataLength(); index++) {
+            out.writeVarInt(data[index]);
         }
     }
 

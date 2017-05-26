@@ -33,25 +33,25 @@ public class ServerWorldBorderPacket implements Packet {
     }
 
     public ServerWorldBorderPacket(double radius) {
-        this.action = WorldBorderAction.SET_SIZE;
+        action = WorldBorderAction.SET_SIZE;
         this.radius = radius;
     }
 
     public ServerWorldBorderPacket(double oldRadius, double newRadius, long speed) {
-        this.action = WorldBorderAction.LERP_SIZE;
+        action = WorldBorderAction.LERP_SIZE;
         this.oldRadius = oldRadius;
         this.newRadius = newRadius;
         this.speed = speed;
     }
 
     public ServerWorldBorderPacket(double centerX, double centerY) {
-        this.action = WorldBorderAction.SET_CENTER;
+        action = WorldBorderAction.SET_CENTER;
         this.centerX = centerX;
         this.centerY = centerY;
     }
 
     public ServerWorldBorderPacket(double centerX, double centerY, double oldRadius, double newRadius, long speed, int portalTeleportBoundary, int warningTime, int warningBlocks) {
-        this.action = WorldBorderAction.INITIALIZE;
+        action = WorldBorderAction.INITIALIZE;
         this.centerX = centerX;
         this.centerY = centerY;
         this.oldRadius = oldRadius;
@@ -64,107 +64,107 @@ public class ServerWorldBorderPacket implements Packet {
 
     public ServerWorldBorderPacket(int warning, boolean time) {
         if(time) {
-            this.action = WorldBorderAction.SET_WARNING_TIME;
-            this.warningTime = warning;
+            action = WorldBorderAction.SET_WARNING_TIME;
+            warningTime = warning;
         } else {
-            this.action = WorldBorderAction.SET_WARNING_BLOCKS;
-            this.warningBlocks = warning;
+            action = WorldBorderAction.SET_WARNING_BLOCKS;
+            warningBlocks = warning;
         }
     }
 
     public WorldBorderAction getAction() {
-        return this.action;
+        return action;
     }
 
     public double getRadius() {
-        return this.radius;
+        return radius;
     }
 
     public double getOldRadius() {
-        return this.oldRadius;
+        return oldRadius;
     }
 
     public double getNewRadius() {
-        return this.newRadius;
+        return newRadius;
     }
 
     public long getSpeed() {
-        return this.speed;
+        return speed;
     }
 
     public double getCenterX() {
-        return this.centerX;
+        return centerX;
     }
 
     public double getCenterY() {
-        return this.centerY;
+        return centerY;
     }
 
     public int getPortalTeleportBoundary() {
-        return this.portalTeleportBoundary;
+        return portalTeleportBoundary;
     }
 
     public int getWarningTime() {
-        return this.warningTime;
+        return warningTime;
     }
 
     public int getWarningBlocks() {
-        return this.warningBlocks;
+        return warningBlocks;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(WorldBorderAction.class, in.readVarInt());
-        if(this.action == WorldBorderAction.SET_SIZE) {
-            this.radius = in.readDouble();
-        } else if(this.action == WorldBorderAction.LERP_SIZE) {
-            this.oldRadius = in.readDouble();
-            this.newRadius = in.readDouble();
-            this.speed = in.readVarLong();
-        } else if(this.action == WorldBorderAction.SET_CENTER) {
-            this.centerX = in.readDouble();
-            this.centerY = in.readDouble();
-        } else if(this.action == WorldBorderAction.INITIALIZE) {
-            this.centerX = in.readDouble();
-            this.centerY = in.readDouble();
-            this.oldRadius = in.readDouble();
-            this.newRadius = in.readDouble();
-            this.speed = in.readVarLong();
-            this.portalTeleportBoundary = in.readVarInt();
-            this.warningTime = in.readVarInt();
-            this.warningBlocks = in.readVarInt();
-        } else if(this.action == WorldBorderAction.SET_WARNING_TIME) {
-            this.warningTime = in.readVarInt();
-        } else if(this.action == WorldBorderAction.SET_WARNING_BLOCKS) {
-            this.warningBlocks = in.readVarInt();
+        action = MagicValues.key(WorldBorderAction.class, in.readVarInt());
+        if(action == WorldBorderAction.SET_SIZE) {
+            radius = in.readDouble();
+        } else if(action == WorldBorderAction.LERP_SIZE) {
+            oldRadius = in.readDouble();
+            newRadius = in.readDouble();
+            speed = in.readVarLong();
+        } else if(action == WorldBorderAction.SET_CENTER) {
+            centerX = in.readDouble();
+            centerY = in.readDouble();
+        } else if(action == WorldBorderAction.INITIALIZE) {
+            centerX = in.readDouble();
+            centerY = in.readDouble();
+            oldRadius = in.readDouble();
+            newRadius = in.readDouble();
+            speed = in.readVarLong();
+            portalTeleportBoundary = in.readVarInt();
+            warningTime = in.readVarInt();
+            warningBlocks = in.readVarInt();
+        } else if(action == WorldBorderAction.SET_WARNING_TIME) {
+            warningTime = in.readVarInt();
+        } else if(action == WorldBorderAction.SET_WARNING_BLOCKS) {
+            warningBlocks = in.readVarInt();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        if(this.action == WorldBorderAction.SET_SIZE) {
-            out.writeDouble(this.radius);
-        } else if(this.action == WorldBorderAction.LERP_SIZE) {
-            out.writeDouble(this.oldRadius);
-            out.writeDouble(this.newRadius);
-            out.writeVarLong(this.speed);
-        } else if(this.action == WorldBorderAction.SET_CENTER) {
-            out.writeDouble(this.centerX);
-            out.writeDouble(this.centerY);
-        } else if(this.action == WorldBorderAction.INITIALIZE) {
-            out.writeDouble(this.centerX);
-            out.writeDouble(this.centerY);
-            out.writeDouble(this.oldRadius);
-            out.writeDouble(this.newRadius);
-            out.writeVarLong(this.speed);
-            out.writeVarInt(this.portalTeleportBoundary);
-            out.writeVarInt(this.warningTime);
-            out.writeVarInt(this.warningBlocks);
-        } else if(this.action == WorldBorderAction.SET_WARNING_TIME) {
-            out.writeVarInt(this.warningTime);
-        } else if(this.action == WorldBorderAction.SET_WARNING_BLOCKS) {
-            out.writeVarInt(this.warningBlocks);
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        if(action == WorldBorderAction.SET_SIZE) {
+            out.writeDouble(radius);
+        } else if(action == WorldBorderAction.LERP_SIZE) {
+            out.writeDouble(oldRadius);
+            out.writeDouble(newRadius);
+            out.writeVarLong(speed);
+        } else if(action == WorldBorderAction.SET_CENTER) {
+            out.writeDouble(centerX);
+            out.writeDouble(centerY);
+        } else if(action == WorldBorderAction.INITIALIZE) {
+            out.writeDouble(centerX);
+            out.writeDouble(centerY);
+            out.writeDouble(oldRadius);
+            out.writeDouble(newRadius);
+            out.writeVarLong(speed);
+            out.writeVarInt(portalTeleportBoundary);
+            out.writeVarInt(warningTime);
+            out.writeVarInt(warningBlocks);
+        } else if(action == WorldBorderAction.SET_WARNING_TIME) {
+            out.writeVarInt(warningTime);
+        } else if(action == WorldBorderAction.SET_WARNING_BLOCKS) {
+            out.writeVarInt(warningBlocks);
         }
     }
 

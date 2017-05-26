@@ -20,17 +20,17 @@ public class ClientCloseWindowPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readByte();
+        windowId = in.readByte();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
+        out.writeByte(windowId);
     }
 
     @Override

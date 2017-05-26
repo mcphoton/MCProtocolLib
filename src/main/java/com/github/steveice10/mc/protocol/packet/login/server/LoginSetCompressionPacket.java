@@ -19,17 +19,17 @@ public class LoginSetCompressionPacket implements Packet {
     }
 
     public int getThreshold() {
-        return this.threshold;
+        return threshold;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.threshold = in.readVarInt();
+        threshold = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.threshold);
+        out.writeVarInt(threshold);
     }
 
     @Override

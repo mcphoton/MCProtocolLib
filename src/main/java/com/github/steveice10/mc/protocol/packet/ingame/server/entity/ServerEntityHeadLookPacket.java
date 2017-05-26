@@ -23,23 +23,23 @@ public class ServerEntityHeadLookPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public float getHeadYaw() {
-        return this.headYaw;
+        return headYaw;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.headYaw = in.readByte() * F_2PI / 256f;
+        entityId = in.readVarInt();
+        headYaw = in.readByte() * F_2PI / 256f;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeByte((byte)(this.headYaw * 256f / F_2PI));
+        out.writeVarInt(entityId);
+        out.writeByte((byte)(headYaw * 256f / F_2PI));
     }
 
     @Override

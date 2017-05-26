@@ -29,29 +29,29 @@ public class ClientPlayerActionPacket implements Packet {
     }
 
     public PlayerAction getAction() {
-        return this.action;
+        return action;
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public BlockFace getFace() {
-        return this.face;
+        return face;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(PlayerAction.class, in.readVarInt());
-        this.position = NetUtil.readPosition(in);
-        this.face = MagicValues.key(BlockFace.class, in.readUnsignedByte());
+        action = MagicValues.key(PlayerAction.class, in.readVarInt());
+        position = NetUtil.readPosition(in);
+        face = MagicValues.key(BlockFace.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.face));
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        NetUtil.writePosition(out, position);
+        out.writeByte(MagicValues.value(Integer.class, face));
     }
 
     @Override

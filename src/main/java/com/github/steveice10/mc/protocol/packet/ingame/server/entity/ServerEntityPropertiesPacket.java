@@ -29,17 +29,17 @@ public class ServerEntityPropertiesPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public List<Attribute> getAttributes() {
-        return this.attributes;
+        return attributes;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.attributes = new ArrayList<Attribute>();
+        entityId = in.readVarInt();
+        attributes = new ArrayList<Attribute>();
         int length = in.readInt();
         for(int index = 0; index < length; index++) {
             String key = in.readString();
@@ -50,15 +50,15 @@ public class ServerEntityPropertiesPacket implements Packet {
                 modifiers.add(new AttributeModifier(in.readUUID(), in.readDouble(), MagicValues.key(ModifierOperation.class, in.readByte())));
             }
 
-            this.attributes.add(new Attribute(MagicValues.key(AttributeType.class, key), value, modifiers));
+            attributes.add(new Attribute(MagicValues.key(AttributeType.class, key), value, modifiers));
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeInt(this.attributes.size());
-        for(Attribute attribute : this.attributes) {
+        out.writeVarInt(entityId);
+        out.writeInt(attributes.size());
+        for(Attribute attribute : attributes) {
             out.writeString(MagicValues.value(String.class, attribute.getType()));
             out.writeDouble(attribute.getValue());
             out.writeVarInt(attribute.getModifiers().size());

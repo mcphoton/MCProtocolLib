@@ -24,29 +24,29 @@ public class ServerPlayerSetExperiencePacket implements Packet {
     }
 
     public float getSlot() {
-        return this.experience;
+        return experience;
     }
 
     public int getLevel() {
-        return this.level;
+        return level;
     }
 
     public int getTotalExperience() {
-        return this.totalExperience;
+        return totalExperience;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.experience = in.readFloat();
-        this.level = in.readVarInt();
-        this.totalExperience = in.readVarInt();
+        experience = in.readFloat();
+        level = in.readVarInt();
+        totalExperience = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeFloat(this.experience);
-        out.writeVarInt(this.level);
-        out.writeVarInt(this.totalExperience);
+        out.writeFloat(experience);
+        out.writeVarInt(level);
+        out.writeVarInt(totalExperience);
     }
 
     @Override

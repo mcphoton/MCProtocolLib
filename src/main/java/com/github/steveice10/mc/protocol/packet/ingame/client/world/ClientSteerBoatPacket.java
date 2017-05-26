@@ -22,23 +22,23 @@ public class ClientSteerBoatPacket implements Packet {
     }
 
     public boolean getUnknown1() {
-        return this.unk1;
+        return unk1;
     }
 
     public boolean getUnknown2() {
-        return this.unk2;
+        return unk2;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.unk1 = in.readBoolean();
-        this.unk2 = in.readBoolean();
+        unk1 = in.readBoolean();
+        unk2 = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeBoolean(this.unk1);
-        out.writeBoolean(this.unk2);
+        out.writeBoolean(unk1);
+        out.writeBoolean(unk2);
     }
 
     @Override

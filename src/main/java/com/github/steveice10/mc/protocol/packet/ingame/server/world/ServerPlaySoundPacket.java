@@ -35,11 +35,11 @@ public class ServerPlaySoundPacket implements Packet {
     }
 
     public Sound getSound() {
-        return this.sound;
+        return sound;
     }
 
     public SoundCategory getCategory() {
-        return this.category;
+        return category;
     }
 
     public Vector getPosition() {
@@ -47,47 +47,47 @@ public class ServerPlaySoundPacket implements Packet {
     }
 
     public float getVolume() {
-        return this.volume;
+        return volume;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
         String value = in.readString();
         try {
-            this.sound = MagicValues.key(BuiltinSound.class, value);
+            sound = MagicValues.key(BuiltinSound.class, value);
         } catch(IllegalArgumentException e) {
-            this.sound = new CustomSound(value);
+            sound = new CustomSound(value);
         }
 
-        this.category = MagicValues.key(SoundCategory.class, in.readVarInt());
+        category = MagicValues.key(SoundCategory.class, in.readVarInt());
         double x = in.readInt() / 8D;
         double y = in.readInt() / 8D;
         double z = in.readInt() / 8D;
         position = new Vector(x,y,z);
-        this.volume = in.readFloat();
-        this.pitch = in.readFloat();
+        volume = in.readFloat();
+        pitch = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         String value = "";
-        if(this.sound instanceof CustomSound) {
-            value = ((CustomSound) this.sound).getName();
-        } else if(this.sound instanceof BuiltinSound) {
-            value = MagicValues.value(String.class, this.sound);
+        if(sound instanceof CustomSound) {
+            value = ((CustomSound)sound).getName();
+        } else if(sound instanceof BuiltinSound) {
+            value = MagicValues.value(String.class, sound);
         }
 
         out.writeString(value);
-        out.writeVarInt(MagicValues.value(Integer.class, this.category));
+        out.writeVarInt(MagicValues.value(Integer.class, category));
         out.writeInt((int) (position.getX() * 8));
         out.writeInt((int) (position.getY() * 8));
         out.writeInt((int) (position.getZ() * 8));
-        out.writeFloat(this.volume);
-        out.writeFloat(this.pitch);
+        out.writeFloat(volume);
+        out.writeFloat(pitch);
     }
 
     @Override

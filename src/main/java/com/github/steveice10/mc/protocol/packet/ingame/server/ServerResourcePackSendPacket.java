@@ -21,23 +21,23 @@ public class ServerResourcePackSendPacket implements Packet {
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
     }
 
     public String getHash() {
-        return this.hash;
+        return hash;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.url = in.readString();
-        this.hash = in.readString();
+        url = in.readString();
+        hash = in.readString();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.url);
-        out.writeString(this.hash);
+        out.writeString(url);
+        out.writeString(hash);
     }
 
     @Override

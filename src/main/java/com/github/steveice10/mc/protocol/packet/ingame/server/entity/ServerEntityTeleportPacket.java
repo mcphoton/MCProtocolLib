@@ -30,7 +30,7 @@ public class ServerEntityTeleportPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Vector getPosition() {
@@ -38,38 +38,38 @@ public class ServerEntityTeleportPacket implements Packet {
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     public boolean isOnGround() {
-        return this.onGround;
+        return onGround;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
+        entityId = in.readVarInt();
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
         position = new Vector(x, y, z);
-        this.yaw = in.readByte() * F_2PI / 256f;
-        this.pitch = in.readByte() * F_2PI / 256f;
-        this.onGround = in.readBoolean();
+        yaw = in.readByte() * F_2PI / 256f;
+        pitch = in.readByte() * F_2PI / 256f;
+        onGround = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
+        out.writeVarInt(entityId);
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
-        out.writeByte((byte)(this.yaw * 256 / F_2PI));
-        out.writeByte((byte)(this.pitch * 256 / F_2PI));
-        out.writeBoolean(this.onGround);
+        out.writeByte((byte)(yaw * 256 / F_2PI));
+        out.writeByte((byte)(pitch * 256 / F_2PI));
+        out.writeBoolean(onGround);
     }
 
     @Override

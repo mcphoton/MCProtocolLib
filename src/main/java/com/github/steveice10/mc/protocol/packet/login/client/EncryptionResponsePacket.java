@@ -22,30 +22,30 @@ public class EncryptionResponsePacket implements Packet {
     }
 
     public EncryptionResponsePacket(SecretKey secretKey, PublicKey publicKey, byte verifyToken[]) {
-        this.sharedKey = CryptUtil.encryptData(publicKey, secretKey.getEncoded());
+        sharedKey = CryptUtil.encryptData(publicKey, secretKey.getEncoded());
         this.verifyToken = CryptUtil.encryptData(publicKey, verifyToken);
     }
 
     public SecretKey getSecretKey(PrivateKey privateKey) {
-        return CryptUtil.decryptSharedKey(privateKey, this.sharedKey);
+        return CryptUtil.decryptSharedKey(privateKey, sharedKey);
     }
 
     public byte[] getVerifyToken(PrivateKey privateKey) {
-        return CryptUtil.decryptData(privateKey, this.verifyToken);
+        return CryptUtil.decryptData(privateKey, verifyToken);
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.sharedKey = in.readBytes(in.readVarInt());
-        this.verifyToken = in.readBytes(in.readVarInt());
+        sharedKey = in.readBytes(in.readVarInt());
+        verifyToken = in.readBytes(in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.sharedKey.length);
-        out.writeBytes(this.sharedKey);
-        out.writeVarInt(this.verifyToken.length);
-        out.writeBytes(this.verifyToken);
+        out.writeVarInt(sharedKey.length);
+        out.writeBytes(sharedKey);
+        out.writeVarInt(verifyToken.length);
+        out.writeBytes(verifyToken);
     }
 
     @Override

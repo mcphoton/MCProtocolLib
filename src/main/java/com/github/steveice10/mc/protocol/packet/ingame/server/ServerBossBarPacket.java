@@ -25,8 +25,7 @@ public class ServerBossBarPacket implements Packet {
     private boolean dragonBar;
 
     @SuppressWarnings("unused")
-    private ServerBossBarPacket() {
-    }
+    private ServerBossBarPacket() {}
 
     public ServerBossBarPacket(UUID uuid, BossBarAction action, Message title, float health, BossBarColor color, BossBarDivision division, boolean darkenSky, boolean dragonBar) {
         this.uuid = uuid;
@@ -76,87 +75,87 @@ public class ServerBossBarPacket implements Packet {
     }
 
     public UUID getUUID() {
-        return this.uuid;
+        return uuid;
     }
 
     public BossBarAction getAction() {
-        return this.action;
+        return action;
     }
 
     public Message getTitle() {
-        return this.title;
+        return title;
     }
 
     public float getHealth() {
-        return this.health;
+        return health;
     }
 
     public BossBarColor getColor() {
-        return this.color;
+        return color;
     }
 
     public BossBarDivision getDivision() {
-        return this.division;
+        return division;
     }
 
     public boolean getDarkenSky() {
-        return this.darkenSky;
+        return darkenSky;
     }
 
     public boolean isDragonBar() {
-        return this.dragonBar;
+        return dragonBar;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.uuid = in.readUUID();
-        this.action = MagicValues.key(BossBarAction.class, in.readVarInt());
+        uuid = in.readUUID();
+        action = MagicValues.key(BossBarAction.class, in.readVarInt());
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
-            this.title = Message.fromString(in.readString());
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_TITLE) {
+            title = Message.fromString(in.readString());
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_HEALTH) {
-            this.health = in.readFloat();
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_HEALTH) {
+            health = in.readFloat();
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            this.color = MagicValues.key(BossBarColor.class, in.readVarInt());
-            this.division = MagicValues.key(BossBarDivision.class, in.readVarInt());
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_STYLE) {
+            color = MagicValues.key(BossBarColor.class, in.readVarInt());
+            division = MagicValues.key(BossBarDivision.class, in.readVarInt());
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_FLAGS) {
             int flags = in.readUnsignedByte();
-            this.darkenSky = (flags & 0x1) == 0x1;
-            this.dragonBar = (flags & 0x2) == 0x2;
+            darkenSky = (flags & 0x1) == 0x1;
+            dragonBar = (flags & 0x2) == 0x2;
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeUUID(this.uuid);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
+        out.writeUUID(uuid);
+        out.writeVarInt(MagicValues.value(Integer.class, action));
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_TITLE) {
-            out.writeString(this.title.toJsonString());
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_TITLE) {
+            out.writeString(title.toJsonString());
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_HEALTH) {
-            out.writeFloat(this.health);
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_HEALTH) {
+            out.writeFloat(health);
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_STYLE) {
-            out.writeVarInt(MagicValues.value(Integer.class, this.color));
-            out.writeVarInt(MagicValues.value(Integer.class, this.division));
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_STYLE) {
+            out.writeVarInt(MagicValues.value(Integer.class, color));
+            out.writeVarInt(MagicValues.value(Integer.class, division));
         }
 
-        if(this.action == BossBarAction.ADD || this.action == BossBarAction.UPDATE_FLAGS) {
+        if(action == BossBarAction.ADD || action == BossBarAction.UPDATE_FLAGS) {
             int flags = 0;
-            if(this.darkenSky) {
+            if(darkenSky) {
                 flags |= 0x1;
             }
 
-            if(this.dragonBar) {
+            if(dragonBar) {
                 flags |= 0x2;
             }
 

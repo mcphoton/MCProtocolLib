@@ -24,7 +24,7 @@ public class ServerChunkDataPacket implements Packet {
     }
 
     public Column getColumn() {
-        return this.column;
+        return column;
     }
 
     @Override
@@ -39,23 +39,23 @@ public class ServerChunkDataPacket implements Packet {
             tileEntities[i] = NetUtil.readNBT(in);
         }
 
-        this.column = NetUtil.readColumn(data, x, z, fullChunk, false, chunkMask, tileEntities);
+        column = NetUtil.readColumn(data, x, z, fullChunk, false, chunkMask, tileEntities);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         NetOutput netOut = new StreamNetOutput(byteOut);
-        int mask = NetUtil.writeColumn(netOut, this.column, this.column.hasBiomeData(), this.column.hasSkylight());
+        int mask = NetUtil.writeColumn(netOut, column, column.hasBiomeData(), column.hasSkylight());
 
-        out.writeInt(this.column.getX());
-        out.writeInt(this.column.getZ());
-        out.writeBoolean(this.column.hasBiomeData());
+        out.writeInt(column.getX());
+        out.writeInt(column.getZ());
+        out.writeBoolean(column.hasBiomeData());
         out.writeVarInt(mask);
         out.writeVarInt(byteOut.size());
         out.writeBytes(byteOut.toByteArray(), byteOut.size());
-        out.writeVarInt(this.column.getTileEntities().length);
-        for(CompoundTag tag : this.column.getTileEntities()) {
+        out.writeVarInt(column.getTileEntities().length);
+        for(CompoundTag tag : column.getTileEntities()) {
             NetUtil.writeNBT(out, tag);
         }
     }

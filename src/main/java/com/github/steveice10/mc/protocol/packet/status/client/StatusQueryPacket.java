@@ -9,8 +9,7 @@ import java.io.IOException;
 
 public class StatusQueryPacket implements Packet {
 
-    public StatusQueryPacket() {
-    }
+    public StatusQueryPacket() {}
 
     @Override
     public void read(NetInput in) throws IOException {

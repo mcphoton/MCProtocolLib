@@ -30,29 +30,29 @@ public class ClientPlayerStatePacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public PlayerState getState() {
-        return this.state;
+        return state;
     }
 
     public int getJumpBoost() {
-        return this.jumpBoost;
+        return jumpBoost;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.state = MagicValues.key(PlayerState.class, in.readVarInt());
-        this.jumpBoost = in.readVarInt();
+        entityId = in.readVarInt();
+        state = MagicValues.key(PlayerState.class, in.readVarInt());
+        jumpBoost = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues.value(Integer.class, this.state));
-        out.writeVarInt(this.jumpBoost);
+        out.writeVarInt(entityId);
+        out.writeVarInt(MagicValues.value(Integer.class, state));
+        out.writeVarInt(jumpBoost);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class ServerSpawnExpOrbPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Vector getPosition() {
@@ -30,7 +30,7 @@ public class ServerSpawnExpOrbPacket implements Packet {
     }
 
     public int getExp() {
-        return this.exp;
+        return exp;
     }
 
     @Override

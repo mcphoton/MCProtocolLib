@@ -24,23 +24,23 @@ public class ServerEntityAnimationPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Animation getAnimation() {
-        return this.animation;
+        return animation;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.animation = MagicValues.key(Animation.class, in.readUnsignedByte());
+        entityId = in.readVarInt();
+        animation = MagicValues.key(Animation.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.animation));
+        out.writeVarInt(entityId);
+        out.writeByte(MagicValues.value(Integer.class, animation));
     }
 
     @Override

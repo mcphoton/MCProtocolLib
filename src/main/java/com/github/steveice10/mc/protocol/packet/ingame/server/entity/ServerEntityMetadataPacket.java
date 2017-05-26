@@ -31,13 +31,13 @@ public class ServerEntityMetadataPacket implements Packet {
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
+        entityId = in.readVarInt();
+        metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
+        out.writeVarInt(entityId);
         metadata.write(out);
     }
 

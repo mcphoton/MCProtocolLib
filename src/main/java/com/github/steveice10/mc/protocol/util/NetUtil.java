@@ -209,11 +209,11 @@ public class NetUtil {
 
         @Override
         public int read() throws IOException {
-            if (!this.readFirst) {
-                this.readFirst = true;
-                return this.firstByte;
+            if (!readFirst) {
+                readFirst = true;
+                return firstByte;
             } else {
-                return this.in.readUnsignedByte();
+                return in.readUnsignedByte();
             }
         }
     }
@@ -227,7 +227,7 @@ public class NetUtil {
 
         @Override
         public void write(int b) throws IOException {
-            this.out.writeByte(b);
+            out.writeByte(b);
         }
     }
 }

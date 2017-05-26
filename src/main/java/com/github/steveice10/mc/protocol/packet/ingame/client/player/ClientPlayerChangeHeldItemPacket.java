@@ -20,17 +20,17 @@ public class ClientPlayerChangeHeldItemPacket implements Packet {
     }
 
     public int getSlot() {
-        return this.slot;
+        return slot;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.slot = in.readShort();
+        slot = in.readShort();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeShort(this.slot);
+        out.writeShort(slot);
     }
 
     @Override

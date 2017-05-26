@@ -33,11 +33,11 @@ public class ServerExplosionPacket implements Packet {
     }
 
     public float getRadius() {
-        return this.radius;
+        return radius;
     }
 
     public List<ExplodedBlockRecord> getExploded() {
-        return this.exploded;
+        return exploded;
     }
 
     public Vector getPushVelocity() {
@@ -50,8 +50,8 @@ public class ServerExplosionPacket implements Packet {
         float y = in.readFloat();
         float z = in.readFloat();
         position = new Vector(x, y, z);
-        this.radius = in.readFloat();
-        this.exploded = new ArrayList<ExplodedBlockRecord>();
+        radius = in.readFloat();
+        exploded = new ArrayList<ExplodedBlockRecord>();
         int length = in.readInt();
         for (int count = 0; count < length; count++) {
             exploded.add(new ExplodedBlockRecord(in.readByte(), in.readByte(), in.readByte()));
@@ -68,9 +68,9 @@ public class ServerExplosionPacket implements Packet {
         out.writeFloat((float)position.getX());
         out.writeFloat((float)position.getY());
         out.writeFloat((float)position.getZ());
-        out.writeFloat(this.radius);
-        out.writeInt(this.exploded.size());
-        for (ExplodedBlockRecord record : this.exploded) {
+        out.writeFloat(radius);
+        out.writeInt(exploded.size());
+        for (ExplodedBlockRecord record : exploded) {
             out.writeByte(record.getX());
             out.writeByte(record.getY());
             out.writeByte(record.getZ());

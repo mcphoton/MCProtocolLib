@@ -28,26 +28,26 @@ public class ClientUpdateSignPacket implements Packet {
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public String[] getLines() {
-        return this.lines;
+        return lines;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
-        this.lines = new String[4];
-        for(int count = 0; count < this.lines.length; count++) {
-            this.lines[count] = in.readString();
+        position = NetUtil.readPosition(in);
+        lines = new String[4];
+        for(int count = 0; count < lines.length; count++) {
+            lines[count] = in.readString();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
-        for(String line : this.lines) {
+        NetUtil.writePosition(out, position);
+        for(String line : lines) {
             out.writeString(line);
         }
     }

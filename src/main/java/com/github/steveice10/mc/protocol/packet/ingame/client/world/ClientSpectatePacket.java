@@ -20,17 +20,17 @@ public class ClientSpectatePacket implements Packet {
     }
 
     public UUID getTarget() {
-        return this.target;
+        return target;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.target = in.readUUID();
+        target = in.readUUID();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeUUID(this.target);
+        out.writeUUID(target);
     }
 
     @Override

@@ -20,17 +20,17 @@ public class ClientKeepAlivePacket implements Packet {
     }
 
     public int getPingId() {
-        return this.id;
+        return id;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.id = in.readVarInt();
+        id = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.id);
+        out.writeVarInt(id);
     }
 
     @Override

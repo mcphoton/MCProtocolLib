@@ -29,29 +29,29 @@ public class ServerUpdateTileEntityPacket implements Packet {
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public UpdatedTileType getType() {
-        return this.type;
+        return type;
     }
 
     public CompoundTag getNBT() {
-        return this.nbt;
+        return nbt;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
-        this.type = MagicValues.key(UpdatedTileType.class, in.readUnsignedByte());
-        this.nbt = NetUtil.readNBT(in);
+        position = NetUtil.readPosition(in);
+        type = MagicValues.key(UpdatedTileType.class, in.readUnsignedByte());
+        nbt = NetUtil.readNBT(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.type));
-        NetUtil.writeNBT(out, this.nbt);
+        NetUtil.writePosition(out, position);
+        out.writeByte(MagicValues.value(Integer.class, type));
+        NetUtil.writeNBT(out, nbt);
     }
 
     @Override

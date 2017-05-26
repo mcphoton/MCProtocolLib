@@ -22,17 +22,17 @@ public class ServerDifficultyPacket implements Packet {
     }
 
     public Difficulty getDifficulty() {
-        return this.difficulty;
+        return difficulty;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
+        difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(MagicValues.value(Integer.class, this.difficulty));
+        out.writeByte(MagicValues.value(Integer.class, difficulty));
     }
 
     @Override

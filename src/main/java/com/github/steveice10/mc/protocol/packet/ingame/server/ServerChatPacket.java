@@ -37,23 +37,23 @@ public class ServerChatPacket implements Packet {
     }
 
     public Message getMessage() {
-        return this.message;
+        return message;
     }
 
     public MessageType getType() {
-        return this.type;
+        return type;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.message = Message.fromString(in.readString());
-        this.type = MagicValues.key(MessageType.class, in.readByte());
+        message = Message.fromString(in.readString());
+        type = MagicValues.key(MessageType.class, in.readByte());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.message.toJsonString());
-        out.writeByte(MagicValues.value(Integer.class, this.type));
+        out.writeString(message.toJsonString());
+        out.writeByte(MagicValues.value(Integer.class, type));
     }
 
     @Override

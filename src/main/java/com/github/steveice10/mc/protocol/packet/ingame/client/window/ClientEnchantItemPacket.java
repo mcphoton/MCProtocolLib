@@ -22,23 +22,23 @@ public class ClientEnchantItemPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public int getEnchantment() {
-        return this.enchantment;
+        return enchantment;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readByte();
-        this.enchantment = in.readByte();
+        windowId = in.readByte();
+        enchantment = in.readByte();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeByte(this.enchantment);
+        out.writeByte(windowId);
+        out.writeByte(enchantment);
     }
 
     @Override

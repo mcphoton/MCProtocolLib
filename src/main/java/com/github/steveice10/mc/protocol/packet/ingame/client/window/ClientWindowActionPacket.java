@@ -42,79 +42,79 @@ public class ClientWindowActionPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public int getActionId() {
-        return this.actionId;
+        return actionId;
     }
 
     public int getSlot() {
-        return this.slot;
+        return slot;
     }
 
     public ItemStack getClickedItem() {
-        return this.clicked;
+        return clicked;
     }
 
     public WindowAction getAction() {
-        return this.action;
+        return action;
     }
 
     public WindowActionParam getParam() {
-        return this.param;
+        return param;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readByte();
-        this.slot = in.readShort();
+        windowId = in.readByte();
+        slot = in.readShort();
         byte param = in.readByte();
-        this.actionId = in.readShort();
-        this.action = MagicValues.key(WindowAction.class, in.readByte());
-        this.clicked = NetUtil.readItem(in);
-        if(this.action == WindowAction.CLICK_ITEM) {
+        actionId = in.readShort();
+        action = MagicValues.key(WindowAction.class, in.readByte());
+        clicked = NetUtil.readItem(in);
+        if(action == WindowAction.CLICK_ITEM) {
             this.param = MagicValues.key(ClickItemParam.class, param);
-        } else if(this.action == WindowAction.SHIFT_CLICK_ITEM) {
+        } else if(action == WindowAction.SHIFT_CLICK_ITEM) {
             this.param = MagicValues.key(ShiftClickItemParam.class, param);
-        } else if(this.action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
+        } else if(action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
             this.param = MagicValues.key(MoveToHotbarParam.class, param);
-        } else if(this.action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
+        } else if(action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
             this.param = MagicValues.key(CreativeGrabParam.class, param);
-        } else if(this.action == WindowAction.DROP_ITEM) {
-            this.param = MagicValues.key(DropItemParam.class, param + (this.slot != -999 ? 2 : 0));
-        } else if(this.action == WindowAction.SPREAD_ITEM) {
+        } else if(action == WindowAction.DROP_ITEM) {
+            this.param = MagicValues.key(DropItemParam.class, param + (slot != -999 ? 2 : 0));
+        } else if(action == WindowAction.SPREAD_ITEM) {
             this.param = MagicValues.key(SpreadItemParam.class, param);
-        } else if(this.action == WindowAction.FILL_STACK) {
+        } else if(action == WindowAction.FILL_STACK) {
             this.param = MagicValues.key(FillStackParam.class, param);
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeShort(this.slot);
+        out.writeByte(windowId);
+        out.writeShort(slot);
         int param = 0;
-        if(this.action == WindowAction.CLICK_ITEM) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
-        } else if(this.action == WindowAction.SHIFT_CLICK_ITEM) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
-        } else if(this.action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
-        } else if(this.action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
-        } else if(this.action == WindowAction.DROP_ITEM) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param) + (this.slot != -999 ? 2 : 0);
-        } else if(this.action == WindowAction.SPREAD_ITEM) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
-        } else if(this.action == WindowAction.FILL_STACK) {
-            param = MagicValues.value(Integer.class, (Enum<?>) this.param);
+        if(action == WindowAction.CLICK_ITEM) {
+            param = MagicValues.value(Integer.class, this.param);
+        } else if(action == WindowAction.SHIFT_CLICK_ITEM) {
+            param = MagicValues.value(Integer.class, this.param);
+        } else if(action == WindowAction.MOVE_TO_HOTBAR_SLOT) {
+            param = MagicValues.value(Integer.class, this.param);
+        } else if(action == WindowAction.CREATIVE_GRAB_MAX_STACK) {
+            param = MagicValues.value(Integer.class, this.param);
+        } else if(action == WindowAction.DROP_ITEM) {
+            param = MagicValues.value(Integer.class, this.param) + (slot != -999 ? 2 : 0);
+        } else if(action == WindowAction.SPREAD_ITEM) {
+            param = MagicValues.value(Integer.class, this.param);
+        } else if(action == WindowAction.FILL_STACK) {
+            param = MagicValues.value(Integer.class, this.param);
         }
 
         out.writeByte(param);
-        out.writeShort(this.actionId);
-        out.writeByte(MagicValues.value(Integer.class, this.action));
-        NetUtil.writeItem(out, this.clicked);
+        out.writeShort(actionId);
+        out.writeByte(MagicValues.value(Integer.class, action));
+        NetUtil.writeItem(out, clicked);
     }
 
     @Override

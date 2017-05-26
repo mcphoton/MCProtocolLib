@@ -24,23 +24,23 @@ public class ClientCreativeInventoryActionPacket implements Packet {
     }
 
     public int getSlot() {
-        return this.slot;
+        return slot;
     }
 
     public ItemStack getClickedItem() {
-        return this.clicked;
+        return clicked;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.slot = in.readShort();
-        this.clicked = NetUtil.readItem(in);
+        slot = in.readShort();
+        clicked = NetUtil.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeShort(this.slot);
-        NetUtil.writeItem(out, this.clicked);
+        out.writeShort(slot);
+        NetUtil.writeItem(out, clicked);
     }
 
     @Override

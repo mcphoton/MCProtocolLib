@@ -19,7 +19,7 @@ public class ServerCombatPacket implements Packet {
     private Message message;
 
     public ServerCombatPacket() {
-        this.state = CombatState.ENTER_COMBAT;
+        state = CombatState.ENTER_COMBAT;
     }
 
     public ServerCombatPacket(int entityId, int duration) {
@@ -36,48 +36,48 @@ public class ServerCombatPacket implements Packet {
     }
 
     public CombatState getCombatState() {
-        return this.state;
+        return state;
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public int getDuration() {
-        return this.duration;
+        return duration;
     }
 
     public int getPlayerId() {
-        return this.playerId;
+        return playerId;
     }
 
     public Message getMessage() {
-        return this.message;
+        return message;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.state = MagicValues.key(CombatState.class, in.readVarInt());
-        if(this.state == CombatState.END_COMBAT) {
-            this.duration = in.readVarInt();
-            this.entityId = in.readInt();
-        } else if(this.state == CombatState.ENTITY_DEAD) {
-            this.playerId = in.readVarInt();
-            this.entityId = in.readInt();
-            this.message = Message.fromString(in.readString());
+        state = MagicValues.key(CombatState.class, in.readVarInt());
+        if(state == CombatState.END_COMBAT) {
+            duration = in.readVarInt();
+            entityId = in.readInt();
+        } else if(state == CombatState.ENTITY_DEAD) {
+            playerId = in.readVarInt();
+            entityId = in.readInt();
+            message = Message.fromString(in.readString());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.state));
-        if(this.state == CombatState.END_COMBAT) {
-            out.writeVarInt(this.duration);
-            out.writeInt(this.entityId);
-        } else if(this.state == CombatState.ENTITY_DEAD) {
-            out.writeVarInt(this.playerId);
-            out.writeInt(this.entityId);
-            out.writeString(this.message.toJsonString());
+        out.writeVarInt(MagicValues.value(Integer.class, state));
+        if(state == CombatState.END_COMBAT) {
+            out.writeVarInt(duration);
+            out.writeInt(entityId);
+        } else if(state == CombatState.ENTITY_DEAD) {
+            out.writeVarInt(playerId);
+            out.writeInt(entityId);
+            out.writeString(message.toJsonString());
         }
     }
 

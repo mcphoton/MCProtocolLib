@@ -30,31 +30,31 @@ public class ClientTabCompletePacket implements Packet {
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     public boolean getAssumeCommand() {
-        return this.assumeCommand;
+        return assumeCommand;
     }
 
     public IntPosition getLookingAt() {
-        return this.lookingAt;
+        return lookingAt;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.text = in.readString();
-        this.assumeCommand = in.readBoolean();
-        this.lookingAt = in.readBoolean() ? NetUtil.readPosition(in) : null;
+        text = in.readString();
+        assumeCommand = in.readBoolean();
+        lookingAt = in.readBoolean() ? NetUtil.readPosition(in) : null;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.text);
-        out.writeBoolean(this.assumeCommand);
-        out.writeBoolean(this.lookingAt != null);
-        if(this.lookingAt != null) {
-            NetUtil.writePosition(out, this.lookingAt);
+        out.writeString(text);
+        out.writeBoolean(assumeCommand);
+        out.writeBoolean(lookingAt != null);
+        if(lookingAt != null) {
+            NetUtil.writePosition(out, lookingAt);
         }
     }
 

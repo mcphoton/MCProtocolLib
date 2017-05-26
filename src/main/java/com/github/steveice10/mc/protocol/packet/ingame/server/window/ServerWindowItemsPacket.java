@@ -24,27 +24,27 @@ public class ServerWindowItemsPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public ItemStack[] getItems() {
-        return this.items;
+        return items;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readUnsignedByte();
-        this.items = new ItemStack[in.readShort()];
-        for(int index = 0; index < this.items.length; index++) {
-            this.items[index] = NetUtil.readItem(in);
+        windowId = in.readUnsignedByte();
+        items = new ItemStack[in.readShort()];
+        for(int index = 0; index < items.length; index++) {
+            items[index] = NetUtil.readItem(in);
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeShort(this.items.length);
-        for(ItemStack item : this.items) {
+        out.writeByte(windowId);
+        out.writeShort(items.length);
+        for(ItemStack item : items) {
             NetUtil.writeItem(out, item);
         }
     }

@@ -22,17 +22,17 @@ public class ServerOpenTileEntityEditorPacket implements Packet {
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
+        position = NetUtil.readPosition(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
+        NetUtil.writePosition(out, position);
     }
 
     @Override

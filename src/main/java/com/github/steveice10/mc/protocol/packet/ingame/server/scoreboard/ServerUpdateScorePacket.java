@@ -23,49 +23,49 @@ public class ServerUpdateScorePacket implements Packet {
     public ServerUpdateScorePacket(String entry, String objective) {
         this.entry = entry;
         this.objective = objective;
-        this.action = ScoreboardAction.REMOVE;
+        action = ScoreboardAction.REMOVE;
     }
 
     public ServerUpdateScorePacket(String entry, String objective, int value) {
         this.entry = entry;
         this.objective = objective;
         this.value = value;
-        this.action = ScoreboardAction.ADD_OR_UPDATE;
+        action = ScoreboardAction.ADD_OR_UPDATE;
     }
 
     public String getEntry() {
-        return this.entry;
+        return entry;
     }
 
     public ScoreboardAction getAction() {
-        return this.action;
+        return action;
     }
 
     public String getObjective() {
-        return this.objective;
+        return objective;
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entry = in.readString();
-        this.action = MagicValues.key(ScoreboardAction.class, in.readVarInt());
-        this.objective = in.readString();
-        if(this.action == ScoreboardAction.ADD_OR_UPDATE) {
-            this.value = in.readVarInt();
+        entry = in.readString();
+        action = MagicValues.key(ScoreboardAction.class, in.readVarInt());
+        objective = in.readString();
+        if(action == ScoreboardAction.ADD_OR_UPDATE) {
+            value = in.readVarInt();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.entry);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        out.writeString(this.objective);
-        if(this.action == ScoreboardAction.ADD_OR_UPDATE) {
-            out.writeVarInt(this.value);
+        out.writeString(entry);
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        out.writeString(objective);
+        if(action == ScoreboardAction.ADD_OR_UPDATE) {
+            out.writeVarInt(value);
         }
     }
 

@@ -40,19 +40,19 @@ public class ServerPlayerPositionRotationPacket implements Packet {
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     public List<PositionElement> getRelativeElements() {
-        return this.relative;
+        return relative;
     }
 
     public int getTeleportId() {
-        return this.teleportId;
+        return teleportId;
     }
 
     @Override
@@ -61,18 +61,18 @@ public class ServerPlayerPositionRotationPacket implements Packet {
         double y = in.readDouble();
         double z = in.readDouble();
         position = new Vector(x,y,z);
-        this.yaw = in.readFloat();
-        this.pitch = in.readFloat();
-        this.relative = new ArrayList<PositionElement>();
+        yaw = in.readFloat();
+        pitch = in.readFloat();
+        relative = new ArrayList<PositionElement>();
         int flags = in.readUnsignedByte();
         for(PositionElement element : PositionElement.values()) {
             int bit = 1 << MagicValues.value(Integer.class, element);
             if((flags & bit) == bit) {
-                this.relative.add(element);
+                relative.add(element);
             }
         }
 
-        this.teleportId = in.readVarInt();
+        teleportId = in.readVarInt();
     }
 
     @Override
@@ -80,15 +80,15 @@ public class ServerPlayerPositionRotationPacket implements Packet {
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
-        out.writeFloat(this.yaw);
-        out.writeFloat(this.pitch);
+        out.writeFloat(yaw);
+        out.writeFloat(pitch);
         int flags = 0;
-        for(PositionElement element : this.relative) {
+        for(PositionElement element : relative) {
             flags |= 1 << MagicValues.value(Integer.class, element);
         }
 
         out.writeByte(flags);
-        out.writeVarInt(this.teleportId);
+        out.writeVarInt(teleportId);
     }
 
     @Override

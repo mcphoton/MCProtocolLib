@@ -34,8 +34,8 @@ public class ServerEntityRotationPacket implements Packet {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
-        out.writeByte((byte)(this.yaw * 256 / F_2PI));
-        out.writeByte((byte)(this.pitch * 256 / F_2PI));
+        out.writeByte((byte)(yaw * 256 / F_2PI));
+        out.writeByte((byte)(pitch * 256 / F_2PI));
         out.writeBoolean(onGround);
     }
 

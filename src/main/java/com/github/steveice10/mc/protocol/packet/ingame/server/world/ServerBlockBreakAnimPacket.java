@@ -28,33 +28,33 @@ public class ServerBlockBreakAnimPacket implements Packet {
     }
 
     public int getBreakerEntityId() {
-        return this.breakerEntityId;
+        return breakerEntityId;
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public BlockBreakStage getStage() {
-        return this.stage;
+        return stage;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.breakerEntityId = in.readVarInt();
-        this.position = NetUtil.readPosition(in);
+        breakerEntityId = in.readVarInt();
+        position = NetUtil.readPosition(in);
         try {
-            this.stage = MagicValues.key(BlockBreakStage.class, in.readUnsignedByte());
+            stage = MagicValues.key(BlockBreakStage.class, in.readUnsignedByte());
         } catch(IllegalArgumentException e) {
-            this.stage = BlockBreakStage.RESET;
+            stage = BlockBreakStage.RESET;
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.breakerEntityId);
-        NetUtil.writePosition(out, this.position);
-        out.writeByte(MagicValues.value(Integer.class, this.stage));
+        out.writeVarInt(breakerEntityId);
+        NetUtil.writePosition(out, position);
+        out.writeByte(MagicValues.value(Integer.class, stage));
     }
 
     @Override

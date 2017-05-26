@@ -20,21 +20,21 @@ public class ServerEntityDestroyPacket implements Packet {
     }
 
     public int[] getEntityIds() {
-        return this.entityIds;
+        return entityIds;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityIds = new int[in.readVarInt()];
-        for(int index = 0; index < this.entityIds.length; index++) {
-            this.entityIds[index] = in.readVarInt();
+        entityIds = new int[in.readVarInt()];
+        for(int index = 0; index < entityIds.length; index++) {
+            entityIds[index] = in.readVarInt();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityIds.length);
-        for(int entityId : this.entityIds) {
+        out.writeVarInt(entityIds.length);
+        for(int entityId : entityIds) {
             out.writeVarInt(entityId);
         }
     }

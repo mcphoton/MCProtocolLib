@@ -28,29 +28,29 @@ public class ServerEntityEquipmentPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public EquipmentSlot getSlot() {
-        return this.slot;
+        return slot;
     }
 
     public ItemStack getItem() {
-        return this.item;
+        return item;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.slot = MagicValues.key(EquipmentSlot.class, in.readVarInt());
-        this.item = NetUtil.readItem(in);
+        entityId = in.readVarInt();
+        slot = MagicValues.key(EquipmentSlot.class, in.readVarInt());
+        item = NetUtil.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues.value(Integer.class, this.slot));
-        NetUtil.writeItem(out, this.item);
+        out.writeVarInt(entityId);
+        out.writeVarInt(MagicValues.value(Integer.class, slot));
+        NetUtil.writeItem(out, item);
     }
 
     @Override

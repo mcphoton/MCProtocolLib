@@ -21,17 +21,17 @@ public class ClientPlayerSwingArmPacket implements Packet {
     }
 
     public Hand getHand() {
-        return this.hand;
+        return hand;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.hand = MagicValues.key(Hand.class, in.readVarInt());
+        hand = MagicValues.key(Hand.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.hand));
+        out.writeVarInt(MagicValues.value(Integer.class, hand));
     }
 
     @Override

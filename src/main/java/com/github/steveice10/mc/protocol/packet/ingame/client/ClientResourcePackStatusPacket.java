@@ -21,17 +21,17 @@ public class ClientResourcePackStatusPacket implements Packet {
     }
 
     public ResourcePackStatus getStatus() {
-        return this.status;
+        return status;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.status = MagicValues.key(ResourcePackStatus.class, in.readVarInt());
+        status = MagicValues.key(ResourcePackStatus.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.status));
+        out.writeVarInt(MagicValues.value(Integer.class, status));
     }
 
     @Override

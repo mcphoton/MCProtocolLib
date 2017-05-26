@@ -50,7 +50,7 @@ public class ServerListener extends SessionAdapter {
     private int lastPingId = 0;
 
     public ServerListener() {
-        new Random().nextBytes(this.verifyToken);
+        new Random().nextBytes(verifyToken);
     }
 
     @Override
@@ -85,18 +85,19 @@ public class ServerListener extends SessionAdapter {
 
         if(protocol.getSubProtocol() == SubProtocol.LOGIN) {
             if(event.getPacket() instanceof LoginStartPacket) {
-                this.username = event.<LoginStartPacket>getPacket().getUsername();
+                username = event.<LoginStartPacket>getPacket().getUsername();
 
                 boolean verify = event.getSession().hasFlag(MinecraftConstants.VERIFY_USERS_KEY) ? event.getSession().<Boolean>getFlag(MinecraftConstants.VERIFY_USERS_KEY) : true;
                 if(verify) {
-                    event.getSession().send(new EncryptionRequestPacket(this.serverId, KEY_PAIR.getPublic(), this.verifyToken));
+                    event.getSession().send(new EncryptionRequestPacket(serverId, KEY_PAIR.getPublic(),
+                                                                        verifyToken));
                 } else {
                     new Thread(new UserAuthTask(event.getSession(), null)).start();
                 }
             } else if(event.getPacket() instanceof EncryptionResponsePacket) {
                 EncryptionResponsePacket packet = event.getPacket();
                 PrivateKey privateKey = KEY_PAIR.getPrivate();
-                if(!Arrays.equals(this.verifyToken, packet.getVerifyToken(privateKey))) {
+                if(!Arrays.equals(verifyToken, packet.getVerifyToken(privateKey))) {
                     event.getSession().disconnect("Invalid nonce!");
                     return;
                 }
@@ -129,8 +130,8 @@ public class ServerListener extends SessionAdapter {
         if(protocol.getSubProtocol() == SubProtocol.GAME) {
             if(event.getPacket() instanceof ClientKeepAlivePacket) {
                 ClientKeepAlivePacket packet = event.getPacket();
-                if(packet.getPingId() == this.lastPingId) {
-                    long time = System.currentTimeMillis() - this.lastPingTime;
+                if(packet.getPingId() == lastPingId) {
+                    long time = System.currentTimeMillis() - lastPingTime;
                     event.getSession().setFlag(MinecraftConstants.PING_KEY, time);
                 }
             }
@@ -158,47 +159,49 @@ public class ServerListener extends SessionAdapter {
 
         @Override
         public void run() {
-            boolean verify = this.session.hasFlag(MinecraftConstants.VERIFY_USERS_KEY) ? this.session.<Boolean>getFlag(MinecraftConstants.VERIFY_USERS_KEY) : true;
+            boolean verify = session.hasFlag(MinecraftConstants.VERIFY_USERS_KEY) ? session.<Boolean>getFlag(MinecraftConstants.VERIFY_USERS_KEY) : true;
 
             GameProfile profile = null;
-            if(verify && this.key != null) {
-                Proxy proxy = this.session.<Proxy>getFlag(MinecraftConstants.AUTH_PROXY_KEY);
+            if(verify && key != null) {
+                Proxy proxy = session.getFlag(MinecraftConstants.AUTH_PROXY_KEY);
                 if(proxy == null) {
                     proxy = Proxy.NO_PROXY;
                 }
 
                 try {
-                    profile = new SessionService(proxy).getProfileByServer(username, new BigInteger(CryptUtil.getServerIdHash(serverId, KEY_PAIR.getPublic(), this.key)).toString(16));
+                    profile = new SessionService(proxy).getProfileByServer(username, new BigInteger(CryptUtil.getServerIdHash(serverId, KEY_PAIR.getPublic(),
+                                                                                                                              key)).toString(16));
                 } catch(RequestException e) {
-                    this.session.disconnect("Failed to make session service request.", e);
+                    session.disconnect("Failed to make session service request.", e);
                     return;
                 }
 
                 if(profile == null) {
-                    this.session.disconnect("Failed to verify username.");
+                    session.disconnect("Failed to verify username.");
                 }
             } else {
                 profile = new GameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes()), username);
             }
 
             int threshold;
-            if (this.session.hasFlag(MinecraftConstants.SERVER_COMPRESSION_THRESHOLD)) {
-                threshold = this.session.getFlag(MinecraftConstants.SERVER_COMPRESSION_THRESHOLD);
+            if (session.hasFlag(MinecraftConstants.SERVER_COMPRESSION_THRESHOLD)) {
+                threshold = session.getFlag(MinecraftConstants.SERVER_COMPRESSION_THRESHOLD);
             } else {
                 threshold = 256;
             }
 
-            this.session.send(new LoginSetCompressionPacket(threshold));
-            this.session.setCompressionThreshold(threshold);
-            this.session.send(new LoginSuccessPacket(profile));
-            this.session.setFlag(MinecraftConstants.PROFILE_KEY, profile);
-            ((MinecraftProtocol) this.session.getPacketProtocol()).setSubProtocol(SubProtocol.GAME, false, this.session);
-            ServerLoginHandler handler = this.session.getFlag(MinecraftConstants.SERVER_LOGIN_HANDLER_KEY);
+            session.send(new LoginSetCompressionPacket(threshold));
+            session.setCompressionThreshold(threshold);
+            session.send(new LoginSuccessPacket(profile));
+            session.setFlag(MinecraftConstants.PROFILE_KEY, profile);
+            ((MinecraftProtocol)session.getPacketProtocol()).setSubProtocol(SubProtocol.GAME, false,
+                                                                            session);
+            ServerLoginHandler handler = session.getFlag(MinecraftConstants.SERVER_LOGIN_HANDLER_KEY);
             if(handler != null) {
-                handler.loggedIn(this.session);
+                handler.loggedIn(session);
             }
 
-            new Thread(new KeepAliveTask(this.session)).start();
+            new Thread(new KeepAliveTask(session)).start();
         }
     }
 
@@ -211,10 +214,10 @@ public class ServerListener extends SessionAdapter {
 
         @Override
         public void run() {
-            while(this.session.isConnected()) {
+            while(session.isConnected()) {
                 lastPingTime = System.currentTimeMillis();
                 lastPingId = (int) lastPingTime;
-                this.session.send(new ServerKeepAlivePacket(lastPingId));
+                session.send(new ServerKeepAlivePacket(lastPingId));
 
                 try {
                     Thread.sleep(2000);

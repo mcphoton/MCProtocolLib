@@ -21,18 +21,18 @@ public class LoginSuccessPacket implements Packet {
     }
 
     public GameProfile getProfile() {
-        return this.profile;
+        return profile;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.profile = new GameProfile(in.readString(), in.readString());
+        profile = new GameProfile(in.readString(), in.readString());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.profile.getIdAsString());
-        out.writeString(this.profile.getName());
+        out.writeString(profile.getIdAsString());
+        out.writeString(profile.getName());
     }
 
     @Override

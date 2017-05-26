@@ -22,7 +22,7 @@ public class ServerEntityVelocityPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Vector getVelocity() {
@@ -40,7 +40,7 @@ public class ServerEntityVelocityPacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
+        out.writeVarInt(entityId);
         out.writeShort((int)(velocity.getX() * 400d));
         out.writeShort((int)(velocity.getY() * 400d));
         out.writeShort((int)(velocity.getZ() * 400d));

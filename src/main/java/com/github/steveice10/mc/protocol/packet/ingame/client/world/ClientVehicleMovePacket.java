@@ -27,41 +27,41 @@ public class ClientVehicleMovePacket implements Packet {
     }
 
     public double getX() {
-        return this.x;
+        return x;
     }
 
     public double getY() {
-        return this.y;
+        return y;
     }
 
     public double getZ() {
-        return this.z;
+        return z;
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.x = in.readDouble();
-        this.y = in.readDouble();
-        this.z = in.readDouble();
-        this.yaw = in.readFloat();
-        this.pitch = in.readFloat();
+        x = in.readDouble();
+        y = in.readDouble();
+        z = in.readDouble();
+        yaw = in.readFloat();
+        pitch = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeDouble(this.x);
-        out.writeDouble(this.y);
-        out.writeDouble(this.z);
-        out.writeFloat(this.yaw);
-        out.writeFloat(this.pitch);
+        out.writeDouble(x);
+        out.writeDouble(y);
+        out.writeDouble(z);
+        out.writeFloat(yaw);
+        out.writeFloat(pitch);
     }
 
     @Override

@@ -22,23 +22,23 @@ public class ServerPlayerListDataPacket implements Packet {
     }
 
     public Message getHeader() {
-        return this.header;
+        return header;
     }
 
     public Message getFooter() {
-        return this.footer;
+        return footer;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.header = Message.fromString(in.readString());
-        this.footer = Message.fromString(in.readString());
+        header = Message.fromString(in.readString());
+        footer = Message.fromString(in.readString());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.header.toJsonString());
-        out.writeString(this.footer.toJsonString());
+        out.writeString(header.toJsonString());
+        out.writeString(footer.toJsonString());
     }
 
     @Override

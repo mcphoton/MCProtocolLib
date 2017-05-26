@@ -20,17 +20,17 @@ public class ServerPlayerChangeHeldItemPacket implements Packet {
     }
 
     public int getSlot() {
-        return this.slot;
+        return slot;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.slot = in.readByte();
+        slot = in.readByte();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.slot);
+        out.writeByte(slot);
     }
 
     @Override

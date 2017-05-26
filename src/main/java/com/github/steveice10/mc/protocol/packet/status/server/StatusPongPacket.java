@@ -12,25 +12,24 @@ public class StatusPongPacket implements Packet {
     private long time;
 
     @SuppressWarnings("unused")
-    private StatusPongPacket() {
-    }
+    private StatusPongPacket() {}
 
     public StatusPongPacket(long time) {
         this.time = time;
     }
 
     public long getPingTime() {
-        return this.time;
+        return time;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.time = in.readLong();
+        time = in.readLong();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeLong(this.time);
+        out.writeLong(time);
     }
 
     @Override

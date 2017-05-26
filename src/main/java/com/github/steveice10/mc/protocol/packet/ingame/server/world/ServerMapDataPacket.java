@@ -37,38 +37,38 @@ public class ServerMapDataPacket implements Packet {
     }
 
     public int getMapId() {
-        return this.mapId;
+        return mapId;
     }
 
     public byte getScale() {
-        return this.scale;
+        return scale;
     }
 
     public boolean getTrackingPosition() {
-        return this.trackingPosition;
+        return trackingPosition;
     }
 
     public MapIcon[] getIcons() {
-        return this.icons;
+        return icons;
     }
 
     public MapData getData() {
-        return this.data;
+        return data;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.mapId = in.readVarInt();
-        this.scale = in.readByte();
-        this.trackingPosition = in.readBoolean();
-        this.icons = new MapIcon[in.readVarInt()];
-        for(int index = 0; index < this.icons.length; index++) {
+        mapId = in.readVarInt();
+        scale = in.readByte();
+        trackingPosition = in.readBoolean();
+        icons = new MapIcon[in.readVarInt()];
+        for(int index = 0; index < icons.length; index++) {
             int data = in.readUnsignedByte();
             int type = (data >> 4) & 15;
             int rotation = data & 15;
             int x = in.readUnsignedByte();
             int z = in.readUnsignedByte();
-            this.icons[index] = new MapIcon(x, z, MagicValues.value(MapIconType.class, type), rotation);
+            icons[index] = new MapIcon(x, z, MagicValues.value(MapIconType.class, type), rotation);
         }
 
         int columns = in.readUnsignedByte();
@@ -83,25 +83,25 @@ public class ServerMapDataPacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.mapId);
-        out.writeByte(this.scale);
-        out.writeBoolean(this.trackingPosition);
-        out.writeVarInt(this.icons.length);
-        for(int index = 0; index < this.icons.length; index++) {
-            MapIcon icon = this.icons[index];
+        out.writeVarInt(mapId);
+        out.writeByte(scale);
+        out.writeBoolean(trackingPosition);
+        out.writeVarInt(icons.length);
+        for(int index = 0; index < icons.length; index++) {
+            MapIcon icon = icons[index];
             int type = MagicValues.key(Integer.class, icon.getIconType());
             out.writeByte((type & 15) << 4 | icon.getIconRotation() & 15);
             out.writeByte(icon.getCenterX());
             out.writeByte(icon.getCenterZ());
         }
 
-        if(this.data != null && this.data.getColumns() != 0) {
-            out.writeByte(this.data.getColumns());
-            out.writeByte(this.data.getRows());
-            out.writeByte(this.data.getX());
-            out.writeByte(this.data.getY());
-            out.writeVarInt(this.data.getData().length);
-            out.writeBytes(this.data.getData());
+        if(data != null && data.getColumns() != 0) {
+            out.writeByte(data.getColumns());
+            out.writeByte(data.getRows());
+            out.writeByte(data.getX());
+            out.writeByte(data.getY());
+            out.writeVarInt(data.getData().length);
+            out.writeBytes(data.getData());
         } else {
             out.writeByte(0);
         }

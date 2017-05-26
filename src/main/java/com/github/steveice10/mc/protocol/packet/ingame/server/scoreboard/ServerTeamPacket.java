@@ -32,7 +32,7 @@ public class ServerTeamPacket implements Packet {
 
     public ServerTeamPacket(String name) {
         this.name = name;
-        this.action = TeamAction.REMOVE;
+        action = TeamAction.REMOVE;
     }
 
     public ServerTeamPacket(String name, TeamAction action, String players[]) {
@@ -55,7 +55,7 @@ public class ServerTeamPacket implements Packet {
         this.nameTagVisibility = nameTagVisibility;
         this.collisionRule = collisionRule;
         this.color = color;
-        this.action = TeamAction.UPDATE;
+        action = TeamAction.UPDATE;
     }
 
     public ServerTeamPacket(String name, String displayName, String prefix, String suffix, boolean friendlyFire, boolean seeFriendlyInvisibles, NameTagVisibility nameTagVisibility, CollisionRule collisionRule, TeamColor color, String players[]) {
@@ -69,31 +69,31 @@ public class ServerTeamPacket implements Packet {
         this.collisionRule = collisionRule;
         this.color = color;
         this.players = players;
-        this.action = TeamAction.CREATE;
+        action = TeamAction.CREATE;
     }
 
     public String getTeamName() {
-        return this.name;
+        return name;
     }
 
     public TeamAction getAction() {
-        return this.action;
+        return action;
     }
 
     public String getDisplayName() {
-        return this.displayName;
+        return displayName;
     }
 
     public String getPrefix() {
-        return this.prefix;
+        return prefix;
     }
 
     public String getSuffix() {
-        return this.suffix;
+        return suffix;
     }
 
     public boolean getFriendlyFire() {
-        return this.friendlyFire;
+        return friendlyFire;
     }
 
     public boolean getSeeFriendlyInvisibles() {
@@ -101,62 +101,64 @@ public class ServerTeamPacket implements Packet {
     }
 
     public NameTagVisibility getNameTagVisibility() {
-        return this.nameTagVisibility;
+        return nameTagVisibility;
     }
 
     public CollisionRule getCollisionRule() {
-        return this.collisionRule;
+        return collisionRule;
     }
 
     public TeamColor getColor() {
-        return this.color;
+        return color;
     }
 
     public String[] getPlayers() {
-        return this.players;
+        return players;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.name = in.readString();
-        this.action = MagicValues.key(TeamAction.class, in.readByte());
-        if(this.action == TeamAction.CREATE || this.action == TeamAction.UPDATE) {
-            this.displayName = in.readString();
-            this.prefix = in.readString();
-            this.suffix = in.readString();
+        name = in.readString();
+        action = MagicValues.key(TeamAction.class, in.readByte());
+        if(action == TeamAction.CREATE || action == TeamAction.UPDATE) {
+            displayName = in.readString();
+            prefix = in.readString();
+            suffix = in.readString();
             byte flags = in.readByte();
-            this.friendlyFire = (flags & 0x1) != 0;
-            this.seeFriendlyInvisibles = (flags & 0x2) != 0;
-            this.nameTagVisibility = MagicValues.key(NameTagVisibility.class, in.readString());
-            this.collisionRule = MagicValues.key(CollisionRule.class, in.readString());
-            this.color = MagicValues.key(TeamColor.class, in.readByte());
+            friendlyFire = (flags & 0x1) != 0;
+            seeFriendlyInvisibles = (flags & 0x2) != 0;
+            nameTagVisibility = MagicValues.key(NameTagVisibility.class, in.readString());
+            collisionRule = MagicValues.key(CollisionRule.class, in.readString());
+            color = MagicValues.key(TeamColor.class, in.readByte());
         }
 
-        if(this.action == TeamAction.CREATE || this.action == TeamAction.ADD_PLAYER || this.action == TeamAction.REMOVE_PLAYER) {
-            this.players = new String[in.readVarInt()];
-            for(int index = 0; index < this.players.length; index++) {
-                this.players[index] = in.readString();
+        if(action == TeamAction.CREATE || action == TeamAction.ADD_PLAYER || action
+                                                                             == TeamAction.REMOVE_PLAYER) {
+            players = new String[in.readVarInt()];
+            for(int index = 0; index < players.length; index++) {
+                players[index] = in.readString();
             }
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.name);
-        out.writeByte(MagicValues.value(Integer.class, this.action));
-        if(this.action == TeamAction.CREATE || this.action == TeamAction.UPDATE) {
-            out.writeString(this.displayName);
-            out.writeString(this.prefix);
-            out.writeString(this.suffix);
-            out.writeByte((this.friendlyFire ? 0x1 : 0x0) | (this.seeFriendlyInvisibles ? 0x2 : 0x0));
-            out.writeString(MagicValues.value(String.class, this.nameTagVisibility));
-            out.writeString(MagicValues.value(String.class, this.collisionRule));
-            out.writeByte(MagicValues.value(Integer.class, this.color));
+        out.writeString(name);
+        out.writeByte(MagicValues.value(Integer.class, action));
+        if(action == TeamAction.CREATE || action == TeamAction.UPDATE) {
+            out.writeString(displayName);
+            out.writeString(prefix);
+            out.writeString(suffix);
+            out.writeByte((friendlyFire ? 0x1 : 0x0) | (seeFriendlyInvisibles ? 0x2 : 0x0));
+            out.writeString(MagicValues.value(String.class, nameTagVisibility));
+            out.writeString(MagicValues.value(String.class, collisionRule));
+            out.writeByte(MagicValues.value(Integer.class, color));
         }
 
-        if(this.action == TeamAction.CREATE || this.action == TeamAction.ADD_PLAYER || this.action == TeamAction.REMOVE_PLAYER) {
-            out.writeVarInt(this.players.length);
-            for(String player : this.players) {
+        if(action == TeamAction.CREATE || action == TeamAction.ADD_PLAYER || action
+                                                                             == TeamAction.REMOVE_PLAYER) {
+            out.writeVarInt(players.length);
+            for(String player : players) {
                 if(player != null) {
                     out.writeString(player);
                 }

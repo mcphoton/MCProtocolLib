@@ -10,15 +10,13 @@ import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
 
 public class HandshakePacket implements Packet {
-
     private int protocolVersion;
     private String hostname;
     private int port;
     private HandshakeIntent intent;
 
     @SuppressWarnings("unused")
-    private HandshakePacket() {
-    }
+    private HandshakePacket() {}
 
     public HandshakePacket(int protocolVersion, String hostname, int port, HandshakeIntent intent) {
         this.protocolVersion = protocolVersion;
@@ -28,35 +26,35 @@ public class HandshakePacket implements Packet {
     }
 
     public int getProtocolVersion() {
-        return this.protocolVersion;
+        return protocolVersion;
     }
 
     public String getHostName() {
-        return this.hostname;
+        return hostname;
     }
 
     public int getPort() {
-        return this.port;
+        return port;
     }
 
     public HandshakeIntent getIntent() {
-        return this.intent;
+        return intent;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.protocolVersion = in.readVarInt();
-        this.hostname = in.readString();
-        this.port = in.readUnsignedShort();
-        this.intent = MagicValues.key(HandshakeIntent.class, in.readVarInt());
+        protocolVersion = in.readVarInt();
+        hostname = in.readString();
+        port = in.readUnsignedShort();
+        intent = MagicValues.key(HandshakeIntent.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.protocolVersion);
-        out.writeString(this.hostname);
-        out.writeShort(this.port);
-        out.writeVarInt(MagicValues.value(Integer.class, this.intent));
+        out.writeVarInt(protocolVersion);
+        out.writeString(hostname);
+        out.writeShort(port);
+        out.writeVarInt(MagicValues.value(Integer.class, intent));
     }
 
     @Override

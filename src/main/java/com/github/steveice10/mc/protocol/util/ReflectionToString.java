@@ -10,8 +10,7 @@ import java.util.List;
  * @author yawkat
  */
 public class ReflectionToString {
-    private ReflectionToString() {
-    }
+    private ReflectionToString() {}
 
     private static String memberToString(Object o) {
         if (o == null) { return "null"; }

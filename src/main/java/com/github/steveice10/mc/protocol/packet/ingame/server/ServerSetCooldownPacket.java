@@ -22,23 +22,23 @@ public class ServerSetCooldownPacket implements Packet {
     }
 
     public int getItemId() {
-        return this.itemId;
+        return itemId;
     }
 
     public int getCooldownTicks() {
-        return this.cooldownTicks;
+        return cooldownTicks;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.itemId = in.readVarInt();
-        this.cooldownTicks = in.readVarInt();
+        itemId = in.readVarInt();
+        cooldownTicks = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.itemId);
-        out.writeVarInt(this.cooldownTicks);
+        out.writeVarInt(itemId);
+        out.writeVarInt(cooldownTicks);
     }
 
     @Override

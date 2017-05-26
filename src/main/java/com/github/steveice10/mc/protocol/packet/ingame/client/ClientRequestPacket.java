@@ -22,17 +22,17 @@ public class ClientRequestPacket implements Packet {
     }
 
     public ClientRequest getRequest() {
-        return this.request;
+        return request;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.request = MagicValues.key(ClientRequest.class, in.readVarInt());
+        request = MagicValues.key(ClientRequest.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.request));
+        out.writeVarInt(MagicValues.value(Integer.class, request));
     }
 
     @Override

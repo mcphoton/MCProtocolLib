@@ -20,21 +20,21 @@ public class ServerTabCompletePacket implements Packet {
     }
 
     public String[] getMatches() {
-        return this.matches;
+        return matches;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.matches = new String[in.readVarInt()];
-        for(int index = 0; index < this.matches.length; index++) {
-            this.matches[index] = in.readString();
+        matches = new String[in.readVarInt()];
+        for(int index = 0; index < matches.length; index++) {
+            matches[index] = in.readString();
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.matches.length);
-        for(String match : this.matches) {
+        out.writeVarInt(matches.length);
+        for(String match : matches) {
             out.writeString(match);
         }
     }

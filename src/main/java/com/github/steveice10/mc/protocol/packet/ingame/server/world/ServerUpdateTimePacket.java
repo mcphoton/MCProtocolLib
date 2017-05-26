@@ -22,23 +22,23 @@ public class ServerUpdateTimePacket implements Packet {
     }
 
     public long getWorldAge() {
-        return this.age;
+        return age;
     }
 
     public long getTime() {
-        return this.time;
+        return time;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.age = in.readLong();
-        this.time = in.readLong();
+        age = in.readLong();
+        time = in.readLong();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeLong(this.age);
-        out.writeLong(this.time);
+        out.writeLong(age);
+        out.writeLong(time);
     }
 
     @Override

@@ -25,11 +25,11 @@ public class ServerSpawnGlobalEntityPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public GlobalEntityType getType() {
-        return this.type;
+        return type;
     }
 
     public Vector getPosition() {
@@ -49,7 +49,7 @@ public class ServerSpawnGlobalEntityPacket implements Packet {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.type));
+        out.writeByte(MagicValues.value(Integer.class, type));
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());

@@ -30,35 +30,35 @@ public class ServerRespawnPacket implements Packet {
     }
 
     public int getDimension() {
-        return this.dimension;
+        return dimension;
     }
 
     public Difficulty getDifficulty() {
-        return this.difficulty;
+        return difficulty;
     }
 
     public GameMode getGameMode() {
-        return this.gamemode;
+        return gamemode;
     }
 
     public WorldType getWorldType() {
-        return this.worldType;
+        return worldType;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.dimension = in.readInt();
-        this.difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
-        this.gamemode = MagicValues.key(GameMode.class, in.readUnsignedByte());
-        this.worldType = MagicValues.key(WorldType.class, in.readString().toLowerCase());
+        dimension = in.readInt();
+        difficulty = MagicValues.key(Difficulty.class, in.readUnsignedByte());
+        gamemode = MagicValues.key(GameMode.class, in.readUnsignedByte());
+        worldType = MagicValues.key(WorldType.class, in.readString().toLowerCase());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(this.dimension);
-        out.writeByte(MagicValues.value(Integer.class, this.difficulty));
-        out.writeByte(MagicValues.value(Integer.class, this.gamemode));
-        out.writeString(MagicValues.value(String.class, this.worldType));
+        out.writeInt(dimension);
+        out.writeByte(MagicValues.value(Integer.class, difficulty));
+        out.writeByte(MagicValues.value(Integer.class, gamemode));
+        out.writeString(MagicValues.value(String.class, worldType));
     }
 
     @Override

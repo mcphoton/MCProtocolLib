@@ -44,8 +44,8 @@ public class ServerEntityPositionRotationPacket implements Packet {
         out.writeShort((int)(relativeMove.getX() * 4096.0));
         out.writeShort((int)(relativeMove.getY() * 4096.0));
         out.writeShort((int)(relativeMove.getZ() * 4096.0));
-        out.writeByte((byte)(this.yaw * 256 / F_2PI));
-        out.writeByte((byte)(this.pitch * 256 / F_2PI));
+        out.writeByte((byte)(yaw * 256 / F_2PI));
+        out.writeByte((byte)(pitch * 256 / F_2PI));
         out.writeBoolean(onGround);
     }
 

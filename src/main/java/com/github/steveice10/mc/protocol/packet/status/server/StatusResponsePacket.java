@@ -26,15 +26,14 @@ public class StatusResponsePacket implements Packet {
     private ServerStatusInfo info;
 
     @SuppressWarnings("unused")
-    private StatusResponsePacket() {
-    }
+    private StatusResponsePacket() {}
 
     public StatusResponsePacket(ServerStatusInfo info) {
         this.info = info;
     }
 
     public ServerStatusInfo getInfo() {
-        return this.info;
+        return info;
     }
 
     @Override
@@ -60,24 +59,24 @@ public class StatusResponsePacket implements Packet {
         Message description = Message.fromJson(desc);
         BufferedImage icon = null;
         if(obj.has("favicon")) {
-            icon = this.stringToIcon(obj.get("favicon").getAsString());
+            icon = stringToIcon(obj.get("favicon").getAsString());
         }
 
-        this.info = new ServerStatusInfo(version, players, description, icon);
+        info = new ServerStatusInfo(version, players, description, icon);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         JsonObject obj = new JsonObject();
         JsonObject ver = new JsonObject();
-        ver.addProperty("name", this.info.getVersionInfo().getVersionName());
-        ver.addProperty("protocol", this.info.getVersionInfo().getProtocolVersion());
+        ver.addProperty("name", info.getVersionInfo().getVersionName());
+        ver.addProperty("protocol", info.getVersionInfo().getProtocolVersion());
         JsonObject plrs = new JsonObject();
-        plrs.addProperty("max", this.info.getPlayerInfo().getMaxPlayers());
-        plrs.addProperty("online", this.info.getPlayerInfo().getOnlinePlayers());
-        if(this.info.getPlayerInfo().getPlayers().length > 0) {
+        plrs.addProperty("max", info.getPlayerInfo().getMaxPlayers());
+        plrs.addProperty("online", info.getPlayerInfo().getOnlinePlayers());
+        if(info.getPlayerInfo().getPlayers().length > 0) {
             JsonArray array = new JsonArray();
-            for(GameProfile profile : this.info.getPlayerInfo().getPlayers()) {
+            for(GameProfile profile : info.getPlayerInfo().getPlayers()) {
                 JsonObject o = new JsonObject();
                 o.addProperty("name", profile.getName());
                 o.addProperty("id", profile.getIdAsString());
@@ -89,9 +88,9 @@ public class StatusResponsePacket implements Packet {
 
         obj.add("version", ver);
         obj.add("players", plrs);
-        obj.add("description", this.info.getDescription().toJson());
-        if(this.info.getIcon() != null) {
-            obj.addProperty("favicon", this.iconToString(this.info.getIcon()));
+        obj.add("description", info.getDescription().toJson());
+        if(info.getIcon() != null) {
+            obj.addProperty("favicon", iconToString(info.getIcon()));
         }
 
         out.writeString(obj.toString());

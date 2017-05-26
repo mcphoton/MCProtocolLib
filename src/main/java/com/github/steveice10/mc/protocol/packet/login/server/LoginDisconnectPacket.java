@@ -25,17 +25,17 @@ public class LoginDisconnectPacket implements Packet {
     }
 
     public Message getReason() {
-        return this.message;
+        return message;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.message = Message.fromString(in.readString());
+        message = Message.fromString(in.readString());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.message.toJsonString());
+        out.writeString(message.toJsonString());
     }
 
     @Override

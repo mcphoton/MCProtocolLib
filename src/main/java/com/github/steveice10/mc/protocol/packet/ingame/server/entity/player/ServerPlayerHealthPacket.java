@@ -24,29 +24,29 @@ public class ServerPlayerHealthPacket implements Packet {
     }
 
     public float getHealth() {
-        return this.health;
+        return health;
     }
 
     public int getFood() {
-        return this.food;
+        return food;
     }
 
     public float getSaturation() {
-        return this.saturation;
+        return saturation;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.health = in.readFloat();
-        this.food = in.readVarInt();
-        this.saturation = in.readFloat();
+        health = in.readFloat();
+        food = in.readVarInt();
+        saturation = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeFloat(this.health);
-        out.writeVarInt(this.food);
-        out.writeFloat(this.saturation);
+        out.writeFloat(health);
+        out.writeVarInt(food);
+        out.writeFloat(saturation);
     }
 
     @Override

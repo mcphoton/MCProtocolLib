@@ -26,29 +26,29 @@ public class ServerSetSlotPacket implements Packet {
     }
 
     public int getWindowId() {
-        return this.windowId;
+        return windowId;
     }
 
     public int getSlot() {
-        return this.slot;
+        return slot;
     }
 
     public ItemStack getItem() {
-        return this.item;
+        return item;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.windowId = in.readUnsignedByte();
-        this.slot = in.readShort();
-        this.item = NetUtil.readItem(in);
+        windowId = in.readUnsignedByte();
+        slot = in.readShort();
+        item = NetUtil.readItem(in);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeByte(this.windowId);
-        out.writeShort(this.slot);
-        NetUtil.writeItem(out, this.item);
+        out.writeByte(windowId);
+        out.writeShort(slot);
+        NetUtil.writeItem(out, item);
     }
 
     @Override

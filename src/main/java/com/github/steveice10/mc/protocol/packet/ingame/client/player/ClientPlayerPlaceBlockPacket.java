@@ -35,47 +35,47 @@ public class ClientPlayerPlaceBlockPacket implements Packet {
     }
 
     public IntPosition getPosition() {
-        return this.position;
+        return position;
     }
 
     public BlockFace getFace() {
-        return this.face;
+        return face;
     }
 
     public Hand getHand() {
-        return this.hand;
+        return hand;
     }
 
     public float getCursorX() {
-        return this.cursorX;
+        return cursorX;
     }
 
     public float getCursorY() {
-        return this.cursorY;
+        return cursorY;
     }
 
     public float getCursorZ() {
-        return this.cursorZ;
+        return cursorZ;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.position = NetUtil.readPosition(in);
-        this.face = MagicValues.key(BlockFace.class, in.readVarInt());
-        this.hand = MagicValues.key(Hand.class, in.readVarInt());
-        this.cursorX = in.readFloat();
-        this.cursorY = in.readFloat();
-        this.cursorZ = in.readFloat();
+        position = NetUtil.readPosition(in);
+        face = MagicValues.key(BlockFace.class, in.readVarInt());
+        hand = MagicValues.key(Hand.class, in.readVarInt());
+        cursorX = in.readFloat();
+        cursorY = in.readFloat();
+        cursorZ = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        NetUtil.writePosition(out, this.position);
-        out.writeVarInt(MagicValues.value(Integer.class, this.face));
-        out.writeVarInt(MagicValues.value(Integer.class, this.hand));
-        out.writeFloat(this.cursorX);
-        out.writeFloat(this.cursorY);
-        out.writeFloat(this.cursorZ);
+        NetUtil.writePosition(out, position);
+        out.writeVarInt(MagicValues.value(Integer.class, face));
+        out.writeVarInt(MagicValues.value(Integer.class, hand));
+        out.writeFloat(cursorX);
+        out.writeFloat(cursorY);
+        out.writeFloat(cursorZ);
     }
 
     @Override

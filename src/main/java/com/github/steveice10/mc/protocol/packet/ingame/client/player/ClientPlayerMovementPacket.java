@@ -27,59 +27,59 @@ public class ClientPlayerMovementPacket implements Packet {
     }
 
     public double getX() {
-        return this.x;
+        return x;
     }
 
     public double getY() {
-        return this.y;
+        return y;
     }
 
     public double getZ() {
-        return this.z;
+        return z;
     }
 
     public double getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public double getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     public boolean isOnGround() {
-        return this.onGround;
+        return onGround;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        if(this.pos) {
-            this.x = in.readDouble();
-            this.y = in.readDouble();
-            this.z = in.readDouble();
+        if(pos) {
+            x = in.readDouble();
+            y = in.readDouble();
+            z = in.readDouble();
         }
 
-        if(this.rot) {
-            this.yaw = in.readFloat();
-            this.pitch = in.readFloat();
+        if(rot) {
+            yaw = in.readFloat();
+            pitch = in.readFloat();
         }
 
-        this.onGround = in.readBoolean();
+        onGround = in.readBoolean();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        if(this.pos) {
-            out.writeDouble(this.x);
-            out.writeDouble(this.y);
-            out.writeDouble(this.z);
+        if(pos) {
+            out.writeDouble(x);
+            out.writeDouble(y);
+            out.writeDouble(z);
         }
 
-        if(this.rot) {
-            out.writeFloat(this.yaw);
-            out.writeFloat(this.pitch);
+        if(rot) {
+            out.writeFloat(yaw);
+            out.writeFloat(pitch);
         }
 
-        out.writeBoolean(this.onGround);
+        out.writeBoolean(onGround);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ClientListener extends SessionAdapter {
                 EncryptionRequestPacket packet = event.getPacket();
                 SecretKey key = CryptUtil.generateSharedKey();
 
-                Proxy proxy = event.getSession().<Proxy>getFlag(MinecraftConstants.AUTH_PROXY_KEY);
+                Proxy proxy = event.getSession().getFlag(MinecraftConstants.AUTH_PROXY_KEY);
                 if(proxy == null) {
                     proxy = Proxy.NO_PROXY;
                 }

@@ -23,7 +23,7 @@ public class ServerScoreboardObjectivePacket implements Packet {
 
     public ServerScoreboardObjectivePacket(String name) {
         this.name = name;
-        this.action = ObjectiveAction.REMOVE;
+        action = ObjectiveAction.REMOVE;
     }
 
     public ServerScoreboardObjectivePacket(String name, ObjectiveAction action, String displayName, ScoreType type) {
@@ -38,38 +38,38 @@ public class ServerScoreboardObjectivePacket implements Packet {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public ObjectiveAction getAction() {
-        return this.action;
+        return action;
     }
 
     public String getDisplayName() {
-        return this.displayName;
+        return displayName;
     }
 
     public ScoreType getType() {
-        return this.type;
+        return type;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.name = in.readString();
-        this.action = MagicValues.key(ObjectiveAction.class, in.readByte());
-        if(this.action == ObjectiveAction.ADD || this.action == ObjectiveAction.UPDATE) {
-            this.displayName = in.readString();
-            this.type = MagicValues.key(ScoreType.class, in.readString());
+        name = in.readString();
+        action = MagicValues.key(ObjectiveAction.class, in.readByte());
+        if(action == ObjectiveAction.ADD || action == ObjectiveAction.UPDATE) {
+            displayName = in.readString();
+            type = MagicValues.key(ScoreType.class, in.readString());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.name);
-        out.writeByte(MagicValues.value(Integer.class, this.action));
-        if(this.action == ObjectiveAction.ADD || this.action == ObjectiveAction.UPDATE) {
-            out.writeString(this.displayName);
-            out.writeString(MagicValues.value(String.class, this.type));
+        out.writeString(name);
+        out.writeByte(MagicValues.value(Integer.class, action));
+        if(action == ObjectiveAction.ADD || action == ObjectiveAction.UPDATE) {
+            out.writeString(displayName);
+            out.writeString(MagicValues.value(String.class, type));
         }
     }
 

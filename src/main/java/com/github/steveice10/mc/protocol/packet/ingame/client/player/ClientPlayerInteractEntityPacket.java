@@ -42,56 +42,56 @@ public class ClientPlayerInteractEntityPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public InteractAction getAction() {
-        return this.action;
+        return action;
     }
 
     public float getTargetX() {
-        return this.targetX;
+        return targetX;
     }
 
     public float getTargetY() {
-        return this.targetY;
+        return targetY;
     }
 
     public float getTargetZ() {
-        return this.targetZ;
+        return targetZ;
     }
 
     public Hand getHand() {
-        return this.hand;
+        return hand;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.action = MagicValues.key(InteractAction.class, in.readVarInt());
-        if(this.action == InteractAction.INTERACT_AT) {
-            this.targetX = in.readFloat();
-            this.targetY = in.readFloat();
-            this.targetZ = in.readFloat();
+        entityId = in.readVarInt();
+        action = MagicValues.key(InteractAction.class, in.readVarInt());
+        if(action == InteractAction.INTERACT_AT) {
+            targetX = in.readFloat();
+            targetY = in.readFloat();
+            targetZ = in.readFloat();
         }
 
-        if(this.action == InteractAction.INTERACT || this.action == InteractAction.INTERACT_AT) {
-            this.hand = MagicValues.key(Hand.class, in.readVarInt());
+        if(action == InteractAction.INTERACT || action == InteractAction.INTERACT_AT) {
+            hand = MagicValues.key(Hand.class, in.readVarInt());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        if(this.action == InteractAction.INTERACT_AT) {
-            out.writeFloat(this.targetX);
-            out.writeFloat(this.targetY);
-            out.writeFloat(this.targetZ);
+        out.writeVarInt(entityId);
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        if(action == InteractAction.INTERACT_AT) {
+            out.writeFloat(targetX);
+            out.writeFloat(targetY);
+            out.writeFloat(targetZ);
         }
 
-        if(this.action == InteractAction.INTERACT || this.action == InteractAction.INTERACT_AT) {
-            out.writeVarInt(MagicValues.value(Integer.class, this.hand));
+        if(action == InteractAction.INTERACT || action == InteractAction.INTERACT_AT) {
+            out.writeVarInt(MagicValues.value(Integer.class, hand));
         }
     }
 

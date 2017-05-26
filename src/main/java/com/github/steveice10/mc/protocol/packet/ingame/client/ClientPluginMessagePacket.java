@@ -22,23 +22,23 @@ public class ClientPluginMessagePacket implements Packet {
     }
 
     public String getChannel() {
-        return this.channel;
+        return channel;
     }
 
     public byte[] getData() {
-        return this.data;
+        return data;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.channel = in.readString();
-        this.data = in.readBytes(in.available());
+        channel = in.readString();
+        data = in.readBytes(in.available());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.channel);
-        out.writeBytes(this.data);
+        out.writeString(channel);
+        out.writeBytes(data);
     }
 
     @Override

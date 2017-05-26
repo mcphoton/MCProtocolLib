@@ -22,23 +22,23 @@ public class ServerEntityAttachPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public int getAttachedToId() {
-        return this.attachedToId;
+        return attachedToId;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readInt();
-        this.attachedToId = in.readInt();
+        entityId = in.readInt();
+        attachedToId = in.readInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(this.entityId);
-        out.writeInt(this.attachedToId);
+        out.writeInt(entityId);
+        out.writeInt(attachedToId);
     }
 
     @Override

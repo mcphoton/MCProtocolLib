@@ -21,23 +21,23 @@ public class ServerUnloadChunkPacket implements Packet {
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public int getZ() {
-        return this.z;
+        return z;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.x = in.readInt();
-        this.z = in.readInt();
+        x = in.readInt();
+        z = in.readInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeInt(this.x);
-        out.writeInt(this.z);
+        out.writeInt(x);
+        out.writeInt(z);
     }
 
     @Override

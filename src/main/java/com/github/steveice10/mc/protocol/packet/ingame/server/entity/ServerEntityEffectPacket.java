@@ -32,54 +32,54 @@ public class ServerEntityEffectPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public Effect getEffect() {
-        return this.effect;
+        return effect;
     }
 
     public int getAmplifier() {
-        return this.amplifier;
+        return amplifier;
     }
 
     public int getDuration() {
-        return this.duration;
+        return duration;
     }
 
     public boolean isAmbient() {
-        return this.ambient;
+        return ambient;
     }
 
     public boolean getShowParticles() {
-        return this.showParticles;
+        return showParticles;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.effect = MagicValues.key(Effect.class, in.readByte());
-        this.amplifier = in.readByte();
-        this.duration = in.readVarInt();
+        entityId = in.readVarInt();
+        effect = MagicValues.key(Effect.class, in.readByte());
+        amplifier = in.readByte();
+        duration = in.readVarInt();
 
         int flags = in.readByte();
-        this.ambient = (flags & 0x1) == 0x1;
-        this.showParticles = (flags & 0x2) == 0x2;
+        ambient = (flags & 0x1) == 0x1;
+        showParticles = (flags & 0x2) == 0x2;
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeByte(MagicValues.value(Integer.class, this.effect));
-        out.writeByte(this.amplifier);
-        out.writeVarInt(this.duration);
+        out.writeVarInt(entityId);
+        out.writeByte(MagicValues.value(Integer.class, effect));
+        out.writeByte(amplifier);
+        out.writeVarInt(duration);
 
         int flags = 0;
-        if(this.ambient) {
+        if(ambient) {
             flags |= 0x1;
         }
 
-        if(this.showParticles) {
+        if(showParticles) {
             flags |= 0x2;
         }
 

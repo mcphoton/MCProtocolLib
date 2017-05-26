@@ -30,62 +30,62 @@ public class ClientPlayerAbilitiesPacket implements Packet {
     }
 
     public boolean getInvincible() {
-        return this.invincible;
+        return invincible;
     }
 
     public boolean getCanFly() {
-        return this.canFly;
+        return canFly;
     }
 
     public boolean getFlying() {
-        return this.flying;
+        return flying;
     }
 
     public boolean getCreative() {
-        return this.creative;
+        return creative;
     }
 
     public float getFlySpeed() {
-        return this.flySpeed;
+        return flySpeed;
     }
 
     public float getWalkSpeed() {
-        return this.walkSpeed;
+        return walkSpeed;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
         byte flags = in.readByte();
-        this.invincible = (flags & 1) > 0;
-        this.canFly = (flags & 2) > 0;
-        this.flying = (flags & 4) > 0;
-        this.creative = (flags & 8) > 0;
-        this.flySpeed = in.readFloat();
-        this.walkSpeed = in.readFloat();
+        invincible = (flags & 1) > 0;
+        canFly = (flags & 2) > 0;
+        flying = (flags & 4) > 0;
+        creative = (flags & 8) > 0;
+        flySpeed = in.readFloat();
+        walkSpeed = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         byte flags = 0;
-        if(this.invincible) {
+        if(invincible) {
             flags = (byte) (flags | 1);
         }
 
-        if(this.canFly) {
+        if(canFly) {
             flags = (byte) (flags | 2);
         }
 
-        if(this.flying) {
+        if(flying) {
             flags = (byte) (flags | 4);
         }
 
-        if(this.creative) {
+        if(creative) {
             flags = (byte) (flags | 8);
         }
 
         out.writeByte(flags);
-        out.writeFloat(this.flySpeed);
-        out.writeFloat(this.walkSpeed);
+        out.writeFloat(flySpeed);
+        out.writeFloat(walkSpeed);
     }
 
     @Override

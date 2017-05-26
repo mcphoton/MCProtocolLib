@@ -20,17 +20,17 @@ public class ClientChatPacket implements Packet {
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.message = in.readString();
+        message = in.readString();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.message);
+        out.writeString(message);
     }
 
     @Override

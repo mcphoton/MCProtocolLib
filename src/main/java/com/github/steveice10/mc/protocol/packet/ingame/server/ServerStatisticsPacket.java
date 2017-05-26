@@ -35,7 +35,7 @@ public class ServerStatisticsPacket implements Packet {
     }
 
     public Map<Statistic, Integer> getStatistics() {
-        return this.statistics;
+        return statistics;
     }
 
     @Override
@@ -58,17 +58,17 @@ public class ServerStatisticsPacket implements Packet {
                 statistic = MagicValues.key(GenericStatistic.class, value);
             }
 
-            this.statistics.put(statistic, in.readVarInt());
+            statistics.put(statistic, in.readVarInt());
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.statistics.size());
-        for(Statistic statistic : this.statistics.keySet()) {
+        out.writeVarInt(statistics.size());
+        for(Statistic statistic : statistics.keySet()) {
             String value = "";
             if(statistic instanceof Achievement) {
-                value = MagicValues.value(String.class, (Achievement) statistic);
+                value = MagicValues.value(String.class, statistic);
             } else if(statistic instanceof CraftItemStatistic) {
                 value = CRAFT_ITEM_PREFIX + ((CraftItemStatistic) statistic).getId();
             } else if(statistic instanceof BreakBlockStatistic) {
@@ -78,11 +78,11 @@ public class ServerStatisticsPacket implements Packet {
             } else if(statistic instanceof BreakItemStatistic) {
                 value = BREAK_ITEM_PREFIX + ((CraftItemStatistic) statistic).getId();
             } else if(statistic instanceof GenericStatistic) {
-                value = MagicValues.value(String.class, (GenericStatistic) statistic);
+                value = MagicValues.value(String.class, statistic);
             }
 
             out.writeString(value);
-            out.writeVarInt(this.statistics.get(statistic));
+            out.writeVarInt(statistics.get(statistic));
         }
     }
 

@@ -35,11 +35,11 @@ public class ServerSpawnPlayerPacket implements Packet {
     }
 
     public int getEntityId() {
-        return this.entityId;
+        return entityId;
     }
 
     public UUID getUUID() {
-        return this.uuid;
+        return uuid;
     }
 
     public Vector getPosition() {
@@ -47,39 +47,39 @@ public class ServerSpawnPlayerPacket implements Packet {
     }
 
     public float getYaw() {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch() {
-        return this.pitch;
+        return pitch;
     }
 
     public MetadataStorage getMetadata() {
-        return this.metadata;
+        return metadata;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.entityId = in.readVarInt();
-        this.uuid = in.readUUID();
+        entityId = in.readVarInt();
+        uuid = in.readUUID();
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
         position = new Vector(x, y, z);
-        this.yaw = in.readByte() * F_2PI / 256f;
-        this.pitch = in.readByte() * F_2PI / 256f;
-        this.metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
+        yaw = in.readByte() * F_2PI / 256f;
+        pitch = in.readByte() * F_2PI / 256f;
+        metadata = new UnorderedMetadataStorage(NetUtil.readEntityMetadata(in));
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.entityId);
-        out.writeUUID(this.uuid);
+        out.writeVarInt(entityId);
+        out.writeUUID(uuid);
         out.writeDouble(position.getX());
         out.writeDouble(position.getY());
         out.writeDouble(position.getZ());
-        out.writeByte((byte)(this.yaw * 256 / F_2PI));
-        out.writeByte((byte)(this.pitch * 256 / F_2PI));
+        out.writeByte((byte)(yaw * 256 / F_2PI));
+        out.writeByte((byte)(pitch * 256 / F_2PI));
         metadata.write(out);
     }
 

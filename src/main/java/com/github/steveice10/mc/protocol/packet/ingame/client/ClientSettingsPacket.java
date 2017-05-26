@@ -37,63 +37,63 @@ public class ClientSettingsPacket implements Packet {
     }
 
     public String getLocale() {
-        return this.locale;
+        return locale;
     }
 
     public int getRenderDistance() {
-        return this.renderDistance;
+        return renderDistance;
     }
 
     public ChatVisibility getChatVisibility() {
-        return this.chatVisibility;
+        return chatVisibility;
     }
 
     public boolean getUseChatColors() {
-        return this.chatColors;
+        return chatColors;
     }
 
     public List<SkinPart> getVisibleParts() {
-        return this.visibleParts;
+        return visibleParts;
     }
 
     public Hand getMainHand() {
-        return this.mainHand;
+        return mainHand;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.locale = in.readString();
-        this.renderDistance = in.readByte();
-        this.chatVisibility = MagicValues.key(ChatVisibility.class, in.readVarInt());
-        this.chatColors = in.readBoolean();
-        this.visibleParts = new ArrayList<SkinPart>();
+        locale = in.readString();
+        renderDistance = in.readByte();
+        chatVisibility = MagicValues.key(ChatVisibility.class, in.readVarInt());
+        chatColors = in.readBoolean();
+        visibleParts = new ArrayList<SkinPart>();
 
         int flags = in.readUnsignedByte();
         for(SkinPart part : SkinPart.values()) {
             int bit = 1 << part.ordinal();
             if((flags & bit) == bit) {
-                this.visibleParts.add(part);
+                visibleParts.add(part);
             }
         }
 
-        this.mainHand = MagicValues.key(Hand.class, in.readVarInt());
+        mainHand = MagicValues.key(Hand.class, in.readVarInt());
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeString(this.locale);
-        out.writeByte(this.renderDistance);
-        out.writeVarInt(MagicValues.value(Integer.class, this.chatVisibility));
-        out.writeBoolean(this.chatColors);
+        out.writeString(locale);
+        out.writeByte(renderDistance);
+        out.writeVarInt(MagicValues.value(Integer.class, chatVisibility));
+        out.writeBoolean(chatColors);
 
         int flags = 0;
-        for(SkinPart part : this.visibleParts) {
+        for(SkinPart part : visibleParts) {
             flags |= 1 << part.ordinal();
         }
 
         out.writeByte(flags);
 
-        out.writeVarInt(MagicValues.value(Integer.class, this.mainHand));
+        out.writeVarInt(MagicValues.value(Integer.class, mainHand));
     }
 
     @Override

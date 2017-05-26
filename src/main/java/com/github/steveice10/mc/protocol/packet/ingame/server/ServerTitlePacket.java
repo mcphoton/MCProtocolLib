@@ -47,10 +47,10 @@ public class ServerTitlePacket implements Packet {
                 this.title = title;
                 break;
             case SUBTITLE:
-                this.subtitle = title;
+                subtitle = title;
                 break;
             case ACTION_BAR:
-                this.actionBar = title;
+                actionBar = title;
                 break;
             default:
                 throw new IllegalArgumentException("action must be one of TITLE, SUBTITLE, ACTION_BAR");
@@ -58,7 +58,7 @@ public class ServerTitlePacket implements Packet {
     }
 
     public ServerTitlePacket(int fadeIn, int stay, int fadeOut) {
-        this.action = TitleAction.TIMES;
+        action = TitleAction.TIMES;
         this.fadeIn = fadeIn;
         this.stay = stay;
         this.fadeOut = fadeOut;
@@ -66,57 +66,57 @@ public class ServerTitlePacket implements Packet {
 
     public ServerTitlePacket(boolean clear) {
         if(clear) {
-            this.action = TitleAction.CLEAR;
+            action = TitleAction.CLEAR;
         } else {
-            this.action = TitleAction.RESET;
+            action = TitleAction.RESET;
         }
     }
 
     public TitleAction getAction() {
-        return this.action;
+        return action;
     }
 
     public Message getTitle() {
-        return this.title;
+        return title;
     }
 
     public Message getSubtitle() {
-        return this.subtitle;
+        return subtitle;
     }
 
     public Message getActionBar() {
-        return this.actionBar;
+        return actionBar;
     }
 
     public int getFadeIn() {
-        return this.fadeIn;
+        return fadeIn;
     }
 
     public int getStay() {
-        return this.stay;
+        return stay;
     }
 
     public int getFadeOut() {
-        return this.fadeOut;
+        return fadeOut;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(TitleAction.class, in.readVarInt());
-        switch(this.action) {
+        action = MagicValues.key(TitleAction.class, in.readVarInt());
+        switch(action) {
             case TITLE:
-                this.title = Message.fromString(in.readString());
+                title = Message.fromString(in.readString());
                 break;
             case SUBTITLE:
-                this.subtitle = Message.fromString(in.readString());
+                subtitle = Message.fromString(in.readString());
                 break;
             case ACTION_BAR:
-                this.actionBar = Message.fromString(in.readString());
+                actionBar = Message.fromString(in.readString());
                 break;
             case TIMES:
-                this.fadeIn = in.readInt();
-                this.stay = in.readInt();
-                this.fadeOut = in.readInt();
+                fadeIn = in.readInt();
+                stay = in.readInt();
+                fadeOut = in.readInt();
                 break;
             case CLEAR:
                 break;
@@ -127,21 +127,21 @@ public class ServerTitlePacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        switch(this.action) {
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        switch(action) {
             case TITLE:
-                out.writeString(this.title.toJsonString());
+                out.writeString(title.toJsonString());
                 break;
             case SUBTITLE:
-                out.writeString(this.subtitle.toJsonString());
+                out.writeString(subtitle.toJsonString());
                 break;
             case ACTION_BAR:
-                out.writeString(this.actionBar.toJsonString());
+                out.writeString(actionBar.toJsonString());
                 break;
             case TIMES:
-                out.writeInt(this.fadeIn);
-                out.writeInt(this.stay);
-                out.writeInt(this.fadeOut);
+                out.writeInt(fadeIn);
+                out.writeInt(stay);
+                out.writeInt(fadeOut);
                 break;
             case CLEAR:
                 break;

@@ -28,28 +28,28 @@ public class ServerPlayerListEntryPacket implements Packet {
     }
 
     public PlayerListEntryAction getAction() {
-        return this.action;
+        return action;
     }
 
     public PlayerListEntry[] getEntries() {
-        return this.entries;
+        return entries;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.action = MagicValues.key(PlayerListEntryAction.class, in.readVarInt());
-        this.entries = new PlayerListEntry[in.readVarInt()];
-        for(int count = 0; count < this.entries.length; count++) {
+        action = MagicValues.key(PlayerListEntryAction.class, in.readVarInt());
+        entries = new PlayerListEntry[in.readVarInt()];
+        for(int count = 0; count < entries.length; count++) {
             UUID uuid = in.readUUID();
             GameProfile profile;
-            if(this.action == PlayerListEntryAction.ADD_PLAYER) {
+            if(action == PlayerListEntryAction.ADD_PLAYER) {
                 profile = new GameProfile(uuid, in.readString());
             } else {
                 profile = new GameProfile(uuid, null);
             }
 
             PlayerListEntry entry = null;
-            switch(this.action) {
+            switch(action) {
                 case ADD_PLAYER:
                     int properties = in.readVarInt();
                     for(int index = 0; index < properties; index++) {
@@ -94,17 +94,17 @@ public class ServerPlayerListEntryPacket implements Packet {
                     break;
             }
 
-            this.entries[count] = entry;
+            entries[count] = entry;
         }
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(MagicValues.value(Integer.class, this.action));
-        out.writeVarInt(this.entries.length);
-        for(PlayerListEntry entry : this.entries) {
+        out.writeVarInt(MagicValues.value(Integer.class, action));
+        out.writeVarInt(entries.length);
+        for(PlayerListEntry entry : entries) {
             out.writeUUID(entry.getProfile().getId());
-            switch(this.action) {
+            switch(action) {
                 case ADD_PLAYER:
                     out.writeString(entry.getProfile().getName());
                     out.writeVarInt(entry.getProfile().getProperties().size());

@@ -24,29 +24,29 @@ public class ServerEntityCollectItemPacket implements Packet {
     }
 
     public int getCollectedEntityId() {
-        return this.collectedEntityId;
+        return collectedEntityId;
     }
 
     public int getCollectorEntityId() {
-        return this.collectorEntityId;
+        return collectorEntityId;
     }
 
     public int getItemCount() {
-        return this.itemCount;
+        return itemCount;
     }
 
     @Override
     public void read(NetInput in) throws IOException {
-        this.collectedEntityId = in.readVarInt();
-        this.collectorEntityId = in.readVarInt();
-        this.itemCount = in.readVarInt();
+        collectedEntityId = in.readVarInt();
+        collectorEntityId = in.readVarInt();
+        itemCount = in.readVarInt();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeVarInt(this.collectedEntityId);
-        out.writeVarInt(this.collectorEntityId);
-        out.writeVarInt(this.itemCount);
+        out.writeVarInt(collectedEntityId);
+        out.writeVarInt(collectorEntityId);
+        out.writeVarInt(itemCount);
     }
 
     @Override
