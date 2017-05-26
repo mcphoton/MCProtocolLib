@@ -7,7 +7,6 @@ import com.github.steveice10.mc.protocol.data.game.chunk.NibbleArray3d;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.IntPosition;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataEntry;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.TrackedMetadataStorage;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataType;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataValue;
 import com.github.steveice10.mc.protocol.data.game.entity.metadata.Rotation;
