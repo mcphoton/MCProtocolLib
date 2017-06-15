@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
-import com.github.steveice10.mc.protocol.data.game.chunk.Column;
+import com.github.steveice10.mc.protocol.data.game.chunk.ChunkColumnData;
 import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
@@ -13,17 +13,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ServerChunkDataPacket implements Packet {
-    private Column column;
+    private ChunkColumnData column;
 
-    @SuppressWarnings("unused")
-    private ServerChunkDataPacket() {
-    }
+    public ServerChunkDataPacket() {}
 
-    public ServerChunkDataPacket(Column column) {
+    public ServerChunkDataPacket(ChunkColumnData column) {
         this.column = column;
     }
 
-    public Column getColumn() {
+    public ChunkColumnData getColumn() {
         return column;
     }
 
@@ -46,11 +44,13 @@ public class ServerChunkDataPacket implements Packet {
     public void write(NetOutput out) throws IOException {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         NetOutput netOut = new StreamNetOutput(byteOut);
-        int mask = NetUtil.writeColumn(netOut, column, column.hasBiomeData(), column.hasSkylight());
+        boolean hasBiomeData = column.getBiomeData() != null;
+        int mask = NetUtil.writeColumn(netOut, column, hasBiomeData, column
+				.hasSkylight());
 
         out.writeInt(column.getX());
         out.writeInt(column.getZ());
-        out.writeBoolean(column.hasBiomeData());
+        out.writeBoolean(hasBiomeData);
         out.writeVarInt(mask);
         out.writeVarInt(byteOut.size());
         out.writeBytes(byteOut.toByteArray(), byteOut.size());
