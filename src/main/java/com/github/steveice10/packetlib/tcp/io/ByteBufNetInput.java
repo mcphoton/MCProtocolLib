@@ -2,12 +2,11 @@ package com.github.steveice10.packetlib.tcp.io;
 
 import com.github.steveice10.packetlib.io.NetInput;
 import io.netty.buffer.ByteBuf;
-
 import java.io.IOException;
 import java.util.UUID;
 
 /**
- * A NetInput implementation using a ByteBuf as a backend.
+ * A NetInput implementation backed by a ByteBuf (Netty).
  */
 public class ByteBufNetInput implements NetInput {
     private ByteBuf buf;

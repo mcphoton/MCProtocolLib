@@ -1,13 +1,12 @@
 package com.github.steveice10.packetlib.io.buffer;
 
 import com.github.steveice10.packetlib.io.NetOutput;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
 /**
- * A NetOutput implementation using a ByteBuf as a backend.
+ * A NetOutput implementation backed by a ByteBuffer (Java NIO).
  */
 public class ByteBufferNetOutput implements NetOutput {
     private ByteBuffer buffer;
