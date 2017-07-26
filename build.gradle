@@ -12,7 +12,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-	compile project(':api')
+	compile project(':photon-utils')
     compile 'io.netty:netty-all:4.1.4.Final'
     compile 'com.github.Steveice10:OpenNBT:1.0'
     compile 'com.github.Steveice10:MCAuthLib:1.0'

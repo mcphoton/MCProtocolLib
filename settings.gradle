@@ -1,4 +1,4 @@
 rootProject.name = 'protocol-lib'
 
-include ':api'
-project(':api').projectDir = new File('../Photon-Server/api')
+include ':photon-utils'
+project(':photon-utils').projectDir = new File('../Utils')
