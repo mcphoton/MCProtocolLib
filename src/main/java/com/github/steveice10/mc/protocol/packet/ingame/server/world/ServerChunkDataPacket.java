@@ -54,10 +54,7 @@ public class ServerChunkDataPacket implements Packet {
         out.writeVarInt(mask);
         out.writeVarInt(byteOut.size());
         out.writeBytes(byteOut.toByteArray(), byteOut.size());
-        out.writeVarInt(column.getTileEntities().length);
-        for(CompoundTag tag : column.getTileEntities()) {
-            NetUtil.writeNBT(out, tag);
-        }
+        column.writeBlockEntitiesNBT(out);
     }
 
     @Override

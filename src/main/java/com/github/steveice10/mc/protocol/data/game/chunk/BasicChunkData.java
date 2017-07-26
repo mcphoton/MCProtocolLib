@@ -1,6 +1,9 @@
 package com.github.steveice10.mc.protocol.data.game.chunk;
 
+import com.github.steveice10.mc.protocol.util.NetUtil;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
+import com.github.steveice10.packetlib.io.NetOutput;
+import java.io.IOException;
 
 /**
  * @author TheElectronWill
@@ -42,9 +45,16 @@ public final class BasicChunkData implements ChunkColumnData {
 		return biomeData;
 	}
 
-	@Override
 	public CompoundTag[] getTileEntities() {
 		return tileEntities;
+	}
+
+	@Override
+	public void writeBlockEntitiesNBT(NetOutput out) throws IOException {
+		out.writeVarInt(tileEntities.length);
+		for (CompoundTag tileEntity : tileEntities) {
+			NetUtil.writeNBT(out, tileEntity);
+		}
 	}
 
 	@Override

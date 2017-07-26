@@ -1,6 +1,7 @@
 package com.github.steveice10.mc.protocol.data.game.chunk;
 
-import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
+import com.github.steveice10.packetlib.io.NetOutput;
+import java.io.IOException;
 
 /**
  * Interface for accessing the raw data of a chunk column (16 vertically aligned sections,
@@ -20,7 +21,7 @@ public interface ChunkColumnData {
 	/**
 	 * @return the array containing the 16 chunk sections
 	 */
-	<C extends ChunkSectionData> C[] getSections();
+	ChunkSectionData[] getSections();
 
 	/**
 	 * @return the biomes data, one byte per biome, 256 in total
@@ -28,9 +29,12 @@ public interface ChunkColumnData {
 	byte[] getBiomeData();
 
 	/**
-	 * @return the tile entities' data
+	 * Writes the NBT data of the block entities (= tile entities).
+	 * <p>
+	 * This method must write the number of block entities, as a varint, and then the NBT tag
+	 * of each entity.
 	 */
-	CompoundTag[] getTileEntities();
+	void writeBlockEntitiesNBT(NetOutput out) throws IOException;
 
 	/**
 	 * @return {@code true} if this ChunkColumn stores some information about the skylight
