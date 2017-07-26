@@ -1,5 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.data.game.world.sound.SoundCategory;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.mc.protocol.data.MagicValues;
@@ -9,25 +10,24 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerPlayBuiltinSoundPacket implements Packet {
 
     private BuiltinSound sound;
     private SoundCategory category;
-    private Vector position;
+    private Vec3d position;
     private float volume;
     private float pitch;
 
     @SuppressWarnings("unused")
     private ServerPlayBuiltinSoundPacket() {}
 
-    public ServerPlayBuiltinSoundPacket(BuiltinSound sound, SoundCategory category, Vector
+    public ServerPlayBuiltinSoundPacket(BuiltinSound sound, SoundCategory category, Vec3d
             position, float
             volume, float pitch) {
         this.sound = sound;
         this.category = category;
-        this.position = position.clone();
+        this.position = position;
         this.volume = volume;
         this.pitch = pitch;
     }
@@ -40,7 +40,7 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
         return category;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -59,7 +59,7 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
         double x = in.readInt() / 8D;
         double y = in.readInt() / 8D;
         double z = in.readInt() / 8D;
-        position = new Vector(x,y,z);
+        position = new Vec3d(x,y,z);
         volume = in.readFloat();
         pitch = in.readFloat();
     }
@@ -68,9 +68,9 @@ public class ServerPlayBuiltinSoundPacket implements Packet {
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(MagicValues.value(Integer.class, sound));
         out.writeVarInt(MagicValues.value(Integer.class, category));
-        out.writeInt((int) (position.getX() * 8));
-        out.writeInt((int) (position.getY() * 8));
-        out.writeInt((int) (position.getZ() * 8));
+        out.writeInt((int) (position.x() * 8));
+        out.writeInt((int) (position.y() * 8));
+        out.writeInt((int) (position.z() * 8));
         out.writeFloat(volume);
         out.writeFloat(pitch);
     }

@@ -1,31 +1,31 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerEntityVelocityPacket implements Packet {
     private int entityId;
     /** Velocity in m/s */
-    private Vector velocity;
+    private Vec3d velocity;
 
     @SuppressWarnings("unused")
     private ServerEntityVelocityPacket() {}
 
-    public ServerEntityVelocityPacket(int entityId, Vector velocity) {
+    public ServerEntityVelocityPacket(int entityId, Vec3d velocity) {
         this.entityId = entityId;
-        this.velocity = velocity.clone();
+        this.velocity = velocity;
     }
 
     public int getEntityId() {
         return entityId;
     }
 
-    public Vector getVelocity() {
+    public Vec3d getVelocity() {
         return velocity;
     }
 
@@ -35,15 +35,15 @@ public class ServerEntityVelocityPacket implements Packet {
         double vx = in.readShort() / 400d;
         double vy = in.readShort() / 400d;
         double vz = in.readShort() / 400d;
-        velocity = new Vector(vx, vy, vz);
+        velocity = new Vec3d(vx, vy, vz);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
-        out.writeShort((int)(velocity.getX() * 400d));
-        out.writeShort((int)(velocity.getY() * 400d));
-        out.writeShort((int)(velocity.getZ() * 400d));
+        out.writeShort((int)(velocity.x() * 400d));
+        out.writeShort((int)(velocity.y() * 400d));
+        out.writeShort((int)(velocity.z() * 400d));
     }
 
     @Override

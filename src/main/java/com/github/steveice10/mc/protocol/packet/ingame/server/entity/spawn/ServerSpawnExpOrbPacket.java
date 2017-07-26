@@ -1,23 +1,23 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerSpawnExpOrbPacket implements Packet {
     private int entityId;
-    private Vector position;
+    private Vec3d position;
     private int exp;
 
     @SuppressWarnings("unused")
     private ServerSpawnExpOrbPacket() {}
 
-    public ServerSpawnExpOrbPacket(int entityId, Vector position, int exp) {
+    public ServerSpawnExpOrbPacket(int entityId, Vec3d position, int exp) {
         this.entityId = entityId;
-        this.position = position.clone();
+        this.position = position;
         this.exp = exp;
     }
 
@@ -25,7 +25,7 @@ public class ServerSpawnExpOrbPacket implements Packet {
         return entityId;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -39,16 +39,16 @@ public class ServerSpawnExpOrbPacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x, y, z);
+        position = new Vec3d(x, y, z);
         exp = in.readShort();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
         out.writeShort(exp);
     }
 

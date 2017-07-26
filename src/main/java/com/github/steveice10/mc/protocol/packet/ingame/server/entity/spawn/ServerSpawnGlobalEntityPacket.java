@@ -1,5 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.mc.protocol.data.game.entity.type.GlobalEntityType;
@@ -8,20 +9,19 @@ import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerSpawnGlobalEntityPacket implements Packet {
     private int entityId;
     private GlobalEntityType type;
-    private Vector position;
+    private Vec3d position;
 
     @SuppressWarnings("unused")
     private ServerSpawnGlobalEntityPacket() {}
 
-    public ServerSpawnGlobalEntityPacket(int entityId, GlobalEntityType type, Vector position) {
+    public ServerSpawnGlobalEntityPacket(int entityId, GlobalEntityType type, Vec3d position) {
         this.entityId = entityId;
         this.type = type;
-        this.position = position.clone();
+        this.position = position;
     }
 
     public int getEntityId() {
@@ -32,7 +32,7 @@ public class ServerSpawnGlobalEntityPacket implements Packet {
         return type;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -43,16 +43,16 @@ public class ServerSpawnGlobalEntityPacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x, y, z);
+        position = new Vec3d(x, y, z);
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
         out.writeByte(MagicValues.value(Integer.class, type));
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
     }
 
     @Override

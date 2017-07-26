@@ -1,18 +1,18 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
 public class ServerEntityTeleportPacket implements Packet {
     private int entityId;
-    private Vector position;
+    private Vec3d position;
     /** Angles in radians */
     private float yaw, pitch;
     private boolean onGround;
@@ -20,10 +20,10 @@ public class ServerEntityTeleportPacket implements Packet {
     @SuppressWarnings("unused")
     private ServerEntityTeleportPacket() {}
 
-    public ServerEntityTeleportPacket(int entityId, Vector newPosition, float yaw, float pitch,
+    public ServerEntityTeleportPacket(int entityId, Vec3d newPosition, float yaw, float pitch,
                                       boolean onGround) {
         this.entityId = entityId;
-        this.position = newPosition.clone();
+        this.position = newPosition;
         this.yaw = yaw;
         this.pitch = pitch;
         this.onGround = onGround;
@@ -33,7 +33,7 @@ public class ServerEntityTeleportPacket implements Packet {
         return entityId;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -55,7 +55,7 @@ public class ServerEntityTeleportPacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x, y, z);
+        position = new Vec3d(x, y, z);
         yaw = in.readByte() * F_2PI / 256f;
         pitch = in.readByte() * F_2PI / 256f;
         onGround = in.readBoolean();
@@ -64,9 +64,9 @@ public class ServerEntityTeleportPacket implements Packet {
     @Override
     public void write(NetOutput out) throws IOException {
         out.writeVarInt(entityId);
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
         out.writeByte((byte)(yaw * 256 / F_2PI));
         out.writeByte((byte)(pitch * 256 / F_2PI));
         out.writeBoolean(onGround);

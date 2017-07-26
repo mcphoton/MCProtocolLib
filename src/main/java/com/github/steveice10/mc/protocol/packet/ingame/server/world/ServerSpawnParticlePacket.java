@@ -1,19 +1,18 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
+import com.electronwill.utils.Vec3d;
+import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.mc.protocol.data.game.world.Particle;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
-import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
-
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerSpawnParticlePacket implements Packet {
     private Particle particle;
     private boolean longDistance;
-    private Vector position, offset;
+    private Vec3d position, offset;
     private float velocityOffset;
     private int amount;
     private int data[];
@@ -21,12 +20,12 @@ public class ServerSpawnParticlePacket implements Packet {
     @SuppressWarnings("unused")
     private ServerSpawnParticlePacket() {}
 
-    public ServerSpawnParticlePacket(Particle particle, boolean longDistance, Vector position,
-                                     Vector offset, float velocityOffset, int amount, int... data) {
+    public ServerSpawnParticlePacket(Particle particle, boolean longDistance, Vec3d position,
+                                     Vec3d offset, float velocityOffset, int amount, int... data) {
         this.particle = particle;
         this.longDistance = longDistance;
-        this.position = position.clone();
-        this.offset = offset.clone();
+        this.position = position;
+        this.offset = offset;
         this.velocityOffset = velocityOffset;
         this.amount = amount;
         this.data = data;
@@ -44,11 +43,11 @@ public class ServerSpawnParticlePacket implements Packet {
         return longDistance;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
-    public Vector getOffset() {
+    public Vec3d getOffset() {
         return offset;
     }
 
@@ -71,11 +70,11 @@ public class ServerSpawnParticlePacket implements Packet {
         double x = in.readFloat();
         double y = in.readFloat();
         double z = in.readFloat();
-        position = new Vector(x, y, z);
+        position = new Vec3d(x, y, z);
         double offsetX = in.readFloat();
         double offsetY = in.readFloat();
         double offsetZ = in.readFloat();
-        offset = new Vector(offsetX, offsetY, offsetZ);
+        offset = new Vec3d(offsetX, offsetY, offsetZ);
         velocityOffset = in.readFloat();
         amount = in.readInt();
         data = new int[particle.getDataLength()];
@@ -88,12 +87,12 @@ public class ServerSpawnParticlePacket implements Packet {
     public void write(NetOutput out) throws IOException {
         out.writeInt(MagicValues.value(Integer.class, particle));
         out.writeBoolean(longDistance);
-        out.writeFloat((float)position.getX());
-        out.writeFloat((float)position.getY());
-        out.writeFloat((float)position.getZ());
-        out.writeFloat((float)offset.getX());
-        out.writeFloat((float)offset.getY());
-        out.writeFloat((float)offset.getZ());
+        out.writeFloat((float)position.x());
+        out.writeFloat((float)position.y());
+        out.writeFloat((float)position.z());
+        out.writeFloat((float)offset.x());
+        out.writeFloat((float)offset.y());
+        out.writeFloat((float)offset.z());
         out.writeFloat(velocityOffset);
         out.writeInt(amount);
         for (int index = 0; index < particle.getDataLength(); index++) {

@@ -1,35 +1,34 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.world;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.data.MagicValues;
+import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
 import com.github.steveice10.mc.protocol.data.game.world.sound.CustomSound;
 import com.github.steveice10.mc.protocol.data.game.world.sound.Sound;
 import com.github.steveice10.mc.protocol.data.game.world.sound.SoundCategory;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
-import com.github.steveice10.mc.protocol.data.game.world.sound.BuiltinSound;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
-
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
 
 public class ServerPlaySoundPacket implements Packet {
 
     private Sound sound;
     private SoundCategory category;
-    private Vector position;
+    private Vec3d position;
     private float volume;
     private float pitch;
 
     @SuppressWarnings("unused")
     private ServerPlaySoundPacket() {}
 
-    public ServerPlaySoundPacket(Sound sound, SoundCategory category, Vector position, float
+    public ServerPlaySoundPacket(Sound sound, SoundCategory category, Vec3d position, float
             volume, float
             pitch) {
         this.sound = sound;
         this.category = category;
-        this.position = position.clone();
+        this.position = position;
         this.volume = volume;
         this.pitch = pitch;
     }
@@ -42,7 +41,7 @@ public class ServerPlaySoundPacket implements Packet {
         return category;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -67,7 +66,7 @@ public class ServerPlaySoundPacket implements Packet {
         double x = in.readInt() / 8D;
         double y = in.readInt() / 8D;
         double z = in.readInt() / 8D;
-        position = new Vector(x,y,z);
+        position = new Vec3d(x,y,z);
         volume = in.readFloat();
         pitch = in.readFloat();
     }
@@ -83,9 +82,9 @@ public class ServerPlaySoundPacket implements Packet {
 
         out.writeString(value);
         out.writeVarInt(MagicValues.value(Integer.class, category));
-        out.writeInt((int) (position.getX() * 8));
-        out.writeInt((int) (position.getY() * 8));
-        out.writeInt((int) (position.getZ() * 8));
+        out.writeInt((int) (position.x() * 8));
+        out.writeInt((int) (position.y() * 8));
+        out.writeInt((int) (position.z() * 8));
         out.writeFloat(volume);
         out.writeFloat(pitch);
     }

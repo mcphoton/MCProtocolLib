@@ -1,5 +1,6 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.spawn;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.data.game.entity.type.object.ProjectileData;
 import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.mc.protocol.data.game.entity.type.object.FallingBlockData;
@@ -15,7 +16,6 @@ import com.github.steveice10.packetlib.packet.Packet;
 
 import java.io.IOException;
 import java.util.UUID;
-import org.mcphoton.utils.Vector;
 
 import static com.github.steveice10.mc.protocol.util.NetUtil.F_2PI;
 
@@ -23,26 +23,26 @@ public class ServerSpawnObjectPacket implements Packet {
     private int entityId;
     private UUID uuid;
     private ObjectType type;
-    private Vector position;
+    private Vec3d position;
     /** Angles in radians */
     private float pitch, yaw;
     private ObjectData data;
     /** Velocity in m/s */
-    private Vector velocity;
+    private Vec3d velocity;
 
     @SuppressWarnings("unused")
     private ServerSpawnObjectPacket() {}
 
     public ServerSpawnObjectPacket(int entityId, UUID uuid, ObjectType type, ObjectData data,
-                                   Vector position, float yaw, float pitch, Vector velocity) {
+                                   Vec3d position, float yaw, float pitch, Vec3d velocity) {
         this.entityId = entityId;
         this.uuid = uuid;
         this.type = type;
         this.data = data;
-        this.position = position.clone();
+        this.position = position;
         this.yaw = yaw;
         this.pitch = pitch;
-        this.velocity = velocity.clone();
+        this.velocity = velocity;
     }
 
     public int getEntityId() {
@@ -61,7 +61,7 @@ public class ServerSpawnObjectPacket implements Packet {
         return data;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -73,7 +73,7 @@ public class ServerSpawnObjectPacket implements Packet {
         return pitch;
     }
 
-    public Vector getVelocity() {
+    public Vec3d getVelocity() {
         return velocity;
     }
 
@@ -85,7 +85,7 @@ public class ServerSpawnObjectPacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x,y,z);
+        position = new Vec3d(x,y,z);
         pitch = in.readByte() * F_2PI / 256f;
         yaw = in.readByte() * F_2PI / 256f;
 
@@ -99,17 +99,13 @@ public class ServerSpawnObjectPacket implements Packet {
                 this.data = new FallingBlockData(data & 65535, data >> 16);
             } else if(type == ObjectType.POTION) {
                 this.data = new SplashPotionData(data);
-            } else if(type == ObjectType.SPECTRAL_ARROW || type == ObjectType.TIPPED_ARROW ||
-                      type
-                      == ObjectType.GHAST_FIREBALL ||
-                      type
-                      == ObjectType.BLAZE_FIREBALL ||
-                      type
-                      == ObjectType.DRAGON_FIREBALL ||
-                      type
-                      == ObjectType.WITHER_HEAD_PROJECTILE ||
-                      type
-                      == ObjectType.FISH_HOOK) {
+            } else if(type == ObjectType.SPECTRAL_ARROW ||
+					  type == ObjectType.TIPPED_ARROW ||
+                      type == ObjectType.GHAST_FIREBALL ||
+                      type == ObjectType.BLAZE_FIREBALL ||
+                      type == ObjectType.DRAGON_FIREBALL ||
+                      type == ObjectType.WITHER_HEAD_PROJECTILE ||
+                      type == ObjectType.FISH_HOOK) {
                 this.data = new ProjectileData(data);
             } else {
                 this.data = new ObjectData() {
@@ -120,7 +116,7 @@ public class ServerSpawnObjectPacket implements Packet {
         double vx = in.readShort() / 400d;
         double vy = in.readShort() / 400d;
         double vz = in.readShort() / 400d;
-        velocity = new Vector(vx,vy,vz);
+        velocity = new Vec3d(vx,vy,vz);
     }
 
     @Override
@@ -128,9 +124,9 @@ public class ServerSpawnObjectPacket implements Packet {
         out.writeVarInt(entityId);
         out.writeUUID(uuid);
         out.writeByte(MagicValues.value(Integer.class, type));
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
         out.writeByte((byte) (pitch * 256f / F_2PI));
         out.writeByte((byte) (yaw * 256f / F_2PI));
 
@@ -153,9 +149,9 @@ public class ServerSpawnObjectPacket implements Packet {
 
         out.writeInt(data);
 
-        out.writeShort((int) (velocity.getX() * 400d));
-        out.writeShort((int) (velocity.getY() * 400d));
-        out.writeShort((int) (velocity.getZ() * 400d));
+        out.writeShort((int) (velocity.x() * 400d));
+        out.writeShort((int) (velocity.y() * 400d));
+        out.writeShort((int) (velocity.z() * 400d));
     }
 
     @Override

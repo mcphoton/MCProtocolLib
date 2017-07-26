@@ -1,21 +1,20 @@
 package com.github.steveice10.mc.protocol.packet.ingame.server.entity.player;
 
+import com.electronwill.utils.Vec3d;
 import com.github.steveice10.mc.protocol.data.MagicValues;
 import com.github.steveice10.mc.protocol.data.game.entity.player.PositionElement;
 import com.github.steveice10.mc.protocol.util.ReflectionToString;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.mcphoton.utils.Vector;
 
 public class ServerPlayerPositionRotationPacket implements Packet {
 
-    private Vector position;
+    private Vec3d position;
     private float yaw;
     private float pitch;
     private List<PositionElement> relative;
@@ -25,17 +24,17 @@ public class ServerPlayerPositionRotationPacket implements Packet {
     private ServerPlayerPositionRotationPacket() {
     }
 
-    public ServerPlayerPositionRotationPacket(Vector position, float yaw, float pitch, int
+    public ServerPlayerPositionRotationPacket(Vec3d position, float yaw, float pitch, int
             teleportId,
                                                 PositionElement... relative) {
-        this.position = position.clone();
+        this.position = position;
         this.yaw = yaw;
         this.pitch = pitch;
         this.teleportId = teleportId;
         this.relative = Arrays.asList(relative != null ? relative : new PositionElement[0]);
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -60,7 +59,7 @@ public class ServerPlayerPositionRotationPacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x,y,z);
+        position = new Vec3d(x,y,z);
         yaw = in.readFloat();
         pitch = in.readFloat();
         relative = new ArrayList<PositionElement>();
@@ -77,9 +76,9 @@ public class ServerPlayerPositionRotationPacket implements Packet {
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
         out.writeFloat(yaw);
         out.writeFloat(pitch);
         int flags = 0;

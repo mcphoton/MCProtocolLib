@@ -5,23 +5,23 @@ import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import com.github.steveice10.packetlib.packet.Packet;
 import java.io.IOException;
-import org.mcphoton.utils.Vector;
+import com.electronwill.utils.Vec3d;
 
 public class ServerVehicleMovePacket implements Packet {
-    private Vector position;
+    private Vec3d position;
     private float yaw;
     private float pitch;
 
     @SuppressWarnings("unused")
     private ServerVehicleMovePacket() {}
 
-    public ServerVehicleMovePacket(Vector newPosition, float newYaw, float newPitch) {
-        position = newPosition.clone();
+    public ServerVehicleMovePacket(Vec3d newPosition, float newYaw, float newPitch) {
+        position = newPosition;
         yaw = newYaw;
         pitch = newPitch;
     }
 
-    public Vector getPosition() {
+    public Vec3d getPosition() {
         return position;
     }
 
@@ -38,16 +38,16 @@ public class ServerVehicleMovePacket implements Packet {
         double x = in.readDouble();
         double y = in.readDouble();
         double z = in.readDouble();
-        position = new Vector(x, y, z);
+        position = new Vec3d(x, y, z);
         yaw = in.readFloat();
         pitch = in.readFloat();
     }
 
     @Override
     public void write(NetOutput out) throws IOException {
-        out.writeDouble(position.getX());
-        out.writeDouble(position.getY());
-        out.writeDouble(position.getZ());
+        out.writeDouble(position.x());
+        out.writeDouble(position.y());
+        out.writeDouble(position.z());
         out.writeFloat(yaw);
         out.writeFloat(pitch);
     }
