@@ -1,6 +1,6 @@
 package com.github.steveice10.mc.protocol.data.game.chunk;
 
-import com.electronwill.utils.IntList;
+import com.electronwill.collections.IntList;
 import com.github.steveice10.packetlib.io.NetInput;
 import com.github.steveice10.packetlib.io.NetOutput;
 import java.io.IOException;
