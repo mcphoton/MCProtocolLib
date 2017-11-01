@@ -154,7 +154,17 @@ public enum MetadataType {
         public Integer read(NetInput in) throws IOException {
             return in.readBoolean() ? in.readVarInt() : null;
         }
-    };
+    }, NBT_TAG {
+		@Override
+		public void write(Object value, NetOutput out) throws IOException {
+			//((Tag)value).write(out);//TODO
+		}
+
+		@Override
+		public Object read(NetInput in) throws IOException {
+			return null;//TODO
+		}
+	};
 
     public int getId() {
         return ordinal();
