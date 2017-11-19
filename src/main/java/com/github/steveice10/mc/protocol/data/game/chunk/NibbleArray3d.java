@@ -18,7 +18,7 @@ public class NibbleArray3d {
     }
 
     public NibbleArray3d(NetInput in, int size) throws IOException {
-        this.data = in.readBytes(size);
+        this.data = in.readBytes(size >> 1);
     }
 
     public void write(NetOutput out) throws IOException {

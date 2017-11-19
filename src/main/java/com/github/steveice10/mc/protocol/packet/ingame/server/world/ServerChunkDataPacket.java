@@ -45,8 +45,8 @@ public class ServerChunkDataPacket implements Packet {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         NetOutput netOut = new StreamNetOutput(byteOut);
         boolean hasBiomeData = column.getBiomeData() != null;
-        int mask = NetUtil.writeColumn(netOut, column, hasBiomeData, column
-				.hasSkylight());
+        int mask = NetUtil.writeColumn(netOut, column, hasBiomeData, column.hasSkylight());
+        netOut.flush();
 
         out.writeInt(column.getX());
         out.writeInt(column.getZ());

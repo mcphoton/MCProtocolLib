@@ -150,8 +150,8 @@ public class NetUtil {
             for (int index = 0; index < chunks.length; index++) {
                 if ((mask & (1 << index)) != 0) {
                     BlockStorage blocks = new BlockStorage(in);
-                    NibbleArray3d blocklight = new NibbleArray3d(in, 2048);
-                    NibbleArray3d skylight = hasSkylight ? new NibbleArray3d(in, 2048) : null;
+                    NibbleArray3d blocklight = new NibbleArray3d(in, 4096);
+                    NibbleArray3d skylight = hasSkylight ? new NibbleArray3d(in, 4096) : null;
                     chunks[index] = new BasicChunkSection(blocks, blocklight, skylight);
                 }
             }
@@ -182,8 +182,8 @@ public class NetUtil {
         ChunkSectionData chunks[] = column.getSections();
         for (int index = 0; index < chunks.length; index++) {
             ChunkSectionData chunk = chunks[index];
-            if (chunk != null && (!fullChunk /*|| !chunk.isEmpty()*/)) {
-                mask |= 1 << index;
+            if (chunk != null) {
+                mask |= (1 << index);
                 chunk.getBlocks().write(out);
                 chunk.getBlockLight().write(out);
                 if (hasSkylight) {
