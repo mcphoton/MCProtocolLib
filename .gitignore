@@ -19,3 +19,5 @@ nbproject
 *.iml
 .idea
 
+# Mac OS DS_STORE
+.DS_STORE
